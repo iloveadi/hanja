@@ -84,7 +84,7 @@ function showAnalects() {
         const card = document.createElement('div');
         card.className = 'analects-card';
         card.innerHTML = `
-            <div class="analects-title">${item.title} ${item.index}</div>
+            <div class="analects-title">${item.chapter} ${item.index}</div>
             <div class="analects-content">${item.content}</div>
             <div class="analects-translation">${item.translation}</div>
         `;
