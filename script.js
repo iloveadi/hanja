@@ -101,8 +101,9 @@ function showAnalects() {
         const card = document.createElement('div');
         card.className = 'analects-card';
 
-        // Convert "Hanja(Reading)" pattern to <ruby> tags
-        const rubyContent = item.content.replace(/([\w\u4e00-\u9fff])\(([^)]+)\)/g, '<ruby>$1<rt>$2</rt></ruby>');
+        // Convert "X(reading)" pattern to <ruby> tags
+        // This is now more robust by matching any character before the opening parenthesis
+        const rubyContent = item.content.replace(/([^()\s,.;:“”"?!/])\(([^)]+)\)/g, '<ruby>$1<rt>$2</rt></ruby>');
 
         card.innerHTML = `
             <div class="analects-title">${item.chapter} ${item.index}</div>
