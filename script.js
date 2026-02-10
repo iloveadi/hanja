@@ -1,6 +1,7 @@
 let learnedHanja = JSON.parse(localStorage.getItem('learnedHanja')) || [];
 let currentWriter = null;
 let currentHanja = null;
+let showReadings = true;
 
 document.addEventListener('DOMContentLoaded', () => {
     updateDashboard();
@@ -18,6 +19,22 @@ function setupEventListeners() {
     document.getElementById('btn-analects').addEventListener('click', () => {
         showAnalects();
     });
+
+    // Toggle Reading in Analects
+    const toggleBtn = document.getElementById('toggle-reading-btn');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            showReadings = !showReadings;
+            const container = document.getElementById('analects-container');
+            if (showReadings) {
+                container.classList.remove('hide-reading');
+                toggleBtn.textContent = '독음 끄기';
+            } else {
+                container.classList.add('hide-reading');
+                toggleBtn.textContent = '독음 켜기';
+            }
+        });
+    }
 
     // Modal Close
     document.querySelector('.close-btn').addEventListener('click', closeModal);
@@ -83,14 +100,19 @@ function showAnalects() {
     analectsData.forEach(item => {
         const card = document.createElement('div');
         card.className = 'analects-card';
+
+        // Convert "Hanja(Reading)" pattern to <ruby> tags
+        const rubyContent = item.content.replace(/([\w\u4e00-\u9fff])\(([^)]+)\)/g, '<ruby>$1<rt>$2</rt></ruby>');
+
         card.innerHTML = `
             <div class="analects-title">${item.chapter} ${item.index}</div>
-            <div class="analects-content">${item.content}</div>
+            <div class="analects-content">${rubyContent}</div>
             <div class="analects-translation">${item.translation}</div>
         `;
         container.appendChild(card);
     });
 
+    if (!showReadings) container.classList.add('hide-reading');
     showView('analects-section');
 }
 

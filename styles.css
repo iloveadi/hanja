@@ -265,9 +265,22 @@ main {
 
 .analects-content {
     font-size: 1.8rem;
-    line-height: 1.6;
+    line-height: 2.2;
     margin-bottom: 1.5rem;
     font-family: 'Noto Serif KR', serif;
+}
+
+rt {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    font-family: 'Outfit', sans-serif;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.hide-reading rt {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .analects-translation {
