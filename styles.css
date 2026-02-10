@@ -218,28 +218,53 @@ main {
     color: var(--text-secondary);
 }
 
-/* Section Header */
-.section-header {
+/* Sticky Navigation */
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 3rem;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
 }
 
-.back-btn {
-    background: transparent;
+.nav-btn {
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--accent-color);
     color: var(--accent-color);
-    padding: 0.6rem 1.2rem;
-    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.2s;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
 
-.back-btn:hover {
+.nav-btn:hover {
     background: var(--accent-color);
     color: #000;
+}
+
+.sticky-nav h2 {
+    font-size: 1.3rem;
+    margin: 0;
+    flex-grow: 1;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#toggle-reading-btn {
+    margin-left: auto;
 }
 
 /* Analects Styles */
