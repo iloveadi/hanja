@@ -429,9 +429,20 @@ rt {
     flex-wrap: wrap;
 }
 
+#writer-container {
+    width: 260px;
+    height: 260px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: 20px;
+}
+
 #writer-container svg {
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.03);
 }
 
 .learned-card {

@@ -174,16 +174,28 @@ function openModal(hanja, cardElement) {
     container.innerHTML = '';
     modal.style.display = 'block';
 
-    currentWriter = HanziWriter.create('writer-container', hanja.kanji, {
-        width: 250,
-        height: 250,
-        padding: 5,
-        showOutline: true,
-        strokeColor: '#D4AF37',
-        outlineColor: '#333',
-        drawingColor: '#D4AF37',
-        showHintAfterMisses: 1
-    });
+    // Adding a small delay to ensure modal is rendered for size calculation
+    setTimeout(() => {
+        if (typeof HanziWriter === 'undefined') {
+            container.innerHTML = '<p style="color:red;">HanziWriter 라이브러리를 로드하지 못했습니다.</p>';
+            return;
+        }
+
+        currentWriter = HanziWriter.create('writer-container', hanja.kanji, {
+            width: 250,
+            height: 250,
+            padding: 5,
+            showOutline: true,
+            strokeColor: '#D4AF37',
+            outlineColor: '#333',
+            drawingColor: '#D4AF37',
+            showHintAfterMisses: 1,
+            delayBeforeAnimations: 500
+        });
+
+        // Trigger animation automatically
+        currentWriter.animateCharacter();
+    }, 50);
 
     const markBtn = document.getElementById('mark-learned-btn');
     const isLearned = learnedHanja.includes(hanja.kanji);
