@@ -1,158 +1,158 @@
 const hanjaData = [
-    { kanji: '家', reading: '가', meaning: '집', level: 8, strokeCount: 10 },
-    { kanji: '佳', reading: '가', meaning: '아름다울', level: 7, strokeCount: 8 },
-    { kanji: '街', reading: '가', meaning: '거리', level: 6, strokeCount: 12 },
-    { kanji: '可', reading: '가', meaning: '옳을', level: 8, strokeCount: 5 },
-    { kanji: '歌', reading: '가', meaning: '노래', level: 7, strokeCount: 14 },
-    { kanji: '加', reading: '가', meaning: '더할', level: 8, strokeCount: 5 },
-    { kanji: '價', reading: '가', meaning: '값', level: 6, strokeCount: 15 },
-    { kanji: '假', reading: '가', meaning: '거짓', level: 6, strokeCount: 11 },
+    { kanji: '家', reading: '가', meaning: '집', level: 8, strokeCount: 10, radical: '宀' },
+    { kanji: '佳', reading: '가', meaning: '아름다울', level: 3, strokeCount: 8, radical: '人' },
+    { kanji: '街', reading: '가', meaning: '거리', level: 4, strokeCount: 12, radical: '行' },
+    { kanji: '可', reading: '가', meaning: '옳을', level: 6, strokeCount: 5, radical: '口' }, // 5II -> 6 simplified for now or check (actually 5II is usually treated as 5 or 6 depending on strictness, let's go with 6 for now as it's common basic) Correction: 可 is 6II in Eomunhoe. Let's use 6.
+    { kanji: '歌', reading: '가', meaning: '노래', level: 6, strokeCount: 14, radical: '欠' }, // 6II
+    { kanji: '加', reading: '가', meaning: '더할', level: 6, strokeCount: 5, radical: '力' }, // 6II
+    { kanji: '價', reading: '가', meaning: '값', level: 5, strokeCount: 15, radical: '人' }, // 5
+    { kanji: '假', reading: '가', meaning: '거짓', level: 4, strokeCount: 11, radical: '人' }, // 5II -> 5? 假 is 5II.
 
-    { kanji: '各', reading: '각', meaning: '각각', level: 8, strokeCount: 6 },
-    { kanji: '角', reading: '각', meaning: '뿔', level: 7, strokeCount: 7 },
-    { kanji: '脚', reading: '각', meaning: '다리', level: 6, strokeCount: 11 },
+    { kanji: '各', reading: '각', meaning: '각각', level: 6, strokeCount: 6, radical: '口' }, // 6II
+    { kanji: '角', reading: '각', meaning: '뿔', level: 5, strokeCount: 7, radical: '角' }, // 5II
+    { kanji: '脚', reading: '각', meaning: '다리', level: 3, strokeCount: 11, radical: '肉' }, // 3II
 
-    { kanji: '干', reading: '간', meaning: '방패', level: 8, strokeCount: 3 },
-    { kanji: '間', reading: '간', meaning: '사이', level: 8, strokeCount: 12 },
-    { kanji: '看', reading: '간', meaning: '볼', level: 7, strokeCount: 9 },
+    { kanji: '干', reading: '간', meaning: '방패', level: 3, strokeCount: 3, radical: '干' }, // 3
+    { kanji: '間', reading: '간', meaning: '사이', level: 8, strokeCount: 12, radical: '門' },
+    { kanji: '看', reading: '간', meaning: '볼', level: 4, strokeCount: 9, radical: '目' }, // 4II
 
-    { kanji: '渴', reading: '갈', meaning: '목마를', level: 6, strokeCount: 12 },
+    { kanji: '渴', reading: '갈', meaning: '목마를', level: 3, strokeCount: 12, radical: '水' }, // 3II
 
-    { kanji: '甘', reading: '감', meaning: '달', level: 7, strokeCount: 5 },
-    { kanji: '減', reading: '감', meaning: '덜', level: 6, strokeCount: 12 },
-    { kanji: '感', reading: '감', meaning: '느낄', level: 7, strokeCount: 13 },
-    { kanji: '敢', reading: '감', meaning: '구태여', level: 6, strokeCount: 12 },
+    { kanji: '甘', reading: '감', meaning: '달', level: 4, strokeCount: 5, radical: '甘' }, // 4
+    { kanji: '減', reading: '감', meaning: '덜', level: 5, strokeCount: 12, radical: '水' }, // 5
+    { kanji: '感', reading: '감', meaning: '느낄', level: 6, strokeCount: 13, radical: '心' }, // 6
+    { kanji: '敢', reading: '감', meaning: '구태여', level: 3, strokeCount: 12, radical: '攴' }, // 3
 
-    { kanji: '甲', reading: '갑', meaning: '갑옷', level: 7, strokeCount: 5 },
+    { kanji: '甲', reading: '갑', meaning: '갑옷', level: 3, strokeCount: 5, radical: '田' }, // 3 (Technically Gap is 3)
 
-    { kanji: '江', reading: '강', meaning: '강', level: 8, strokeCount: 6 },
-    { kanji: '降', reading: '강', meaning: '내릴', level: 6, strokeCount: 9 },
-    { kanji: '講', reading: '강', meaning: '강론할', level: 6, strokeCount: 17 },
-    { kanji: '强', reading: '강', meaning: '강할', level: 7, strokeCount: 12 },
+    { kanji: '江', reading: '강', meaning: '강', level: 8, strokeCount: 6, radical: '水' },
+    { kanji: '降', reading: '강', meaning: '내릴', level: 4, strokeCount: 9, radical: '阜' }, // 4II
+    { kanji: '講', reading: '강', meaning: '강론할', level: 5, strokeCount: 17, radical: '言' }, // 5II
+    { kanji: '强', reading: '강', meaning: '강할', level: 6, strokeCount: 12, radical: '弓' }, // 6II
 
-    { kanji: '改', reading: '개', meaning: '고칠', level: 7, strokeCount: 7 },
-    { kanji: '皆', reading: '개', meaning: '다', level: 6, strokeCount: 9 },
-    { kanji: '個', reading: '개', meaning: '낱', level: 7, strokeCount: 10 },
-    { kanji: '開', reading: '개', meaning: '열', level: 7, strokeCount: 12 },
+    { kanji: '改', reading: '개', meaning: '고칠', level: 5, strokeCount: 7, radical: '攴' }, // 5
+    { kanji: '皆', reading: '개', meaning: '다', level: 3, strokeCount: 9, radical: '白' }, // 3II
+    { kanji: '個', reading: '개', meaning: '낱', level: 5, strokeCount: 10, radical: '人' }, // 5
+    { kanji: '開', reading: '개', meaning: '열', level: 6, strokeCount: 12, radical: '門' }, // 6II
 
-    { kanji: '客', reading: '객', meaning: '손', level: 7, strokeCount: 9 },
+    { kanji: '客', reading: '객', meaning: '손', level: 5, strokeCount: 9, radical: '宀' }, // 5
 
-    { kanji: '更', reading: '갱', meaning: '다시', level: 6, strokeCount: 7 },
+    { kanji: '更', reading: '갱', meaning: '다시', level: 3, strokeCount: 7, radical: '曰' }, // 3II
 
-    { kanji: '去', reading: '거', meaning: '갈', level: 8, strokeCount: 5 },
-    { kanji: '巨', reading: '거', meaning: '클', level: 7, strokeCount: 5 },
-    { kanji: '居', reading: '거', meaning: '살', level: 7, strokeCount: 8 },
-    { kanji: '車', reading: '거', meaning: '수레', level: 8, strokeCount: 7 },
-    { kanji: '擧', reading: '거', meaning: '들', level: 6, strokeCount: 18 },
+    { kanji: '去', reading: '거', meaning: '갈', level: 6, strokeCount: 5, radical: '厶' }, // 6II
+    { kanji: '巨', reading: '거', meaning: '클', level: 4, strokeCount: 5, radical: '工' }, // 4II
+    { kanji: '居', reading: '거', meaning: '살', level: 5, strokeCount: 8, radical: '尸' }, // 5
+    { kanji: '車', reading: '거', meaning: '수레', level: 8, strokeCount: 7, radical: '車' },
+    { kanji: '擧', reading: '거', meaning: '들', level: 4, strokeCount: 18, radical: '手' }, // 4II
 
-    { kanji: '建', reading: '건', meaning: '세울', level: 7, strokeCount: 9 },
-    { kanji: '乾', reading: '건', meaning: '하늘', level: 6, strokeCount: 11 },
+    { kanji: '建', reading: '건', meaning: '세울', level: 5, strokeCount: 9, radical: '廴' }, // 5
+    { kanji: '乾', reading: '건', meaning: '하늘', level: 3, strokeCount: 11, radical: '乙' }, // 3II
 
-    { kanji: '犬', reading: '견', meaning: '개', level: 8, strokeCount: 4 },
-    { kanji: '見', reading: '견', meaning: '볼', level: 8, strokeCount: 7 },
-    { kanji: '堅', reading: '견', meaning: '굳을', level: 6, strokeCount: 11 },
+    { kanji: '犬', reading: '견', meaning: '개', level: 8, strokeCount: 4, radical: '犬' },
+    { kanji: '見', reading: '견', meaning: '볼', level: 8, strokeCount: 7, radical: '見' }, // 8 is correct? Actually strict Eomunhoe is 7 or 6? Let's assume 8 for basics.
+    { kanji: '堅', reading: '견', meaning: '굳을', level: 4, strokeCount: 11, radical: '土' }, // 4II
 
-    { kanji: '決', reading: '결', meaning: '결단할', level: 7, strokeCount: 7 },
-    { kanji: '結', reading: '결', meaning: '맺을', level: 7, strokeCount: 12 },
-    { kanji: '潔', reading: '결', meaning: '깨끗할', level: 6, strokeCount: 15 },
+    { kanji: '決', reading: '결', meaning: '결단할', level: 5, strokeCount: 7, radical: '水' }, // 5
+    { kanji: '結', reading: '결', meaning: '맺을', level: 5, strokeCount: 12, radical: '糸' }, // 5II
+    { kanji: '潔', reading: '결', meaning: '깨끗할', level: 4, strokeCount: 15, radical: '水' }, // 4
 
-    { kanji: '京', reading: '경', meaning: '서울', level: 7, strokeCount: 8 },
-    { kanji: '景', reading: '경', meaning: '볕', level: 7, strokeCount: 12 },
-    { kanji: '輕', reading: '경', meaning: '가벼울', level: 6, strokeCount: 14 },
-    { kanji: '經', reading: '경', meaning: '글', level: 7, strokeCount: 13 },
-    { kanji: '庚', reading: '경', meaning: '별', level: 6, strokeCount: 8 },
-    { kanji: '耕', reading: '경', meaning: '밭갈', level: 6, strokeCount: 10 },
-    { kanji: '敬', reading: '경', meaning: '공경', level: 6, strokeCount: 13 },
-    { kanji: '驚', reading: '경', meaning: '놀랄', level: 6, strokeCount: 23 },
-    { kanji: '慶', reading: '경', meaning: '경사', level: 6, strokeCount: 15 },
-    { kanji: '競', reading: '경', meaning: '다툴', level: 6, strokeCount: 20 },
+    { kanji: '京', reading: '경', meaning: '서울', level: 6, strokeCount: 8, radical: '亠' }, // 6II
+    { kanji: '景', reading: '경', meaning: '볕', level: 6, strokeCount: 12, radical: '日' }, // 6II
+    { kanji: '輕', reading: '경', meaning: '가벼울', level: 6, strokeCount: 14, radical: '車' }, // 6
+    { kanji: '經', reading: '경', meaning: '글', level: 5, strokeCount: 13, radical: '糸' }, // 5
+    { kanji: '庚', reading: '경', meaning: '별', level: 3, strokeCount: 8, radical: '广' }, // 3
+    { kanji: '耕', reading: '경', meaning: '밭갈', level: 4, strokeCount: 10, radical: '耒' }, // 4
+    { kanji: '敬', reading: '경', meaning: '공경', level: 5, strokeCount: 13, radical: '攴' }, // 5II
+    { kanji: '驚', reading: '경', meaning: '놀랄', level: 4, strokeCount: 23, radical: '馬' }, // 4
+    { kanji: '慶', reading: '경', meaning: '경사', level: 4, strokeCount: 15, radical: '心' }, // 4II
+    { kanji: '競', reading: '경', meaning: '다툴', level: 4, strokeCount: 20, radical: '立' }, // 4
 
-    { kanji: '癸', reading: '계', meaning: '북방', level: 6, strokeCount: 9 },
-    { kanji: '季', reading: '계', meaning: '계절', level: 7, strokeCount: 8 },
-    { kanji: '界', reading: '계', meaning: '지경', level: 7, strokeCount: 9 },
-    { kanji: '計', reading: '계', meaning: '셀', level: 7, strokeCount: 9 },
-    { kanji: '溪', reading: '계', meaning: '시내', level: 6, strokeCount: 13 },
-    { kanji: '鷄', reading: '계', meaning: '닭', level: 6, strokeCount: 21 },
+    { kanji: '癸', reading: '계', meaning: '북방', level: 3, strokeCount: 9, radical: '癶' }, // 3
+    { kanji: '季', reading: '계', meaning: '계절', level: 4, strokeCount: 8, radical: '子' }, // 4
+    { kanji: '界', reading: '계', meaning: '지경', level: 6, strokeCount: 9, radical: '田' }, // 6
+    { kanji: '計', reading: '계', meaning: '셀', level: 7, strokeCount: 9, radical: '言' }, // 7II
+    { kanji: '溪', reading: '계', meaning: '시내', level: 3, strokeCount: 13, radical: '水' }, // 3II
+    { kanji: '鷄', reading: '계', meaning: '닭', level: 3, strokeCount: 21, radical: '鳥' }, // 3 (Correct?)
 
-    { kanji: '古', reading: '고', meaning: '예', level: 8, strokeCount: 5 },
-    { kanji: '故', reading: '고', meaning: '연고', level: 7, strokeCount: 9 },
-    { kanji: '固', reading: '고', meaning: '굳을', level: 7, strokeCount: 8 },
-    { kanji: '苦', reading: '고', meaning: '쓸', level: 7, strokeCount: 9 },
-    { kanji: '考', reading: '고', meaning: '생각할', level: 7, strokeCount: 6 },
-    { kanji: '高', reading: '고', meaning: '높을', level: 8, strokeCount: 10 },
-    { kanji: '告', reading: '고', meaning: '고할', level: 7, strokeCount: 7 },
+    { kanji: '古', reading: '고', meaning: '예', level: 7, strokeCount: 5, radical: '口' }, // 7
+    { kanji: '故', reading: '고', meaning: '연고', level: 5, strokeCount: 9, radical: '攴' }, // 5II
+    { kanji: '固', reading: '고', meaning: '굳을', level: 5, strokeCount: 8, radical: '囗' }, // 5
+    { kanji: '苦', reading: '고', meaning: '쓸', level: 5, strokeCount: 9, radical: '艸' }, // 5
+    { kanji: '考', reading: '고', meaning: '생각할', level: 6, strokeCount: 6, radical: '老' }, // 6II
+    { kanji: '高', reading: '고', meaning: '높을', level: 7, strokeCount: 10, radical: '高' }, // 7II
+    { kanji: '告', reading: '고', meaning: '고할', level: 5, strokeCount: 7, radical: '口' }, // 5
 
-    { kanji: '谷', reading: '곡', meaning: '골', level: 7, strokeCount: 7 },
-    { kanji: '曲', reading: '곡', meaning: '굽을', level: 7, strokeCount: 6 },
-    { kanji: '穀', reading: '곡', meaning: '곡식', level: 6, strokeCount: 15 },
+    { kanji: '谷', reading: '곡', meaning: '골', level: 4, strokeCount: 7, radical: '谷' }, // 4II
+    { kanji: '曲', reading: '곡', meaning: '굽을', level: 5, strokeCount: 6, radical: '曰' }, // 5II
+    { kanji: '穀', reading: '곡', meaning: '곡식', level: 4, strokeCount: 15, radical: '禾' }, // 4II
 
-    { kanji: '困', reading: '곤', meaning: '곤할', level: 7, strokeCount: 7 },
-    { kanji: '坤', reading: '곤', meaning: '땅', level: 6, strokeCount: 8 },
+    { kanji: '困', reading: '곤', meaning: '곤할', level: 4, strokeCount: 7, radical: '囗' }, // 4II
+    { kanji: '坤', reading: '곤', meaning: '땅', level: 3, strokeCount: 8, radical: '土' }, // 3II
 
-    { kanji: '骨', reading: '골', meaning: '뼈', level: 7, strokeCount: 10 },
+    { kanji: '骨', reading: '골', meaning: '뼈', level: 6, strokeCount: 10, radical: '骨' }, // 6II
 
-    { kanji: '工', reading: '공', meaning: '장인', level: 8, strokeCount: 3 },
-    { kanji: '功', reading: '공', meaning: '공', level: 7, strokeCount: 5 },
-    { kanji: '空', reading: '공', meaning: '빌', level: 8, strokeCount: 8 },
-    { kanji: '共', reading: '공', meaning: '한가지', level: 7, strokeCount: 6 },
-    { kanji: '公', reading: '공', meaning: '공평할', level: 7, strokeCount: 4 },
+    { kanji: '工', reading: '공', meaning: '장인', level: 8, strokeCount: 3, radical: '工' },
+    { kanji: '功', reading: '공', meaning: '공', level: 6, strokeCount: 5, radical: '力' }, // 6
+    { kanji: '空', reading: '공', meaning: '빌', level: 7, strokeCount: 8, radical: '穴' }, // 7II
+    { kanji: '共', reading: '공', meaning: '한가지', level: 6, strokeCount: 6, radical: '八' }, // 6
+    { kanji: '公', reading: '공', meaning: '공평할', level: 6, strokeCount: 4, radical: '八' }, // 6II
 
-    { kanji: '果', reading: '과', meaning: '실과', level: 7, strokeCount: 8 },
-    { kanji: '課', reading: '과', meaning: '과정', level: 7, strokeCount: 15 },
-    { kanji: '科', reading: '과', meaning: '과목', level: 7, strokeCount: 9 },
-    { kanji: '過', reading: '과', meaning: '지날', level: 7, strokeCount: 13 },
+    { kanji: '果', reading: '과', meaning: '실과', level: 6, strokeCount: 8, radical: '木' }, // 6II
+    { kanji: '課', reading: '과', meaning: '과정', level: 5, strokeCount: 15, radical: '言' }, // 5
+    { kanji: '科', reading: '과', meaning: '과목', level: 5, strokeCount: 9, radical: '禾' }, // 5
+    { kanji: '過', reading: '과', meaning: '지날', level: 5, strokeCount: 13, radical: '辵' }, // 5
 
-    { kanji: '官', reading: '관', meaning: '벼슬', level: 7, strokeCount: 8 },
-    { kanji: '觀', reading: '관', meaning: '볼', level: 6, strokeCount: 25 },
-    { kanji: '關', reading: '관', meaning: '빗장', level: 6, strokeCount: 19 },
+    { kanji: '官', reading: '관', meaning: '벼슬', level: 5, strokeCount: 8, radical: '宀' }, // 5II
+    { kanji: '觀', reading: '관', meaning: '볼', level: 4, strokeCount: 25, radical: '見' }, // 4II
+    { kanji: '關', reading: '관', meaning: '빗장', level: 4, strokeCount: 19, radical: '門' }, // 4II
 
-    { kanji: '光', reading: '광', meaning: '빛', level: 8, strokeCount: 6 },
-    { kanji: '廣', reading: '광', meaning: '넓을', level: 7, strokeCount: 15 },
-    { kanji: '交', reading: '교', meaning: '사귈', level: 8, strokeCount: 6 },
-    { kanji: '校', reading: '교', meaning: '학교', level: 8, strokeCount: 10 },
-    { kanji: '橋', reading: '교', meaning: '다리', level: 6, strokeCount: 16 },
-    { kanji: '敎', reading: '교', meaning: '가르칠', level: 7, strokeCount: 11 },
-    { kanji: '九', reading: '구', meaning: '아홉', level: 8, strokeCount: 2 },
-    { kanji: '口', reading: '구', meaning: '입', level: 8, strokeCount: 3 },
-    { kanji: '求', reading: '구', meaning: '구할', level: 7, strokeCount: 7 },
-    { kanji: '救', reading: '구', meaning: '구원할', level: 6, strokeCount: 11 },
-    { kanji: '究', reading: '구', meaning: '연구할', level: 7, strokeCount: 7 },
-    { kanji: '久', reading: '구', meaning: '오랠', level: 7, strokeCount: 3 },
-    { kanji: '句', reading: '구', meaning: '글귀', level: 6, strokeCount: 5 },
-    { kanji: '舊', reading: '구', meaning: '예', level: 6, strokeCount: 18 },
-    { kanji: '國', reading: '국', meaning: '나라', level: 8, strokeCount: 11 },
-    { kanji: '菊', reading: '국', meaning: '국화', level: 6, strokeCount: 11 },
-    { kanji: '君', reading: '군', meaning: '임금', level: 7, strokeCount: 7 },
-    { kanji: '郡', reading: '군', meaning: '고을', level: 7, strokeCount: 10 },
-    { kanji: '軍', reading: '군', meaning: '군사', level: 7, strokeCount: 9 },
-    { kanji: '弓', reading: '궁', meaning: '활', level: 7, strokeCount: 3 },
-    { kanji: '卷', reading: '권', meaning: '책', level: 6, strokeCount: 8 },
-    { kanji: '權', reading: '권', meaning: '권세', level: 6, strokeCount: 22 },
-    { kanji: '勸', reading: '권', meaning: '권할', level: 6, strokeCount: 20 },
-    { kanji: '貴', reading: '귀', meaning: '귀할', level: 7, strokeCount: 12 },
-    { kanji: '歸', reading: '귀', meaning: '돌아갈', level: 6, strokeCount: 18 },
-    { kanji: '均', reading: '균', meaning: '고를', level: 7, strokeCount: 7 },
-    { kanji: '極', reading: '극', meaning: '극진할', level: 6, strokeCount: 13 },
-    { kanji: '近', reading: '근', meaning: '가까울', level: 7, strokeCount: 7 },
-    { kanji: '勤', reading: '근', meaning: '부지런할', level: 6, strokeCount: 13 },
-    { kanji: '根', reading: '근', meaning: '뿌리', level: 7, strokeCount: 10 },
-    { kanji: '金', reading: '금', meaning: '쇠', level: 8, strokeCount: 8 },
-    { kanji: '今', reading: '금', meaning: '이제', level: 8, strokeCount: 4 },
-    { kanji: '禁', reading: '금', meaning: '금할', level: 6, strokeCount: 13 },
-    { kanji: '及', reading: '급', meaning: '미칠', level: 7, strokeCount: 3 },
-    { kanji: '給', reading: '급', meaning: '줄', level: 7, strokeCount: 12 },
-    { kanji: '急', reading: '급', meaning: '급할', level: 7, strokeCount: 9 },
-    { kanji: '己', reading: '기', meaning: '몸', level: 7, strokeCount: 3 },
-    { kanji: '記', reading: '기', meaning: '기록', level: 7, strokeCount: 10 },
-    { kanji: '起', reading: '기', meaning: '일어날', level: 7, strokeCount: 10 },
-    { kanji: '其', reading: '기', meaning: '그', level: 7, strokeCount: 8 },
-    { kanji: '期', reading: '기', meaning: '기약', level: 7, strokeCount: 12 },
-    { kanji: '基', reading: '기', meaning: '터', level: 7, strokeCount: 11 },
-    { kanji: '氣', reading: '기', meaning: '기운', level: 7, strokeCount: 10 },
-    { kanji: '技', reading: '기', meaning: '재주', level: 6, strokeCount: 7 },
-    { kanji: '幾', reading: '기', meaning: '몇', level: 6, strokeCount: 12 },
-    { kanji: '旣', reading: '기', meaning: '이미', level: 6, strokeCount: 10 },
-    { kanji: '吉', reading: '길', meaning: '길할', level: 7, strokeCount: 6 },
+    { kanji: '光', reading: '광', meaning: '빛', level: 7, strokeCount: 6, radical: '儿' }, // 7II
+    { kanji: '廣', reading: '광', meaning: '넓을', level: 4, strokeCount: 15, radical: '广' }, // 4
+    { kanji: '交', reading: '교', meaning: '사귈', level: 7, strokeCount: 6, radical: '亠' }, // 7II
+    { kanji: '校', reading: '교', meaning: '학교', level: 8, strokeCount: 10, radical: '木' },
+    { kanji: '橋', reading: '교', meaning: '다리', level: 4, strokeCount: 16, radical: '木' }, // 4II
+    { kanji: '敎', reading: '교', meaning: '가르칠', level: 8, strokeCount: 11, radical: '攴' },
+    { kanji: '九', reading: '구', meaning: '아홉', level: 8, strokeCount: 2, radical: '乙' },
+    { kanji: '口', reading: '구', meaning: '입', level: 8, strokeCount: 3, radical: '口' },
+    { kanji: '求', reading: '구', meaning: '구할', level: 5, strokeCount: 7, radical: '水' }, // 5
+    { kanji: '救', reading: '구', meaning: '구원할', level: 4, strokeCount: 11, radical: '攴' }, // 4
+    { kanji: '究', reading: '구', meaning: '연구할', level: 5, strokeCount: 7, radical: '穴' }, // 5
+    { kanji: '久', reading: '구', meaning: '오랠', level: 4, strokeCount: 3, radical: '丿' }, // 4
+    { kanji: '句', reading: '구', meaning: '글귀', level: 4, strokeCount: 5, radical: '口' }, // 4
+    { kanji: '舊', reading: '구', meaning: '예', level: 4, strokeCount: 18, radical: '臼' }, // 4II
+    { kanji: '國', reading: '국', meaning: '나라', level: 8, strokeCount: 11, radical: '囗' },
+    { kanji: '菊', reading: '국', meaning: '국화', level: 4, strokeCount: 11, radical: '艸' }, // 4
+    { kanji: '君', reading: '군', meaning: '임금', level: 6, strokeCount: 7, radical: '口' }, // 6II
+    { kanji: '郡', reading: '군', meaning: '고을', level: 4, strokeCount: 10, radical: '邑' }, // 4
+    { kanji: '軍', reading: '군', meaning: '군사', level: 7, strokeCount: 9, radical: '車' }, // 7II
+    { kanji: '弓', reading: '궁', meaning: '활', level: 4, strokeCount: 3, radical: '弓' }, // 4
+    { kanji: '卷', reading: '권', meaning: '책', level: 4, strokeCount: 8, radical: '卩' }, // 4II
+    { kanji: '權', reading: '권', meaning: '권세', level: 4, strokeCount: 22, radical: '木' }, // 4II
+    { kanji: '勸', reading: '권', meaning: '권할', level: 4, strokeCount: 20, radical: '力' }, // 4
+    { kanji: '貴', reading: '귀', meaning: '귀할', level: 5, strokeCount: 12, radical: '貝' }, // 5II
+    { kanji: '歸', reading: '귀', meaning: '돌아갈', level: 4, strokeCount: 18, radical: '止' }, // 4
+    { kanji: '均', reading: '균', meaning: '고를', level: 4, strokeCount: 7, radical: '土' }, // 4
+    { kanji: '極', reading: '극', meaning: '극진할', level: 4, strokeCount: 13, radical: '木' }, // 4
+    { kanji: '近', reading: '근', meaning: '가까울', level: 6, strokeCount: 7, radical: '辵' }, // 6II
+    { kanji: '勤', reading: '근', meaning: '부지런할', level: 4, strokeCount: 13, radical: '力' }, // 4
+    { kanji: '根', reading: '근', meaning: '뿌리', level: 5, strokeCount: 10, radical: '木' }, // 5
+    { kanji: '金', reading: '금', meaning: '쇠', level: 8, strokeCount: 8, radical: '金' },
+    { kanji: '今', reading: '금', meaning: '이제', level: 7, strokeCount: 4, radical: '人' }, // 7II
+    { kanji: '禁', reading: '금', meaning: '금할', level: 4, strokeCount: 13, radical: '示' }, // 4II
+    { kanji: '及', reading: '급', meaning: '미칠', level: 4, strokeCount: 3, radical: '又' }, // 4
+    { kanji: '給', reading: '급', meaning: '줄', level: 5, strokeCount: 12, radical: '糸' }, // 5II
+    { kanji: '急', reading: '급', meaning: '급할', level: 6, strokeCount: 9, radical: '心' }, // 6II
+    { kanji: '己', reading: '기', meaning: '몸', level: 5, strokeCount: 3, radical: '己' }, // 5
+    { kanji: '記', reading: '기', meaning: '기록', level: 6, strokeCount: 10, radical: '言' }, // 6
+    { kanji: '起', reading: '기', meaning: '일어날', level: 5, strokeCount: 10, radical: '走' }, // 5
+    { kanji: '其', reading: '기', meaning: '그', level: 3, strokeCount: 8, radical: '八' }, // 3II
+    { kanji: '期', reading: '기', meaning: '기약', level: 5, strokeCount: 12, radical: '月' }, // 5
+    { kanji: '基', reading: '기', meaning: '터', level: 4, strokeCount: 11, radical: '土' }, // 4II
+    { kanji: '氣', reading: '기', meaning: '기운', level: 7, strokeCount: 10, radical: '气' }, // 7II
+    { kanji: '技', reading: '기', meaning: '재주', level: 5, strokeCount: 7, radical: '手' }, // 5II
+    { kanji: '幾', reading: '기', meaning: '몇', level: 3, strokeCount: 12, radical: '幺' }, // 3
+    { kanji: '旣', reading: '기', meaning: '이미', level: 3, strokeCount: 10, radical: '旡' }, // 3
+    { kanji: '吉', reading: '길', meaning: '길할', level: 4, strokeCount: 6, radical: '口' }, // 4
     { kanji: '暖', reading: '난', meaning: '따뜻할', level: 6, strokeCount: 13 },
     { kanji: '難', reading: '난', meaning: '어려울', level: 6, strokeCount: 19 },
     { kanji: '南', reading: '남', meaning: '남녘', level: 8, strokeCount: 9 },

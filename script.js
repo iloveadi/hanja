@@ -79,6 +79,7 @@ function showHanjaList(type) {
         card.className = `hanja-card ${learnedHanja.includes(hanja.kanji) ? 'learned-card' : ''}`;
         card.innerHTML = `
             <span class="badge">Lv.${hanja.level}</span>
+            <span class="hanja-radical">${hanja.radical || ''}</span>
             <span class="hanja-char">${hanja.kanji}</span>
             <div class="hanja-reading">${hanja.reading}</div>
             <div class="hanja-meaning">${hanja.meaning}</div>
@@ -169,7 +170,7 @@ function openModal(hanja, cardElement) {
 
     document.getElementById('modal-reading').textContent = hanja.reading;
     document.getElementById('modal-meaning').textContent = hanja.meaning;
-    document.getElementById('modal-info').textContent = `급수: ${hanja.level}급 | 획수: ${hanja.strokeCount}획`;
+    document.getElementById('modal-info').innerHTML = `급수: ${hanja.level}급 | 획수: ${hanja.strokeCount}획 ${hanja.radical ? ` | 부수: ${hanja.radical}` : ''}`;
 
     container.innerHTML = '';
     modal.style.display = 'block';
@@ -190,7 +191,9 @@ function openModal(hanja, cardElement) {
             outlineColor: '#333',
             drawingColor: '#D4AF37',
             showHintAfterMisses: 1,
-            delayBeforeAnimations: 500
+            strokeAnimationSpeed: 1.3, // 1.3x normal speed
+            delayBetweenStrokes: 50, // shorter delay between strokes
+            delayBeforeAnimations: 200 // shorter initial delay
         });
 
         // Trigger animation automatically

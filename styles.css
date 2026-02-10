@@ -170,6 +170,18 @@ header {
     font-weight: bold;
 }
 
+.hanja-radical {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border: 1px solid var(--glass-border);
+    padding: 2px 6px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
 /* Main Layout */
 main {
     max-width: 1200px;
