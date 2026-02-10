@@ -1,3 +1,26 @@
+const analectsChapters = [
+    { id: "學而", title: "학이편(學而篇)", subtitle: "배움과 인(仁)의 실천" },
+    { id: "爲政", title: "위정편(爲政篇)", subtitle: "정치의 도리와 덕치" },
+    { id: "八佾", title: "팔일편(八佾篇)", subtitle: "예(禮)와 음악, 제례" },
+    { id: "里仁", title: "리인편(里仁篇)", subtitle: "인(仁)에 거처하는 것" },
+    { id: "公冶長", title: "공야장편(公冶長篇)", subtitle: "제자 및 당대 인물 평론" },
+    { id: "雍也", title: "옹야편(雍也篇)", subtitle: "인물 평가 및 학문 태도" },
+    { id: "述而", title: "술이편(述而篇)", subtitle: "공자의 학문관과 행동 요지" },
+    { id: "泰伯", title: "태백편(泰伯篇)", subtitle: "고대 성인과 덕성" },
+    { id: "子罕", title: "자한편(子罕篇)", subtitle: "공자의 일상과 사상" },
+    { id: "鄕黨", title: "향당편(鄕黨篇)", subtitle: "공자의 일상생활 예법" },
+    { id: "先進", title: "선진편(先進篇)", subtitle: "제자들에 대한 평가" },
+    { id: "顔淵", title: "안연편(顔淵篇)", subtitle: "인(仁)과 정치에 대한 문답" },
+    { id: "子路", title: "자로편(子路篇)", subtitle: "정치와 수양" },
+    { id: "憲問", title: "헌문편(憲問篇)", subtitle: "역사와 인물, 덕" },
+    { id: "衛靈公", title: "위령공편(衛靈公篇)", subtitle: "군자의 도리와 처세" },
+    { id: "季氏", title: "계씨편(季氏篇)", subtitle: "통치자의 태도와 배움" },
+    { id: "陽貨", title: "양화편(陽貨篇)", subtitle: "인(仁)과 예(禮)의 실천" },
+    { id: "微子", title: "미자편(微子篇)", subtitle: "은자(隱者)와 군자" },
+    { id: "子張", title: "자장편(子張篇)", subtitle: "제자들의 학문관" },
+    { id: "堯曰", title: "요왈편(堯曰篇)", subtitle: "성인의 정치와 통치 철학" }
+];
+
 const analectsData = [
     {
         chapter: "學而第一",

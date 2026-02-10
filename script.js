@@ -66,9 +66,6 @@ function showHanjaList(type) {
     const titleElem = document.getElementById('hanja-section-title');
     container.innerHTML = '';
 
-    // Filter logic: middle (level 8,7), high (level 6)
-    // Note: User said "currently rest is high school", so we split.
-    // Middle school is 900, but we have 1119. Let's just group by level for now.
     const filteredData = hanjaData.filter(h => {
         if (type === 'middle') return h.level >= 7;
         if (type === 'high') return h.level <= 6;
@@ -77,7 +74,7 @@ function showHanjaList(type) {
 
     titleElem.innerText = type === 'middle' ? '중학교 기초 한자' : '고등학교 기초 한자';
 
-    filteredData.forEach((hanja, index) => {
+    filteredData.forEach((hanja) => {
         const card = document.createElement('div');
         card.className = `hanja-card ${learnedHanja.includes(hanja.kanji) ? 'learned-card' : ''}`;
         card.innerHTML = `
@@ -94,27 +91,75 @@ function showHanjaList(type) {
 }
 
 function showAnalects() {
-    const container = document.getElementById('analects-container');
-    container.innerHTML = '';
+    const menu = document.getElementById('analects-menu');
+    const content = document.getElementById('analects-content');
+    const toggleBtn = document.getElementById('toggle-reading-btn');
+    const title = document.getElementById('analects-section-title');
 
-    analectsData.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'analects-card';
+    menu.style.display = 'grid';
+    content.style.display = 'none';
+    toggleBtn.style.display = 'none';
+    title.innerText = '論語 (논어) 목차';
 
-        // Convert "X(reading)" pattern to <ruby> tags
-        // This is now more robust by matching any character before the opening parenthesis
-        const rubyContent = item.content.replace(/([^()\s,.;:“”"?!/])\(([^)]+)\)/g, '<ruby>$1<rt>$2</rt></ruby>');
-
-        card.innerHTML = `
-            <div class="analects-title">${item.chapter} ${item.index}</div>
-            <div class="analects-content">${rubyContent}</div>
-            <div class="analects-translation">${item.translation}</div>
+    menu.innerHTML = '';
+    analectsChapters.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.className = 'menu-btn';
+        btn.innerHTML = `
+            <span class="btn-title">${ch.title}</span>
+            <span class="btn-desc">${ch.subtitle}</span>
         `;
-        container.appendChild(card);
+        btn.onclick = () => showAnalectsChapter(ch);
+        menu.appendChild(btn);
     });
 
-    if (!showReadings) container.classList.add('hide-reading');
     showView('analects-section');
+}
+
+function showAnalectsChapter(chapter) {
+    const menu = document.getElementById('analects-menu');
+    const content = document.getElementById('analects-content');
+    const toggleBtn = document.getElementById('toggle-reading-btn');
+    const title = document.getElementById('analects-section-title');
+    const container = document.getElementById('analects-container');
+
+    menu.style.display = 'none';
+    content.style.display = 'block';
+    toggleBtn.style.display = 'block';
+    title.innerText = chapter.title;
+
+    container.innerHTML = '';
+    const filteredData = analectsData.filter(item => item.chapter.includes(chapter.id));
+
+    if (filteredData.length === 0) {
+        container.innerHTML = '<p style="text-align:center; padding: 3rem; color:var(--text-secondary);">데이터 준비 중입니다.</p>';
+    } else {
+        filteredData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'analects-card';
+
+            const rubyContent = item.content.replace(/([^()\s,.;:“”"?!/])\(([^)]+)\)/g, '<ruby>$1<rt>$2</rt></ruby>');
+
+            card.innerHTML = `
+                <div class="analects-title">${item.chapter} ${item.index}</div>
+                <div class="analects-content">${rubyContent}</div>
+                <div class="analects-translation">${item.translation}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    if (!showReadings) container.classList.add('hide-reading');
+    window.scrollTo(0, 0);
+}
+
+function goBackFromAnalects() {
+    const menu = document.getElementById('analects-menu');
+    if (menu.style.display === 'none') {
+        showAnalects();
+    } else {
+        showView('landing-page');
+    }
 }
 
 function openModal(hanja, cardElement) {

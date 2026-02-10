@@ -68,11 +68,20 @@
         <!-- Analects Section -->
         <section id="analects-section" class="view-section" style="display: none;">
             <div class="sticky-nav">
-                <button class="nav-btn" onclick="showView('landing-page')">← 돌아가기</button>
-                <h2>論語 (논어)</h2>
-                <button id="toggle-reading-btn" class="nav-btn">독음 끄기</button>
+                <button class="nav-btn" onclick="goBackFromAnalects()">← 돌아가기</button>
+                <h2 id="analects-section-title">論語 (논어)</h2>
+                <button id="toggle-reading-btn" class="nav-btn" style="display: none;">독음 끄기</button>
             </div>
-            <div class="analects-list" id="analects-container"></div>
+
+            <!-- Analects Chapter Menu -->
+            <div id="analects-menu" class="menu-container">
+                <!-- Chapters will be injected here -->
+            </div>
+
+            <!-- Analects Content List -->
+            <div id="analects-content" class="analects-list" style="display: none;">
+                <div id="analects-container"></div>
+            </div>
         </section>
     </main>
 
