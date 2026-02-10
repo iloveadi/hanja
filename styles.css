@@ -170,6 +170,115 @@ header {
     font-weight: bold;
 }
 
+/* Main Layout */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Menu Buttons */
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.menu-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2.5rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-btn:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: var(--accent-color);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.btn-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.btn-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.back-btn {
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: var(--accent-color);
+    color: #000;
+}
+
+/* Analects Styles */
+.analects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.analects-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 2.5rem;
+    border-radius: 20px;
+}
+
+.analects-title {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.analects-content {
+    font-size: 1.8rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-family: 'Noto Serif KR', serif;
+}
+
+.analects-translation {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero-title {
@@ -178,6 +287,18 @@ header {
 
     .container {
         padding: 1rem;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
