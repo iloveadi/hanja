@@ -19,6 +19,13 @@
 
 <body>
     <header>
+        <div style="position: absolute; top: 1rem; right: 1rem; z-index: 1000;">
+            <button id="btn-login" class="nav-btn" style="background: rgba(255,255,255,0.1);">Google Login</button>
+            <span id="user-display"
+                style="display:none; margin-right: 10px; font-size: 0.9rem; color: var(--accent-color);"></span>
+            <button id="btn-logout" class="nav-btn"
+                style="display:none; background: rgba(255,255,255,0.1);">Logout</button>
+        </div>
         <h1 class="hero-title">漢文 <span>學習</span></h1>
         <p class="hero-subtitle">Premium Hanja Study Suite for Yeji</p>
     </header>
@@ -202,6 +209,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Firebase SDKs (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase_config.js"></script>
 
     <!-- Load data first, then logic -->
     <script src="hanja_data.js"></script>

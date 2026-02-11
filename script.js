@@ -8,6 +8,7 @@ let showCheonjamunReadings = true;
 document.addEventListener('DOMContentLoaded', () => {
     updateDashboard();
     setupEventListeners();
+    initFirebase();
 
     // Initial History State
     if (!history.state) {
@@ -56,7 +57,102 @@ function goHome() {
     history.pushState({ view: 'landing-page' }, '', '');
 }
 
+// --- Firebase Auth & Sync ---
+let currentUser = null;
+
+function initFirebase() {
+    if (typeof firebase === 'undefined' || !firebase.apps.length) return;
+
+    firebase.auth().onAuthStateChanged(async (user) => {
+        currentUser = user;
+        updateAuthUI(user);
+        if (user) {
+            await syncUserData(user);
+        }
+    });
+}
+
+function updateAuthUI(user) {
+    const loginBtn = document.getElementById('btn-login');
+    const logoutBtn = document.getElementById('btn-logout');
+    const userDisplay = document.getElementById('user-display');
+
+    if (user) {
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'inline-block';
+        if (userDisplay) {
+            userDisplay.style.display = 'inline-block';
+            userDisplay.textContent = user.displayName || user.email.split('@')[0];
+        }
+    } else {
+        if (loginBtn) loginBtn.style.display = 'inline-block';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (userDisplay) userDisplay.style.display = 'none';
+    }
+}
+
+async function login() {
+    if (typeof firebase === 'undefined') {
+        alert('Firebase 설정이 필요합니다.');
+        return;
+    }
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try {
+        await firebase.auth().signInWithPopup(provider);
+    } catch (error) {
+        console.error("Login failed", error);
+        alert('로그인 실패: ' + error.message);
+    }
+}
+
+async function logout() {
+    if (typeof firebase === 'undefined') return;
+    await firebase.auth().signOut();
+    location.reload();
+}
+
+async function syncUserData(user) {
+    const db = firebase.firestore();
+    const docRef = db.collection('users').doc(user.uid);
+
+    try {
+        const doc = await docRef.get();
+        if (doc.exists) {
+            const remoteData = doc.data().learnedHanja || [];
+            // Merge: Union of local and remote
+            const merged = [...new Set([...learnedHanja, ...remoteData])];
+
+            // If merged is different or remote is different, sync both ways
+            if (merged.length !== learnedHanja.length || merged.length !== remoteData.length) {
+                learnedHanja = merged;
+                localStorage.setItem('learnedHanja', JSON.stringify(learnedHanja));
+
+                await docRef.set({ learnedHanja: merged }, { merge: true });
+                updateDashboard();
+                console.log("Data synced and merged.");
+            }
+        } else {
+            // First time: Upload local data
+            await docRef.set({
+                email: user.email,
+                learnedHanja: learnedHanja,
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log("Initial data uploaded.");
+        }
+    } catch (error) {
+        console.error("Sync error:", error);
+    }
+}
+
 function setupEventListeners() {
+    // Auth Buttons
+    const loginBtn = document.getElementById('btn-login');
+    if (loginBtn) loginBtn.addEventListener('click', login);
+
+    const logoutBtn = document.getElementById('btn-logout');
+    if (logoutBtn) logoutBtn.addEventListener('click', logout);
+
     // Menu Buttons
     document.getElementById('btn-middle').addEventListener('click', () => {
         showHanjaList('middle');
@@ -441,6 +537,16 @@ function toggleLearned(hanja, cardElement, btn) {
         btn.textContent = '학습 취소';
     }
     localStorage.setItem('learnedHanja', JSON.stringify(learnedHanja));
+
+    // Sync to Firebase
+    if (currentUser) {
+        const db = firebase.firestore();
+        db.collection('users').doc(currentUser.uid).set({
+            learnedHanja: learnedHanja,
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+    }
+
     updateDashboard();
     closeModal();
 }
