@@ -8,7 +8,53 @@ let showCheonjamunReadings = true;
 document.addEventListener('DOMContentLoaded', () => {
     updateDashboard();
     setupEventListeners();
+
+    // Initial History State
+    if (!history.state) {
+        history.replaceState({ view: 'landing-page' }, '', '');
+    }
 });
+
+// History API Support
+window.addEventListener('popstate', (event) => {
+    if (event.state) {
+        handleState(event.state);
+    } else {
+        showView('landing-page');
+    }
+});
+
+function handleState(state) {
+    if (!state) return;
+    switch (state.view) {
+        case 'hanja-section':
+            showHanjaList(state.type, false);
+            break;
+        case 'analects-section':
+            if (state.chapterId) {
+                const chapter = analectsChapters.find(c => c.id === state.chapterId);
+                if (chapter) showAnalectsChapter(chapter, false);
+            } else {
+                showAnalects(false);
+            }
+            break;
+        case 'saja-sohak-section':
+            showSajaSohak(false);
+            break;
+        case 'cheonjamun-section':
+            showCheonjamun(false);
+            break;
+        case 'landing-page':
+        default:
+            showView('landing-page');
+            break;
+    }
+}
+
+function goHome() {
+    showView('landing-page');
+    history.pushState({ view: 'landing-page' }, '', '');
+}
 
 function setupEventListeners() {
     // Menu Buttons
@@ -127,7 +173,7 @@ function showView(viewId) {
     window.scrollTo(0, 0);
 }
 
-function showHanjaList(type) {
+function showHanjaList(type, pushState = true) {
     const container = document.getElementById('hanja-container');
     const navContainer = document.getElementById('hanja-index-nav'); // New container
     const titleElem = document.getElementById('hanja-section-title');
@@ -214,6 +260,7 @@ function showHanjaList(type) {
     });
 
     showView('hanja-section');
+    if (pushState) history.pushState({ view: 'hanja-section', type: type }, '', '');
 }
 
 // Helper for Hangul Chosung
@@ -250,7 +297,7 @@ function getChosung(char) {
     return map[realChosungs[chosungIndex]] || char;
 }
 
-function showAnalects() {
+function showAnalects(pushState = true) {
     const menu = document.getElementById('analects-menu');
     const content = document.getElementById('analects-content');
     const toggleBtn = document.getElementById('toggle-reading-btn');
@@ -285,9 +332,10 @@ function showAnalects() {
     });
 
     showView('analects-section');
+    if (pushState) history.pushState({ view: 'analects-section' }, '', '');
 }
 
-function showAnalectsChapter(chapter) {
+function showAnalectsChapter(chapter, pushState = true) {
     const menu = document.getElementById('analects-menu');
     const content = document.getElementById('analects-content');
     const toggleBtn = document.getElementById('toggle-reading-btn');
@@ -321,7 +369,12 @@ function showAnalectsChapter(chapter) {
     }
 
     if (!showReadings) container.classList.add('hide-reading');
+
+    // Ensure section is visible (needed if navigating via history)
+    showView('analects-section');
     window.scrollTo(0, 0);
+
+    if (pushState) history.pushState({ view: 'analects-section', chapterId: chapter.id }, '', '');
 }
 
 function goBackFromAnalects() {
@@ -329,7 +382,7 @@ function goBackFromAnalects() {
     if (menu.style.display === 'none') {
         showAnalects();
     } else {
-        showView('landing-page');
+        goHome();
     }
 }
 
@@ -441,7 +494,7 @@ function createDetailedRuby(hanja, reading) {
     return `<ruby>${hanja}<rt>${reading}</rt></ruby>`;
 }
 
-function showSajaSohak() {
+function showSajaSohak(pushState = true) {
     const container = document.getElementById('saja-sohak-container');
     container.innerHTML = '';
 
@@ -492,9 +545,10 @@ function showSajaSohak() {
     });
 
     showView('saja-sohak-section');
+    if (pushState) history.pushState({ view: 'saja-sohak-section' }, '', '');
 }
 
-function showCheonjamun() {
+function showCheonjamun(pushState = true) {
     const container = document.getElementById('cheonjamun-container');
     container.innerHTML = '';
 
@@ -532,4 +586,5 @@ function showCheonjamun() {
     });
 
     showView('cheonjamun-section');
+    if (pushState) history.pushState({ view: 'cheonjamun-section' }, '', '');
 }
