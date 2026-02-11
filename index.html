@@ -19,41 +19,112 @@
 
 <body>
     <header>
-        <h1>漢文 <span>學習</span></h1>
-        <p>Premium Hanja Study Suite for Yeji</p>
+        <h1 class="hero-title">漢文 <span>學習</span></h1>
+        <p class="hero-subtitle">Premium Hanja Study Suite for Yeji</p>
     </header>
 
     <main>
         <!-- Landing Page Section -->
         <section id="landing-page" class="view-section">
-            <div class="dashboard">
-                <div class="stat-card">
-                    <div class="stat-value" id="learned-count">0</div>
-                    <div class="stat-label">학습한 한자</div>
+            <!-- Combined Dashboard -->
+            <!-- Combined Dashboard -->
+            <div class="dashboard-container">
+                <!-- Middle School Card -->
+                <div class="progress-card">
+                    <h3>중학교 기초 한자</h3>
+                    <div class="circular-chart" id="middle-chart">
+                        <div class="chart-text">
+                            <span class="chart-percent" id="middle-percent">0%</span>
+                        </div>
+                    </div>
+                    <div class="chart-stats" id="middle-stats">0 / 900</div>
+                    <button class="btn action-btn" id="btn-middle">학습하기</button>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="total-count">0</div>
-                    <div class="stat-label">전체 한자</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="progress-percent">0%</div>
-                    <div class="stat-label">학습 진행률</div>
+
+                <!-- High School Card -->
+                <div class="progress-card">
+                    <h3>고등학교 기초 한자</h3>
+                    <div class="circular-chart" id="high-chart">
+                        <div class="chart-text">
+                            <span class="chart-percent" id="high-percent">0%</span>
+                        </div>
+                    </div>
+                    <div class="chart-stats" id="high-stats">0 / 900</div>
+                    <button class="btn action-btn" id="btn-high">학습하기</button>
                 </div>
             </div>
 
-            <div class="menu-container">
-                <button class="menu-btn" id="btn-middle">
-                    <span class="btn-title">중학교 기초 한자</span>
-                    <span class="btn-desc">교육부 지정 필수 900자</span>
-                </button>
-                <button class="menu-btn" id="btn-high">
-                    <span class="btn-title">고등학교 기초 한자</span>
-                    <span class="btn-desc">심화 학습 900자</span>
-                </button>
-                <button class="menu-btn" id="btn-analects">
-                    <span class="btn-title">論語 (논어)</span>
-                    <span class="btn-desc">공자의 가르침과 철학</span>
-                </button>
+            <!-- Basic Classics Section -->
+            <div class="menu-section">
+                <h2 class="section-title">기초 고전 (Basic Classics)</h2>
+                <div class="menu-container">
+                    <button class="menu-btn" id="btn-cheonjamun">
+                        <span class="btn-title">천자문 (千字文)</span>
+                        <span class="btn-desc">Thousand Character Classic</span>
+                    </button>
+                    <button class="menu-btn" id="btn-saja-sohak">
+                        <span class="btn-title">사자소학 (四字小學)</span>
+                        <span class="btn-desc">Four Character Elementary Learning</span>
+                    </button>
+                    <button class="menu-btn disabled" id="btn-chugu">
+                        <span class="coming-soon-badge">준비 중</span>
+                        <span class="btn-title">추구 (推句)</span>
+                        <span class="btn-desc">Five Character Verses</span>
+                    </button>
+                    <button class="menu-btn disabled" id="btn-dongmong">
+                        <span class="coming-soon-badge">준비 중</span>
+                        <span class="btn-title">동몽선습 (童蒙先習)</span>
+                        <span class="btn-desc">First Learning for Children</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Four Books Section -->
+            <div class="menu-section">
+                <h2 class="section-title">사서 (The Four Books)</h2>
+                <div class="menu-container">
+                    <button class="menu-btn disabled" id="btn-daxue">
+                        <span class="coming-soon-badge">준비 중</span>
+                        <span class="btn-title">대학 (大學)</span>
+                        <span class="btn-desc">Great Learning</span>
+                    </button>
+                    <button class="menu-btn" id="btn-analects">
+                        <span class="btn-title">논어 (論語)</span>
+                        <span class="btn-desc">Analects (Confucius)</span>
+                    </button>
+                    <button class="menu-btn disabled" id="btn-mencius">
+                        <span class="coming-soon-badge">준비 중</span>
+                        <span class="btn-title">맹자 (孟子)</span>
+                        <span class="btn-desc">Mencius</span>
+                    </button>
+                    <button class="menu-btn disabled" id="btn-zhongyong">
+                        <span class="coming-soon-badge">준비 중</span>
+                        <span class="btn-title">중용 (中庸)</span>
+                        <span class="btn-desc">Doctrine of the Mean</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Three Classics Section -->
+            <div class="menu-section">
+                <h2 class="section-title">삼경 (The Three Classics)</h2>
+                <div class="menu-container">
+                    <button class="menu-btn disabled" id="btn-shijing">
+                        <span class="coming-soon-badge">준비 중</span>
+                        <span class="btn-title">시경 (詩經)</span>
+                        <span class="btn-desc">Classic of Poetry</span>
+                    </button>
+                    <button class="menu-btn disabled" id="btn-shujing">
+                        <span class="coming-soon-badge">준비 중</span>
+                        <span class="btn-title">서경 (書經)</span>
+                        <span class="btn-desc">Book of Documents</span>
+                    </button>
+                    <button class="menu-btn disabled" id="btn-yijing">
+                        <span class="coming-soon-badge">준비 중</span>
+                        <span class="btn-title">주역 (周易)</span>
+                        <span class="btn-desc">I Ching (Book of Changes)</span>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -63,6 +134,7 @@
                 <button class="nav-btn" onclick="showView('landing-page')">← 돌아가기</button>
                 <h2 id="hanja-section-title">중학교 기초 한자</h2>
             </div>
+            <div id="hanja-index-nav" class="hanja-index-nav"></div>
             <div class="hanja-grid" id="hanja-container"></div>
         </section>
 
@@ -82,6 +154,32 @@
             <!-- Analects Content List -->
             <div id="analects-content" class="analects-list" style="display: none;">
                 <div id="analects-container"></div>
+            </div>
+        </section>
+
+        <!-- Saja Sohaka Section -->
+        <section id="saja-sohak-section" class="view-section" style="display: none;">
+            <div class="sticky-nav">
+                <button class="nav-btn" onclick="showView('landing-page')">← 돌아가기</button>
+                <h2 id="saja-sohak-section-title">四字小學 (사자소학)</h2>
+                <button id="toggle-saja-reading-btn" class="nav-btn">독음 끄기</button>
+            </div>
+
+            <div id="saja-sohak-container" class="analects-list">
+                <!-- Content injected via script -->
+            </div>
+        </section>
+
+        <!-- Cheonjamun Section -->
+        <section id="cheonjamun-section" class="view-section" style="display: none;">
+            <div class="sticky-nav">
+                <button class="nav-btn" onclick="showView('landing-page')">← 돌아가기</button>
+                <h2 id="cheonjamun-section-title">千字文 (천자문)</h2>
+                <button id="toggle-cheonjamun-reading-btn" class="nav-btn">독음 끄기</button>
+            </div>
+
+            <div id="cheonjamun-container" class="analects-list">
+                <!-- Content injected via script -->
             </div>
         </section>
     </main>
@@ -108,6 +206,8 @@
     <!-- Load data first, then logic -->
     <script src="hanja_data.js"></script>
     <script src="analects_data.js"></script>
+    <script src="saja_sohak_data.js"></script>
+    <script src="cheonjamun_data.js"></script>
     <script src="script.js"></script>
 </body>
 
