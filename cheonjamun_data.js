@@ -156,75 +156,77 @@ const cheonjamunData = [
     {
         "hanja": "遐邇壹體",
         "reading": "하이일체",
-        "translation": "멀고 가까운 데가 다 한몸이 되어,"
+        "translation": "멀고 가까운 곳이 모두 한 몸이 되었고,",
+        "section": "5. 덕화의 영향력 (137~168자)"
     },
     {
         "hanja": "率賓歸王",
         "reading": "솔빈귀왕",
-        "translation": "거느리고 와서 왕(천자)에게 모인다."
+        "translation": "모든 손님과 백성들이 왕에게 귀의하였다."
     },
     {
         "hanja": "鳴鳳在樹",
         "reading": "명봉재수",
-        "translation": "우는 봉황새는 나무 위에 있고,"
+        "translation": "우는 봉황은 나무 위에 머물고,"
     },
     {
         "hanja": "白駒食場",
         "reading": "백구식장",
-        "translation": "흰 망아지는 마당에서 풀을 뜯는다."
+        "translation": "흰 망아지는 마당의 풀을 뜯으니 태평성대로다."
     },
     {
         "hanja": "化被草木",
         "reading": "화피초목",
-        "translation": "덕화(德化)가 풀,"
+        "translation": "덕화가 풀과 나무에까지 미치고,"
     },
     {
         "hanja": "賴及萬方",
         "reading": "뇌급만방",
-        "translation": "나무에까지 미치고, 힘입음이 온 누리에 미친다."
+        "translation": "그 혜택이 온 세상 모든 곳에 닿았다."
     },
     {
         "hanja": "蓋此身髮",
         "reading": "개차신발",
-        "translation": "무릇 이 몸과 터럭은,"
+        "translation": "대저 이 몸과 머리카락은,",
+        "section": "6. 신체와 효도 (169~200자)"
     },
     {
         "hanja": "四大五常",
         "reading": "사대오상",
-        "translation": "네 가지 큰 것(천지군친)과 다섯 가지 떳떳함(인의예지신)으로 이루어졌다."
+        "translation": "네 가지 큰 원소(지수화풍)와 다섯 가지 떳떳한 도리(인치예신업)로 이루어졌다."
     },
     {
         "hanja": "恭惟鞠養",
         "reading": "공유국양",
-        "translation": "살피고 길러 주신 것을 곰곰히 생각하면, 어찌 함부로 헐고 다치게 할 수 있을까!"
+        "translation": "부모님께서 길러주신 은혜를 공손히 생각하니,"
     },
     {
         "hanja": "恭惟鞠養",
         "reading": "공유국양",
-        "translation": "살피고 길러 주신 것을 곰곰히 생각하면, 어찌 함부로 헐고 다치게 할 수 있을까!",
+        "translation": "부모님께서 길러주신 은혜를 공손히 생각하니,",
         "type": "couplet_first"
     },
     {
-        "hanja": "豈敢毁傷",
+        "hanja": "豈敢毀傷",
         "reading": "기감훼상",
-        "translation": "...",
+        "translation": "어찌 감히 몸을 훼손하거나 상하게 하겠는가.",
         "type": "couplet_second"
     },
     {
         "hanja": "女慕貞烈",
         "reading": "여모정렬",
-        "translation": "계집은 곧고 굳음을 사모하고 사내는 어짊을 본받아야 하느니라."
+        "translation": "여자는 정숙하고 곧은 절개를 사모하고,"
     },
     {
         "hanja": "女慕貞烈",
         "reading": "여모정렬",
-        "translation": "계집은 곧고 굳음을 사모하고 사내는 어짊을 본받아야 하느니라.",
+        "translation": "여자는 정숙하고 곧은 절개를 사모하고,",
         "type": "couplet_first"
     },
     {
         "hanja": "男效才良",
         "reading": "남효재량",
-        "translation": "...",
+        "translation": "남자는 재능 있고 어진 사람을 본받아야 한다.",
         "type": "couplet_second"
     },
     {
