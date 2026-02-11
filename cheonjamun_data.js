@@ -32,82 +32,82 @@ const cheonjamunData = [
     {
         "hanja": "閏餘成歲",
         "reading": "윤여성세",
-        "translation": "남은 날(윤달)을 모아 한 해를 이루고,"
+        "translation": "남은 날들을 모아 윤달을 만듦으로써 한 해를 이루고,"
     },
     {
         "hanja": "律呂調陽",
         "reading": "율려조양",
-        "translation": "만물의 소리(율려)는 음양의 조화를 이룬다."
+        "translation": "만물의 가락은 음과 양의 기운을 조화롭게 한다."
     },
     {
         "hanja": "雲騰致雨",
         "reading": "운등치우",
-        "translation": "구름이 올라가 비가 되며,"
+        "translation": "구름이 위로 솟아올라 비를 내리게 하고,"
     },
     {
         "hanja": "露結爲霜",
         "reading": "노결위상",
-        "translation": "이슬이 맺히고 서리가 내린다."
+        "translation": "이슬이 맺혀 단단한 서리가 된다."
     },
     {
         "hanja": "金生麗水",
         "reading": "금생여수",
-        "translation": "금은 여수에서 나고 옥은 곤강에서 난다."
+        "translation": "금은 여수라는 강에서 나고,"
     },
     {
         "hanja": "玉出崑岡",
         "reading": "옥출곤강",
-        "translation": "(이어짐)"
+        "translation": "옥은 곤륜산 줄기에서 난다."
     },
     {
         "hanja": "劍號巨闕",
         "reading": "검호거궐",
-        "translation": "칼은 거궐(월왕의 보검)이 유명하고,"
+        "translation": "검 중에는 '거궐'이라는 이름의 검이 으뜸이고,"
     },
     {
         "hanja": "珠稱夜光",
         "reading": "주칭야광",
-        "translation": "구슬은 야광주가 칭송받는다."
+        "translation": "구슬 중에는 '야광주'가 가장 칭송받는다."
     },
     {
         "hanja": "果珍李柰",
         "reading": "과진리내",
-        "translation": "과일 중엔 자두와 능금이요,"
+        "translation": "과일 중에는 오얏과 능금이 보배롭고,"
     },
     {
         "hanja": "菜重芥薑",
         "reading": "채중개강",
-        "translation": "채소 중엔 겨자와 생강이라"
+        "translation": "채소 중에는 겨자와 생강이 중요하다."
     },
     {
         "hanja": "海鹹河淡",
         "reading": "해함하담",
-        "translation": "바다는 짜고 강은 맑으며,"
+        "translation": "바닷물은 짜고 민물은 담백하며,"
     },
     {
         "hanja": "鱗潛羽翔",
         "reading": "인잠우상",
-        "translation": "비늘 있는 것은 (물에) 잠겨있고 깃털 있는 것은 (하늘을) 난다."
+        "translation": "비늘 있는 물고기는 잠기고 깃털 있는 새는 날아다닌다."
     },
     {
         "hanja": "龍師火帝",
         "reading": "용사화제",
-        "translation": "(복희는) 용의 이름으로,"
+        "translation": "복희씨는 용으로 관직을 이름 지었고, 신농씨는 불로 칭하였다."
     },
     {
         "hanja": "鳥官人皇",
         "reading": "조관인황",
-        "translation": "(염제 신농은) 불로 벼슬 이름을 지었고, (소호는) 새 이름으로, 황제는 인문을 갖추었다."
+        "translation": "소호씨는 새로 관직을 불렀으며, 인황(황제)은 문물을 정비했다."
     },
     {
         "hanja": "始制文字",
         "reading": "시제문자",
-        "translation": "(복희씨의 신하 창힐이) 비로소 처음 문자를 만들고,"
+        "translation": "이때 비로소 글자가 만들어졌으며,"
     },
     {
         "hanja": "乃服衣裳",
         "reading": "내복의상",
-        "translation": "(황제가) 윗옷과 치마를 정했다."
+        "translation": "이에 맞춰 옷과 치마를 입기 시작했다."
     },
     {
         "hanja": "推位讓國",
