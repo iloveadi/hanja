@@ -671,6 +671,13 @@ function showCheonjamun(pushState = true) {
     }
 
     cheonjamunData.forEach(item => {
+        if (item.section) {
+            const sectionHeader = document.createElement('h3');
+            sectionHeader.className = 'section-header';
+            sectionHeader.innerText = item.section;
+            container.appendChild(sectionHeader);
+        }
+
         const card = document.createElement('div');
         card.className = 'analects-card';
 

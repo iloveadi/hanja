@@ -2,7 +2,8 @@ const cheonjamunData = [
     {
         "hanja": "天地玄黃",
         "reading": "천지현황",
-        "translation": "하늘은 검고 아득하며, 땅은 누렇고 광대하다."
+        "translation": "하늘은 검고 아득하며, 땅은 누렇고 광대하다.",
+        "section": "1. 우주의 섭리와 자연 (1~32자)"
     },
     {
         "hanja": "宇宙洪荒",
@@ -42,7 +43,8 @@ const cheonjamunData = [
     {
         "hanja": "雲騰致雨",
         "reading": "운등치우",
-        "translation": "구름이 위로 솟아올라 비를 내리게 하고,"
+        "translation": "구름이 위로 솟아올라 비를 내리게 하고,",
+        "section": "2. 기상과 지형의 신비 (33~64자)"
     },
     {
         "hanja": "露結爲霜",
@@ -82,7 +84,8 @@ const cheonjamunData = [
     {
         "hanja": "海鹹河淡",
         "reading": "해함하담",
-        "translation": "바닷물은 짜고 민물은 담백하며,"
+        "translation": "바닷물은 짜고 민물은 담백하며,",
+        "section": "3. 생태계와 고대 역사 (65~100자)"
     },
     {
         "hanja": "鱗潛羽翔",
@@ -112,42 +115,43 @@ const cheonjamunData = [
     {
         "hanja": "推位讓國",
         "reading": "퇴위양국",
-        "translation": "자리에서 물러나 나라를 사양한 자는 유우와 도당이다."
+        "translation": "왕위를 미루어 나라를 양보하니,",
+        "section": "4. 성군의 통치와 평화 (101~136자)"
     },
     {
         "hanja": "有虞陶唐",
         "reading": "유우도당",
-        "translation": "(이어짐)"
+        "translation": "유우씨(순임금)와 도당씨(요임금)가 그러하였다."
     },
     {
         "hanja": "弔民伐罪",
         "reading": "조민벌죄",
-        "translation": "백성을 위로하고 죄를 벌함은 주나라 무왕과 은나라 탕왕이라."
+        "translation": "백성을 위로하고 죄지은 자를 벌한 것은,"
     },
     {
         "hanja": "周發殷湯",
         "reading": "주발은탕",
-        "translation": "(이어짐)"
+        "translation": "주나라 발(무왕)과 은나라 탕왕이었다."
     },
     {
         "hanja": "坐朝問道",
         "reading": "좌조문도",
-        "translation": "조정에 앉아 도를 물으니,"
+        "translation": "조정에 앉아 도를 물으며 나라를 다스리고,"
     },
     {
         "hanja": "垂拱平章",
         "reading": "수공평장",
-        "translation": "옷자락을 늘어뜨리고 팔짱만 끼고 있어도 밝게 다스려진다."
+        "translation": "옷소매를 내리고 손을 맞잡은 채로도 천하가 평화로웠다."
     },
     {
         "hanja": "愛育黎首",
         "reading": "애육려수",
-        "translation": "백성을 친자식처럼 아껴 기르면,"
+        "translation": "검은 머리의 백성들을 사랑으로 기르고,"
     },
     {
         "hanja": "臣伏戎羌",
         "reading": "신복융강",
-        "translation": "모든 오랑캐(융강 - 서융, 강족)들도 신하가 되어 엎드리고,"
+        "translation": "서쪽의 융과 북쪽의 강나라까지 신하로 복종시켰다."
     },
     {
         "hanja": "遐邇壹體",

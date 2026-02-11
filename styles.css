@@ -592,3 +592,15 @@ rt {
     border-color: #4CAF50 !important;
     background: rgba(76, 175, 80, 0.1) !important;
 }
+
+/* Section Headers */
+.section-header {
+    width: 100%;
+    color: var(--accent-color);
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.5rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    font-family: var(--font-heading);
+}
