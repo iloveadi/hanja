@@ -2,42 +2,42 @@ const cheonjamunData = [
     {
         "hanja": "天地玄黃",
         "reading": "천지현황",
-        "translation": "하늘은 검고 땅은 누르며,"
+        "translation": "하늘은 검고 아득하며, 땅은 누렇고 광대하다."
     },
     {
         "hanja": "宇宙洪荒",
         "reading": "우주홍황",
-        "translation": "우주는 넓고 거칠다."
+        "translation": "우주는 끝없이 넓고, 태초의 모습은 거칠고 아득하다."
     },
     {
         "hanja": "日月盈昃",
         "reading": "일월영측",
-        "translation": "해와 달이 차고 기울며,"
+        "translation": "해와 달은 차오르면 다시 기울고,"
     },
     {
         "hanja": "辰宿列張",
         "reading": "진수열장",
-        "translation": "별들은 넓게 퍼져 있다."
+        "translation": "별자리들은 넓은 하늘에 차례로 펼쳐져 있다."
     },
     {
         "hanja": "寒來暑往",
         "reading": "한래서왕",
-        "translation": "찬 것이 오면 더운 것이 가고,"
+        "translation": "추위가 오면 더위가 물러가니 계절이 순환하고,"
     },
     {
         "hanja": "秋收冬藏",
         "reading": "추수동장",
-        "translation": "가을에 수확하며 겨울에 저장한다."
+        "translation": "가을에는 곡식을 거두고 겨울에는 이를 갈무리한다."
     },
     {
         "hanja": "閏餘成歲",
         "reading": "윤여성세",
-        "translation": "윤달이 남아 해를 이루고,"
+        "translation": "남은 날(윤달)을 모아 한 해를 이루고,"
     },
     {
         "hanja": "律呂調陽",
         "reading": "율려조양",
-        "translation": "율려가 양의 가락을 이루니,"
+        "translation": "만물의 소리(율려)는 음양의 조화를 이룬다."
     },
     {
         "hanja": "雲騰致雨",
