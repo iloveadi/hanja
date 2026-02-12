@@ -59,6 +59,8 @@ function goHome() {
 
 // --- Firebase Auth & Sync ---
 let currentUser = null;
+const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+let sessionCheckInterval = null;
 
 function initFirebase() {
     if (typeof firebase === 'undefined' || !firebase.apps.length) return;
@@ -68,6 +70,9 @@ function initFirebase() {
         updateAuthUI(user);
         if (user) {
             await syncUserData(user);
+            startSessionMonitoring();
+        } else {
+            stopSessionMonitoring();
         }
     });
 }
@@ -142,6 +147,51 @@ async function syncUserData(user) {
         }
     } catch (error) {
         console.error("Sync error:", error);
+    }
+}
+
+
+function startSessionMonitoring() {
+    // Set initial activity if not present
+    if (!localStorage.getItem('lastActivity')) {
+        updateLastActivity();
+    }
+
+    // Setup event listeners for activity
+    window.addEventListener('mousemove', updateLastActivity);
+    window.addEventListener('keydown', updateLastActivity);
+    window.addEventListener('click', updateLastActivity);
+    window.addEventListener('touchstart', updateLastActivity);
+
+    // Check timeout every 1 minute
+    sessionCheckInterval = setInterval(checkSessionTimeout, 60 * 1000);
+}
+
+function stopSessionMonitoring() {
+    window.removeEventListener('mousemove', updateLastActivity);
+    window.removeEventListener('keydown', updateLastActivity);
+    window.removeEventListener('click', updateLastActivity);
+    window.removeEventListener('touchstart', updateLastActivity);
+
+    if (sessionCheckInterval) {
+        clearInterval(sessionCheckInterval);
+        sessionCheckInterval = null;
+    }
+}
+
+function updateLastActivity() {
+    localStorage.setItem('lastActivity', Date.now().toString());
+}
+
+function checkSessionTimeout() {
+    const lastActivity = localStorage.getItem('lastActivity');
+    if (lastActivity) {
+        const inactiveTime = Date.now() - parseInt(lastActivity, 10);
+        if (inactiveTime > SESSION_TIMEOUT_MS) {
+            console.log("Session timed out. Logging out...");
+            alert("장시간 활동이 없어 로그아웃 되었습니다.");
+            logout();
+        }
     }
 }
 
@@ -617,13 +667,56 @@ function showSajaSohak(pushState = true) {
     }
 
     let currentSection = '';
+    let sectionCount = 0;
+
+    const navSelect = document.getElementById('saja-nav-select');
+    if (navSelect) {
+        navSelect.innerHTML = '<option value="" disabled selected>바로가기</option>';
+        navSelect.onchange = (e) => {
+            const targetId = e.target.value;
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                // Adjust scroll position for sticky header
+                const headerOffset = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        };
+    }
+
+    // Insert Intro Text
+    const introDiv = document.createElement('div');
+    introDiv.className = 'intro-text';
+    introDiv.innerHTML = `
+        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">나를 소중히 여기고 타인을 공경하는 예절의 첫걸음</p>
+        <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+    `;
+    container.appendChild(introDiv);
+
     sajaSohakData.forEach(item => {
         if (item.section !== currentSection) {
-            // Skip "Introduction" header
+            // Skip "Introduction" header if it exists (though we updated most)
+            // But we should probably display it if it's there, or handle it.
+            // If section is "Introduction", maybe skip adding to nav or give it a generic name?
+            // The user wants navigation.
+
+            // Only add header if it's not "Introduction" or if we want to show it. 
+            // Let's hide "Introduction" header if it's just the default remaining ones, 
+            // OR show it if it groups them.
+            // Current data has "Introduction" for the rest.
+
             if (item.section !== 'Introduction') {
+                sectionCount++;
+                const sectionId = `saja-sec-${sectionCount}`;
+
                 const sectionHeader = document.createElement('h3');
                 sectionHeader.className = 'saja-section-header';
                 sectionHeader.innerText = item.section;
+                sectionHeader.id = sectionId; // Add ID
                 sectionHeader.style.marginTop = '3rem';
                 sectionHeader.style.marginBottom = '1.5rem';
                 sectionHeader.style.color = 'var(--accent-color)';
@@ -631,6 +724,14 @@ function showSajaSohak(pushState = true) {
                 sectionHeader.style.paddingBottom = '0.5rem';
                 sectionHeader.style.fontSize = '1.4rem';
                 container.appendChild(sectionHeader);
+
+                // Add to Nav
+                if (navSelect) {
+                    const option = document.createElement('option');
+                    option.value = sectionId;
+                    option.innerText = item.section;
+                    navSelect.appendChild(option);
+                }
             }
             currentSection = item.section;
         }
@@ -664,18 +765,59 @@ function showCheonjamun(pushState = true) {
     if (toggleBtn) toggleBtn.innerText = '독음 끄기';
     container.classList.remove('hide-reading');
 
+    const navSelect = document.getElementById('cheonjamun-nav-select');
+    if (navSelect) {
+        navSelect.innerHTML = '<option value="" disabled selected>바로가기</option>';
+        navSelect.onchange = (e) => {
+            const targetId = e.target.value;
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                // Adjust scroll position for sticky header
+                const headerOffset = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        };
+    }
+
     if (!cheonjamunData || cheonjamunData.length === 0) {
         container.innerHTML = '<p style="text-align:center; padding: 3rem;">데이터가 없습니다.</p>';
         showView('cheonjamun-section');
         return;
     }
 
-    cheonjamunData.forEach(item => {
+    // Insert Intro Text
+    const introDiv = document.createElement('div');
+    introDiv.className = 'intro-text';
+    introDiv.innerHTML = `
+        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">하늘과 땅의 이치부터 인간의 도리까지, 1,000자로 읽는 고전의 지혜</p>
+        <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+    `;
+    container.appendChild(introDiv);
+
+    let sectionCount = 0;
+
+    cheonjamunData.forEach((item, index) => {
         if (item.section) {
+            sectionCount++;
+            const sectionId = `cheonjamun-sec-${sectionCount}`;
+
             const sectionHeader = document.createElement('h3');
             sectionHeader.className = 'section-header';
             sectionHeader.innerText = item.section;
+            sectionHeader.id = sectionId;
             container.appendChild(sectionHeader);
+
+            if (navSelect) {
+                const option = document.createElement('option');
+                option.value = sectionId;
+                option.innerText = item.section;
+                navSelect.appendChild(option);
+            }
         }
 
         const card = document.createElement('div');
