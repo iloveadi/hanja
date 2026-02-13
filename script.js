@@ -392,6 +392,13 @@ function setupEventListeners() {
     }
 }
 
+// 한자 텍스트에서 한글 조사를 작고 흐리게 표시
+function styleHanjaWithParticles(text) {
+    // 한글 조사 패턴
+    const particlePattern = /(는|이라|하고|하며|하나니|하여|하면|리오|이나|에|라|나|니라|로|로다|이로되|하사|이어늘|하시니|라하시니라)/g;
+    return text.replace(particlePattern, '<span class="particle">$1</span>');
+}
+
 function showView(viewId) {
     const sections = document.querySelectorAll('.view-section');
     sections.forEach(s => s.style.display = 'none');
@@ -1099,9 +1106,10 @@ function showDongmongChapter(chapter, pushState = true) {
             const card = document.createElement('div');
             card.className = 'analects-card';
             const rubyHtml = createDetailedRuby(item.hanja, item.reading);
+            const styledHanja = styleHanjaWithParticles(rubyHtml);
             card.innerHTML = `
                 <div class="analects-title">동몽선습 ${item.index}</div>
-                <div class="analects-content">${rubyHtml}</div>
+                <div class="analects-content">${styledHanja}</div>
                 <div class="analects-translation">${item.translation}</div>
                 ${item.description ? `<div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem; font-style: italic;">${item.description}</div>` : ''}
             `;
