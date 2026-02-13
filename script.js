@@ -3,6 +3,7 @@ let currentWriter = null;
 let currentHanja = null;
 let showReadings = true;
 let showSajaReadings = true;
+let showDongmongReadings = true;
 let showCheonjamunReadings = true;
 let showChuguReadings = true;
 let hideLearned = false;
@@ -366,10 +367,26 @@ function setupEventListeners() {
             const container = document.getElementById('chugu-container');
             if (showChuguReadings) {
                 container.classList.remove('hide-reading');
-                toggleChuguBtn.textContent = '독음 끄기';
+                toggleChuguBtn.innerText = '독음 끄기';
             } else {
                 container.classList.add('hide-reading');
-                toggleChuguBtn.textContent = '독음 켜기';
+                toggleChuguBtn.innerText = '독음 켜기';
+            }
+        });
+    }
+
+    // Toggle Reading in Dongmong
+    const toggleDongmongBtn = document.getElementById('toggle-dongmong-reading-btn');
+    if (toggleDongmongBtn) {
+        toggleDongmongBtn.addEventListener('click', () => {
+            showDongmongReadings = !showDongmongReadings;
+            const container = document.getElementById('dongmong-container');
+            if (showDongmongReadings) {
+                container.classList.remove('hide-reading');
+                toggleDongmongBtn.innerText = '독음 끄기';
+            } else {
+                container.classList.add('hide-reading');
+                toggleDongmongBtn.innerText = '독음 켜기';
             }
         });
     }
@@ -1054,10 +1071,16 @@ function showDongmongChapter(chapter, pushState = true) {
 
     menu.style.display = 'none';
     content.style.display = 'block';
-    toggleBtn.style.display = 'none'; // 독음 토글은 나중에 추가 가능
+    toggleBtn.style.display = 'block';
+    toggleBtn.textContent = showDongmongReadings ? '독음 끄기' : '독음 켜기';
     title.innerText = chapter.title;
 
     container.innerHTML = '';
+    if (!showDongmongReadings) {
+        container.classList.add('hide-reading');
+    } else {
+        container.classList.remove('hide-reading');
+    }
 
     const filteredData = dongmongData.filter(item => item.chapter === chapter.id);
 
