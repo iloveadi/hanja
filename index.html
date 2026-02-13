@@ -167,16 +167,19 @@
         <!-- Saja Sohaka Section -->
         <section id="saja-sohak-section" class="view-section" style="display: none;">
             <div class="sticky-nav">
-                <button class="nav-btn" onclick="goHome()">← 돌아가기</button>
+                <button class="nav-btn" onclick="goBackFromSajaSohak()">← 돌아가기</button>
                 <h2 id="saja-sohak-section-title">四字小學 (사자소학)</h2>
-                <select id="saja-nav-select" class="nav-select">
-                    <option value="" disabled selected>바로가기</option>
-                </select>
-                <button id="toggle-saja-reading-btn" class="nav-btn">독음 끄기</button>
+                <button id="toggle-saja-reading-btn" class="nav-btn" style="display: none;">독음 끄기</button>
             </div>
 
-            <div id="saja-sohak-container" class="analects-list">
-                <!-- Content injected via script -->
+            <!-- Saja Sohak Section Menu -->
+            <div id="saja-sohak-menu" class="menu-container">
+                <!-- Sections will be injected here -->
+            </div>
+
+            <!-- Saja Sohak Content List -->
+            <div id="saja-sohak-content" class="analects-list" style="display: none;">
+                <div id="saja-sohak-container"></div>
             </div>
         </section>
 

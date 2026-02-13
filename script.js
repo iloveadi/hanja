@@ -42,7 +42,12 @@ function handleState(state) {
             }
             break;
         case 'saja-sohak-section':
-            showSajaSohak(false);
+            if (state.chapterId) {
+                const chapter = sajaSohakChapters.find(c => c.id === state.chapterId);
+                if (chapter) showSajaSohakChapter(chapter, false);
+            } else {
+                showSajaSohak(false);
+            }
             break;
         case 'cheonjamun-section':
             if (state.chapterId) {
@@ -876,108 +881,112 @@ function createDetailedRuby(hanja, reading) {
 }
 
 function showSajaSohak(pushState = true) {
-    const container = document.getElementById('saja-sohak-container');
-    container.innerHTML = '';
-
-    // Reset toggle state
-    showSajaReadings = true;
+    const menu = document.getElementById('saja-sohak-menu');
+    const content = document.getElementById('saja-sohak-content');
     const toggleBtn = document.getElementById('toggle-saja-reading-btn');
-    if (toggleBtn) toggleBtn.innerText = '독음 끄기';
-    container.classList.remove('hide-reading');
+    const title = document.getElementById('saja-sohak-section-title');
 
-    if (!sajaSohakData || sajaSohakData.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding: 3rem;">데이터가 없습니다.</p>';
-        showView('saja-sohak-section');
-        return;
-    }
+    menu.style.display = 'grid';
+    content.style.display = 'none';
+    toggleBtn.style.display = 'none';
+    title.innerText = '四字小學 (사자소학) 목차';
 
-    let currentSection = '';
-    let sectionCount = 0;
+    menu.innerHTML = '';
 
-    const navSelect = document.getElementById('saja-nav-select');
-    if (navSelect) {
-        navSelect.innerHTML = '<option value="" disabled selected>바로가기</option>';
-        navSelect.onchange = (e) => {
-            const targetId = e.target.value;
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                // Adjust scroll position for sticky header
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
-        };
-    }
-
-    // Insert Intro Text
     const introDiv = document.createElement('div');
     introDiv.className = 'intro-text';
+    introDiv.style.gridColumn = '1 / -1';
+    introDiv.style.marginBottom = '2rem';
     introDiv.innerHTML = `
         <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">사람을 사랑하는 길부터 세상을 다스리는 법까지, 시대를 초월한 삶의 지침서</p>
         <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
     `;
-    container.appendChild(introDiv);
+    menu.appendChild(introDiv);
 
-    sajaSohakData.forEach(item => {
-        if (item.section !== currentSection) {
-            // Skip "Introduction" header if it exists (though we updated most)
-            // But we should probably display it if it's there, or handle it.
-            // If section is "Introduction", maybe skip adding to nav or give it a generic name?
-            // The user wants navigation.
-
-            // Only add header if it's not "Introduction" or if we want to show it. 
-            // Let's hide "Introduction" header if it's just the default remaining ones, 
-            // OR show it if it groups them.
-            // Current data has "Introduction" for the rest.
-
-            if (item.section !== 'Introduction') {
-                sectionCount++;
-                const sectionId = `saja-sec-${sectionCount}`;
-
-                const sectionHeader = document.createElement('h3');
-                sectionHeader.className = 'saja-section-header';
-                sectionHeader.innerText = item.section;
-                sectionHeader.id = sectionId; // Add ID
-                sectionHeader.style.marginTop = '3rem';
-                sectionHeader.style.marginBottom = '1.5rem';
-                sectionHeader.style.color = 'var(--accent-color)';
-                sectionHeader.style.borderBottom = '1px solid var(--border-color)';
-                sectionHeader.style.paddingBottom = '0.5rem';
-                sectionHeader.style.fontSize = '1.4rem';
-                container.appendChild(sectionHeader);
-
-                // Add to Nav
-                if (navSelect) {
-                    const option = document.createElement('option');
-                    option.value = sectionId;
-                    option.innerText = item.section;
-                    navSelect.appendChild(option);
-                }
-            }
-            currentSection = item.section;
+    sajaSohakChapters.forEach(ch => {
+        const hasData = sajaSohakData.some(item => item.chapter === ch.id);
+        const btn = document.createElement('button');
+        if (hasData) {
+            btn.className = 'menu-btn';
+            btn.innerHTML = `
+                <span class="btn-title">${ch.title}</span>
+                <span class="btn-desc">${ch.subtitle}</span>
+            `;
+            btn.onclick = () => showSajaSohakChapter(ch);
+        } else {
+            btn.className = 'menu-btn disabled';
+            btn.innerHTML = `
+                <span class="coming-soon-badge">준비 중</span>
+                <span class="btn-title">${ch.title}</span>
+                <span class="btn-desc">${ch.subtitle}</span>
+            `;
         }
-
-        const card = document.createElement('div');
-        card.className = 'analects-card';
-
-        // Ruby format: detailed char by char
-        const rubyHtml = createDetailedRuby(item.hanja, item.reading);
-
-        card.innerHTML = `
-            <div class="analects-content" style="font-size: 1.6rem; margin-bottom: 0.8rem; line-height: 2.2;">
-                ${rubyHtml} <span class="saja-suffix" style="font-size: 1.2rem; color: var(--text-secondary); margin-left: 5px;">${item.suffix}</span>
-            </div>
-            <div class="analects-translation" style="font-size: 1.1rem; color: #ddd;">${item.translation}</div>
-        `;
-        container.appendChild(card);
+        menu.appendChild(btn);
     });
 
     showView('saja-sohak-section');
     if (pushState) history.pushState({ view: 'saja-sohak-section' }, '', '');
+}
+
+function showSajaSohakChapter(chapter, pushState = true) {
+    const menu = document.getElementById('saja-sohak-menu');
+    const content = document.getElementById('saja-sohak-content');
+    const toggleBtn = document.getElementById('toggle-saja-reading-btn');
+    const title = document.getElementById('saja-sohak-section-title');
+    const container = document.getElementById('saja-sohak-container');
+
+    menu.style.display = 'none';
+    content.style.display = 'block';
+    toggleBtn.style.display = 'block';
+    toggleBtn.textContent = showSajaReadings ? '독음 끄기' : '독음 켜기';
+    title.innerText = chapter.title;
+
+    container.innerHTML = '';
+    if (!showSajaReadings) {
+        container.classList.add('hide-reading');
+    } else {
+        container.classList.remove('hide-reading');
+    }
+
+    const filteredData = sajaSohakData.filter(item => item.chapter === chapter.id);
+
+    if (filteredData.length === 0) {
+        container.innerHTML = '<p style="text-align:center; padding: 3rem; color:var(--text-secondary);">데이터 준비 중입니다.</p>';
+    } else {
+        const introDiv = document.createElement('div');
+        introDiv.className = 'intro-text';
+        introDiv.innerHTML = `
+            <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">${chapter.description}</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+        `;
+        container.appendChild(introDiv);
+
+        filteredData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'analects-card';
+            const rubyHtml = createDetailedRuby(item.hanja, item.reading);
+            card.innerHTML = `
+                <div class="analects-title">사자소학 ${item.index}</div>
+                <div class="analects-content">${rubyHtml} <span class="saja-suffix" style="font-size: 1.2rem; color: var(--text-secondary); margin-left: 5px;">${item.suffix || ''}</span></div>
+                <div class="analects-translation">${item.translation}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    showView('saja-sohak-section');
+    window.scrollTo(0, 0);
+
+    if (pushState) history.pushState({ view: 'saja-sohak-section', chapterId: chapter.id }, '', '');
+}
+
+function goBackFromSajaSohak() {
+    const menu = document.getElementById('saja-sohak-menu');
+    if (menu.style.display === 'none') {
+        showSajaSohak();
+    } else {
+        goHome();
+    }
 }
 
 function showCheonjamun(pushState = true) {
