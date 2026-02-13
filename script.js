@@ -49,6 +49,14 @@ function handleState(state) {
                 showSajaSohak(false);
             }
             break;
+        case 'dongmong-section':
+            if (state.chapterId) {
+                const chapter = dongmongChapters.find(c => c.id === state.chapterId);
+                if (chapter) showDongmongChapter(chapter, false);
+            } else {
+                showDongmong(false);
+            }
+            break;
         case 'cheonjamun-section':
             if (state.chapterId) {
                 const chapter = cheonjamunChapters.find(c => c.id === state.chapterId);
@@ -984,6 +992,83 @@ function goBackFromSajaSohak() {
     const menu = document.getElementById('saja-sohak-menu');
     if (menu.style.display === 'none') {
         showSajaSohak();
+    } else {
+        goHome();
+    }
+}
+
+function showDongmong(pushState = true) {
+    const menu = document.getElementById('dongmong-menu');
+    const content = document.getElementById('dongmong-content');
+    const toggleBtn = document.getElementById('toggle-dongmong-reading-btn');
+    const title = document.getElementById('dongmong-section-title');
+
+    menu.style.display = 'grid';
+    content.style.display = 'none';
+    toggleBtn.style.display = 'none';
+    title.innerText = '童蒙先習 (동몽선습) 목차';
+
+    menu.innerHTML = '';
+
+    const introDiv = document.createElement('div');
+    introDiv.className = 'intro-text';
+    introDiv.style.gridColumn = '1 / -1';
+    introDiv.style.marginBottom = '2rem';
+    introDiv.innerHTML = `
+        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">어린이를 위한 유교 윤리 입문서</p>
+        <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+    `;
+    menu.appendChild(introDiv);
+
+    dongmongChapters.forEach(ch => {
+        const hasData = dongmongData.some(item => item.chapter === ch.id);
+        const btn = document.createElement('button');
+        if (hasData) {
+            btn.className = 'menu-btn';
+            btn.innerHTML = `
+                <span class="btn-title">${ch.title}</span>
+                <span class="btn-desc">${ch.subtitle}</span>
+            `;
+            btn.onclick = () => showDongmongChapter(ch);
+        } else {
+            btn.className = 'menu-btn disabled';
+            btn.innerHTML = `
+                <span class="coming-soon-badge">준비 중</span>
+                <span class="btn-title">${ch.title}</span>
+                <span class="btn-desc">${ch.subtitle}</span>
+            `;
+        }
+        menu.appendChild(btn);
+    });
+
+    showView('dongmong-section');
+    if (pushState) history.pushState({ view: 'dongmong-section' }, '', '');
+}
+
+function showDongmongChapter(chapter, pushState = true) {
+    const menu = document.getElementById('dongmong-menu');
+    const content = document.getElementById('dongmong-content');
+    const toggleBtn = document.getElementById('toggle-dongmong-reading-btn');
+    const title = document.getElementById('dongmong-section-title');
+    const container = document.getElementById('dongmong-container');
+
+    menu.style.display = 'none';
+    content.style.display = 'block';
+    toggleBtn.style.display = 'block';
+    title.innerText = chapter.title;
+
+    container.innerHTML = '<p style="text-align:center; padding: 3rem; color:var(--text-secondary);">데이터 준비 중입니다.</p>';
+
+    showView('dongmong-section');
+    window.scrollTo(0, 0);
+
+    if (pushState) history.pushState({ view: 'dongmong-section', chapterId: chapter.id }, '', '');
+}
+
+function goBackFromDongmong() {
+    const menu = document.getElementById('dongmong-menu');
+    if (menu.style.display === 'none') {
+        showDongmong();
     } else {
         goHome();
     }
