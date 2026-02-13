@@ -45,7 +45,12 @@ function handleState(state) {
             showSajaSohak(false);
             break;
         case 'cheonjamun-section':
-            showCheonjamun(false);
+            if (state.chapterId) {
+                const chapter = cheonjamunChapters.find(c => c.id === state.chapterId);
+                if (chapter) showCheonjamunChapter(chapter, false);
+            } else {
+                showCheonjamun(false);
+            }
             break;
         case 'chugu-section':
             if (state.chapterId) {
@@ -976,90 +981,122 @@ function showSajaSohak(pushState = true) {
 }
 
 function showCheonjamun(pushState = true) {
-    const container = document.getElementById('cheonjamun-container');
-    container.innerHTML = '';
-
-    // Reset toggle state
-    showCheonjamunReadings = true;
+    const menu = document.getElementById('cheonjamun-menu');
+    const content = document.getElementById('cheonjamun-content');
     const toggleBtn = document.getElementById('toggle-cheonjamun-reading-btn');
-    if (toggleBtn) toggleBtn.innerText = '독음 끄기';
-    container.classList.remove('hide-reading');
+    const title = document.getElementById('cheonjamun-section-title');
 
-    const navSelect = document.getElementById('cheonjamun-nav-select');
-    if (navSelect) {
-        navSelect.innerHTML = '<option value="" disabled selected>바로가기</option>';
-        navSelect.onchange = (e) => {
-            const targetId = e.target.value;
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                // Adjust scroll position for sticky header
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
-        };
-    }
+    menu.style.display = 'grid';
+    content.style.display = 'none';
+    toggleBtn.style.display = 'none';
+    title.innerText = '千字文 (천자문) 목차';
 
-    if (!cheonjamunData || cheonjamunData.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding: 3rem;">데이터가 없습니다.</p>';
-        showView('cheonjamun-section');
-        return;
-    }
+    menu.innerHTML = '';
 
     // Insert Intro Text
     const introDiv = document.createElement('div');
     introDiv.className = 'intro-text';
+    introDiv.style.gridColumn = '1 / -1';
+    introDiv.style.marginBottom = '2rem';
     introDiv.innerHTML = `
         <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">사람을 사랑하는 길부터 세상을 다스리는 법까지, 시대를 초월한 삶의 지침서</p>
         <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
     `;
-    container.appendChild(introDiv);
+    menu.appendChild(introDiv);
 
-    let sectionCount = 0;
+    cheonjamunChapters.forEach(ch => {
+        const hasData = cheonjamunData.some(item => item.chapter === ch.id);
 
-    cheonjamunData.forEach((item, index) => {
-        if (item.section) {
-            sectionCount++;
-            const sectionId = `cheonjamun-sec-${sectionCount}`;
-
-            const sectionHeader = document.createElement('h3');
-            sectionHeader.className = 'section-header';
-            sectionHeader.innerText = item.section;
-            sectionHeader.id = sectionId;
-            container.appendChild(sectionHeader);
-
-            if (navSelect) {
-                const option = document.createElement('option');
-                option.value = sectionId;
-                option.innerText = item.section;
-                navSelect.appendChild(option);
-            }
+        const btn = document.createElement('button');
+        if (hasData) {
+            btn.className = 'menu-btn';
+            btn.innerHTML = `
+                <span class="btn-title">${ch.title}</span>
+                <span class="btn-desc">${ch.subtitle}</span>
+            `;
+            btn.onclick = () => showCheonjamunChapter(ch);
+        } else {
+            btn.className = 'menu-btn disabled';
+            btn.innerHTML = `
+                <span class="coming-soon-badge">준비 중</span>
+                <span class="btn-title">${ch.title}</span>
+                <span class="btn-desc">${ch.subtitle}</span>
+            `;
         }
-
-        const card = document.createElement('div');
-        card.className = 'analects-card';
-
-        const rubyHtml = createDetailedRuby(item.hanja, item.reading);
-
-        let contentStyle = "font-size: 1.6rem; margin-bottom: 0.8rem; line-height: 2.2;";
-        if (item.hanja.length > 4) {
-            // 8 char couplet
-            // Increase width or adjust style? Standard style should wrap or fit.
-        }
-
-        card.innerHTML = `
-            <div class="analects-content" style="${contentStyle}">
-                ${rubyHtml}
-            </div>
-            <div class="analects-translation" style="font-size: 1.1rem; color: #ddd;">${item.translation}</div>
-        `;
-        container.appendChild(card);
+        menu.appendChild(btn);
     });
 
     showView('cheonjamun-section');
     if (pushState) history.pushState({ view: 'cheonjamun-section' }, '', '');
+}
+
+function showCheonjamunChapter(chapter, pushState = true) {
+    const menu = document.getElementById('cheonjamun-menu');
+    const content = document.getElementById('cheonjamun-content');
+    const toggleBtn = document.getElementById('toggle-cheonjamun-reading-btn');
+    const title = document.getElementById('cheonjamun-section-title');
+    const container = document.getElementById('cheonjamun-container');
+
+    menu.style.display = 'none';
+    content.style.display = 'block';
+    toggleBtn.style.display = 'block';
+    toggleBtn.textContent = showCheonjamunReadings ? '독음 끄기' : '독음 켜기';
+    title.innerText = chapter.title;
+
+    container.innerHTML = '';
+    if (!showCheonjamunReadings) {
+        container.classList.add('hide-reading');
+    } else {
+        container.classList.remove('hide-reading');
+    }
+
+    const filteredData = cheonjamunData.filter(item => item.chapter === chapter.id);
+
+    if (filteredData.length === 0) {
+        const introDiv = document.createElement('div');
+        introDiv.className = 'intro-text';
+        introDiv.innerHTML = `
+            <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">${chapter.description}</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+        `;
+        container.appendChild(introDiv);
+        container.innerHTML += '<p style="text-align:center; padding: 3rem; color:var(--text-secondary);">데이터 준비 중입니다.</p>';
+    } else {
+        // Insert Intro Text
+        const introDiv = document.createElement('div');
+        introDiv.className = 'intro-text';
+        introDiv.innerHTML = `
+            <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">${chapter.description}</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+        `;
+        container.appendChild(introDiv);
+
+        filteredData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'analects-card';
+
+            const rubyContent = createDetailedRuby(item.hanja, item.reading);
+
+            card.innerHTML = `
+                <div class="analects-title">千字文 ${item.index}</div>
+                <div class="analects-content">${rubyContent}</div>
+                <div class="analects-translation">${item.translation}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    showView('cheonjamun-section');
+    window.scrollTo(0, 0);
+
+    if (pushState) history.pushState({ view: 'cheonjamun-section', chapterId: chapter.id }, '', '');
+}
+
+function goBackFromCheonjamun() {
+    const menu = document.getElementById('cheonjamun-menu');
+    if (menu.style.display === 'none') {
+        showCheonjamun();
+    } else {
+        goHome();
+    }
 }

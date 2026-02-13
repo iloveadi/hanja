@@ -3,1289 +3,1794 @@
  * 
  * 본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.
  */
+
+// 천자문 장(章) 정보 - 30개 섹션
+const cheonjamunChapters = [
+    { id: "sec1", title: "우주의 섭리와 자연", subtitle: "1~32자", description: "하늘과 땅, 해와 달, 별과 계절의 순환을 통해 우주의 질서를 노래합니다." },
+    { id: "sec2", title: "기상과 지형의 신비", subtitle: "33~64자", description: "구름과 비, 금과 옥, 과일과 채소 등 자연의 보물과 현상을 설명합니다." },
+    { id: "sec3", title: "생태계와 고대 역사", subtitle: "65~100자", description: "물고기와 새, 고대 제왕들의 업적과 문명의 시작을 기록합니다." },
+    { id: "sec4", title: "성군의 통치와 평화", subtitle: "101~136자", description: "요순과 탕무왕의 덕치와 평화로운 통치를 찬양합니다." },
+    { id: "sec5", title: "덕화의 영향력", subtitle: "137~168자", description: "덕이 온 세상에 미치는 영향과 태평성대의 모습을 그립니다." },
+    { id: "sec6", title: "신체와 효도", subtitle: "169~200자", description: "몸과 마음의 근본, 부모님의 은혜와 효도의 중요성을 강조합니다." },
+    { id: "sec7", title: "자기 성찰과 허물 고치기", subtitle: "201~232자", description: "허물을 고치고, 겸손하며, 믿음을 지키는 군자의 도리를 설명합니다." },
+    { id: "sec8", title: "지혜로운 삶의 태도", subtitle: "233~264자", description: "덕을 쌓고 성인이 되는 길, 올바른 삶의 자세를 가르칩니다." },
+    { id: "sec9", title: "언행의 조심과 물림", subtitle: "265~300자", description: "말과 행동을 조심하고 물러남을 아는 지혜를 논합니다." },
+    { id: "sec10", title: "포도와 스승 섬기기", subtitle: "301~336자", description: "스승을 섬기고 배움에 정진하는 자세를 강조합니다." },
+    { id: "sec11", title: "덕행과 명예의 향기", subtitle: "337~368자", description: "덕행이 쌓이면 명예가 따르는 이치를 설명합니다." },
+    { id: "sec12", title: "배움의 시작과 자세", subtitle: "369~400자", description: "학문을 시작하는 올바른 자세와 방법을 가르칩니다." },
+    { id: "sec13", title: "정치적 지혜와 국가 경영", subtitle: "401~432자", description: "나라를 다스리는 지혜와 정치의 도리를 논합니다." },
+    { id: "sec14", title: "가르침과 실천의 조화", subtitle: "433~464자", description: "배운 것을 실천하는 조화로운 삶을 강조합니다." },
+    { id: "sec15", title: "인자함과 공적의 기록", subtitle: "465~500자", description: "인자한 마음과 공적을 기록하는 중요성을 설명합니다." },
+    { id: "sec16", title: "제왕의 도성과 화려한 궁궐", subtitle: "501~536자", description: "제왕의 도성과 화려한 궁궐의 모습을 묘사합니다." },
+    { id: "sec17", title: "궁궐의 화려함과 장식", subtitle: "537~568자", description: "궁궐의 아름다운 장식과 건축미를 찬양합니다." },
+    { id: "sec18", title: "자식의 보고와 보물", subtitle: "569~600자", description: "귀한 보물과 자식의 소중함을 논합니다." },
+    { id: "sec19", title: "조정의 위엄과 신하의 도리", subtitle: "601~632자", description: "조정의 위엄과 신하가 지켜야 할 도리를 설명합니다." },
+    { id: "sec20", title: "궁적의 가득과 역사적 명성", subtitle: "633~664자", description: "역사에 남을 공적과 명성을 논합니다." },
+    { id: "sec21", title: "지혜와 용맹의 장수들", subtitle: "665~700자", description: "지혜롭고 용맹한 장수들의 업적을 찬양합니다." },
+    { id: "sec22", title: "법도와 뛰어난 장수들", subtitle: "701~736자", description: "법도를 지키며 뛰어난 장수들의 모습을 그립니다." },
+    { id: "sec23", title: "광활한 국토의 모습", subtitle: "737~768자", description: "넓고 아름다운 국토의 풍경을 묘사합니다." },
+    { id: "sec24", title: "성군의 통치와 자연의 조화", subtitle: "769~800자", description: "성군의 통치와 자연이 조화를 이루는 모습을 그립니다." },
+    { id: "sec25", title: "부지런한 삶과 추석의 기쁨", subtitle: "801~832자", description: "부지런한 삶과 풍요로운 수확의 기쁨을 노래합니다." },
+    { id: "sec26", title: "중용의 도리와 겸손", subtitle: "833~864자", description: "중용의 도리와 겸손한 자세를 강조합니다." },
+    { id: "sec27", title: "인행의 경계와 임상의 도리", subtitle: "865~900자", description: "언행을 경계하고 임금을 섬기는 도리를 설명합니다." },
+    { id: "sec28", title: "자연 속의 은거와 소박한 즐거움", subtitle: "901~936자", description: "자연 속에서 은거하며 소박한 즐거움을 누리는 삶을 그립니다." },
+    { id: "sec29", title: "소박한 전원생활의 풍경", subtitle: "937~968자", description: "전원에서의 소박하고 평화로운 생활을 묘사합니다." },
+    { id: "sec30", title: "학문의 완성(종결)", subtitle: "969~1000자", description: "학문의 완성과 천자문의 마무리를 선언합니다." }
+];
+
 const cheonjamunData = [
     {
         "hanja": "天地玄黃",
         "reading": "천지현황",
         "translation": "하늘은 검고 아득하며, 땅은 누렇고 광대하다.",
-        "section": "1. 우주의 섭리와 자연 (1~32자)"
+        "index": "1",
+        "chapter": "sec1"
     },
     {
         "hanja": "宇宙洪荒",
         "reading": "우주홍황",
-        "translation": "우주는 끝없이 넓고, 태초의 모습은 거칠고 아득하다."
+        "translation": "우주는 끝없이 넓고, 태초의 모습은 거칠고 아득하다.",
+        "index": "2",
+        "chapter": "sec1"
     },
     {
         "hanja": "日月盈昃",
         "reading": "일월영측",
-        "translation": "해와 달은 차오르면 다시 기울고,"
+        "translation": "해와 달은 차오르면 다시 기울고,",
+        "index": "3",
+        "chapter": "sec1"
     },
     {
         "hanja": "辰宿列張",
         "reading": "진수열장",
-        "translation": "별자리들은 넓은 하늘에 차례로 펼쳐져 있다."
+        "translation": "별자리들은 넓은 하늘에 차례로 펼쳐져 있다.",
+        "index": "4",
+        "chapter": "sec1"
     },
     {
         "hanja": "寒來暑往",
         "reading": "한래서왕",
-        "translation": "추위가 오면 더위가 물러가니 계절이 순환하고,"
+        "translation": "추위가 오면 더위가 물러가니 계절이 순환하고,",
+        "index": "5",
+        "chapter": "sec1"
     },
     {
         "hanja": "秋收冬藏",
         "reading": "추수동장",
-        "translation": "가을에는 곡식을 거두고 겨울에는 이를 갈무리한다."
+        "translation": "가을에는 곡식을 거두고 겨울에는 이를 갈무리한다.",
+        "index": "6",
+        "chapter": "sec1"
     },
     {
         "hanja": "閏餘成歲",
         "reading": "윤여성세",
-        "translation": "남은 날들을 모아 윤달을 만듦으로써 한 해를 이루고,"
+        "translation": "남은 날들을 모아 윤달을 만듦으로써 한 해를 이루고,",
+        "index": "7",
+        "chapter": "sec1"
     },
     {
         "hanja": "律呂調陽",
         "reading": "율려조양",
-        "translation": "만물의 가락은 음과 양의 기운을 조화롭게 한다."
+        "translation": "만물의 가락은 음과 양의 기운을 조화롭게 한다.",
+        "index": "8",
+        "chapter": "sec1"
     },
     {
         "hanja": "雲騰致雨",
         "reading": "운등치우",
         "translation": "구름이 위로 솟아올라 비를 내리게 하고,",
-        "section": "2. 기상과 지형의 신비 (33~64자)"
+        "index": "9",
+        "chapter": "sec2"
     },
     {
         "hanja": "露結爲霜",
         "reading": "노결위상",
-        "translation": "이슬이 맺혀 단단한 서리가 된다."
+        "translation": "이슬이 맺혀 단단한 서리가 된다.",
+        "index": "10",
+        "chapter": "sec2"
     },
     {
         "hanja": "金生麗水",
         "reading": "금생여수",
-        "translation": "금은 여수라는 강에서 나고,"
+        "translation": "금은 여수라는 강에서 나고,",
+        "index": "11",
+        "chapter": "sec2"
     },
     {
         "hanja": "玉出崑岡",
         "reading": "옥출곤강",
-        "translation": "옥은 곤륜산 줄기에서 난다."
+        "translation": "옥은 곤륜산 줄기에서 난다.",
+        "index": "12",
+        "chapter": "sec2"
     },
     {
         "hanja": "劍號巨闕",
         "reading": "검호거궐",
-        "translation": "검 중에는 '거궐'이라는 이름의 검이 으뜸이고,"
+        "translation": "검 중에는 '거궐'이라는 이름의 검이 으뜸이고,",
+        "index": "13",
+        "chapter": "sec2"
     },
     {
         "hanja": "珠稱夜光",
         "reading": "주칭야광",
-        "translation": "구슬 중에는 '야광주'가 가장 칭송받는다."
+        "translation": "구슬 중에는 '야광주'가 가장 칭송받는다.",
+        "index": "14",
+        "chapter": "sec2"
     },
     {
         "hanja": "果珍李柰",
         "reading": "과진리내",
-        "translation": "과일 중에는 오얏과 능금이 보배롭고,"
+        "translation": "과일 중에는 오얏과 능금이 보배롭고,",
+        "index": "15",
+        "chapter": "sec2"
     },
     {
         "hanja": "菜重芥薑",
         "reading": "채중개강",
-        "translation": "채소 중에는 겨자와 생강이 중요하다."
+        "translation": "채소 중에는 겨자와 생강이 중요하다.",
+        "index": "16",
+        "chapter": "sec2"
     },
     {
         "hanja": "海鹹河淡",
         "reading": "해함하담",
         "translation": "바닷물은 짜고 민물은 담백하며,",
-        "section": "3. 생태계와 고대 역사 (65~100자)"
+        "index": "17",
+        "chapter": "sec3"
     },
     {
         "hanja": "鱗潛羽翔",
         "reading": "인잠우상",
-        "translation": "비늘 있는 물고기는 잠기고 깃털 있는 새는 날아다닌다."
+        "translation": "비늘 있는 물고기는 잠기고 깃털 있는 새는 날아다닌다.",
+        "index": "18",
+        "chapter": "sec3"
     },
     {
         "hanja": "龍師火帝",
         "reading": "용사화제",
-        "translation": "복희씨는 용으로 관직을 이름 지었고, 신농씨는 불로 칭하였다."
+        "translation": "복희씨는 용으로 관직을 이름 지었고, 신농씨는 불로 칭하였다.",
+        "index": "19",
+        "chapter": "sec3"
     },
     {
         "hanja": "鳥官人皇",
         "reading": "조관인황",
-        "translation": "소호씨는 새로 관직을 불렀으며, 인황(황제)은 문물을 정비했다."
+        "translation": "소호씨는 새로 관직을 불렀으며, 인황(황제)은 문물을 정비했다.",
+        "index": "20",
+        "chapter": "sec3"
     },
     {
         "hanja": "始制文字",
         "reading": "시제문자",
-        "translation": "이때 비로소 글자가 만들어졌으며,"
+        "translation": "이때 비로소 글자가 만들어졌으며,",
+        "index": "21",
+        "chapter": "sec3"
     },
     {
         "hanja": "乃服衣裳",
         "reading": "내복의상",
-        "translation": "이에 맞춰 옷과 치마를 입기 시작했다."
+        "translation": "이에 맞춰 옷과 치마를 입기 시작했다.",
+        "index": "22",
+        "chapter": "sec3"
     },
     {
         "hanja": "推位讓國",
         "reading": "퇴위양국",
         "translation": "왕위를 미루어 나라를 양보하니,",
-        "section": "4. 성군의 통치와 평화 (101~136자)"
+        "index": "23",
+        "chapter": "sec3"
     },
     {
         "hanja": "有虞陶唐",
         "reading": "유우도당",
-        "translation": "유우씨(순임금)와 도당씨(요임금)가 그러하였다."
+        "translation": "유우씨(순임금)와 도당씨(요임금)가 그러하였다.",
+        "index": "24",
+        "chapter": "sec3"
     },
     {
         "hanja": "弔民伐罪",
         "reading": "조민벌죄",
-        "translation": "백성을 위로하고 죄지은 자를 벌한 것은,"
+        "translation": "백성을 위로하고 죄지은 자를 벌한 것은,",
+        "index": "25",
+        "chapter": "sec3"
     },
     {
         "hanja": "周發殷湯",
         "reading": "주발은탕",
-        "translation": "주나라 발(무왕)과 은나라 탕왕이었다."
+        "translation": "주나라 발(무왕)과 은나라 탕왕이었다.",
+        "index": "26",
+        "chapter": "sec4"
     },
     {
         "hanja": "坐朝問道",
         "reading": "좌조문도",
-        "translation": "조정에 앉아 도를 물으며 나라를 다스리고,"
+        "translation": "조정에 앉아 도를 물으며 나라를 다스리고,",
+        "index": "27",
+        "chapter": "sec4"
     },
     {
         "hanja": "垂拱平章",
         "reading": "수공평장",
-        "translation": "옷소매를 내리고 손을 맞잡은 채로도 천하가 평화로웠다."
+        "translation": "옷소매를 내리고 손을 맞잡은 채로도 천하가 평화로웠다.",
+        "index": "28",
+        "chapter": "sec4"
     },
     {
         "hanja": "愛育黎首",
         "reading": "애육려수",
-        "translation": "검은 머리의 백성들을 사랑으로 기르고,"
+        "translation": "검은 머리의 백성들을 사랑으로 기르고,",
+        "index": "29",
+        "chapter": "sec4"
     },
     {
         "hanja": "臣伏戎羌",
         "reading": "신복융강",
-        "translation": "서쪽의 융과 북쪽의 강나라까지 신하로 복종시켰다."
+        "translation": "서쪽의 융과 북쪽의 강나라까지 신하로 복종시켰다.",
+        "index": "30",
+        "chapter": "sec4"
     },
     {
         "hanja": "遐邇壹體",
         "reading": "하이일체",
         "translation": "멀고 가까운 곳이 모두 한 몸이 되었고,",
-        "section": "5. 덕화의 영향력 (137~168자)"
+        "index": "31",
+        "chapter": "sec4"
     },
     {
         "hanja": "率賓歸王",
         "reading": "솔빈귀왕",
-        "translation": "모든 손님과 백성들이 왕에게 귀의하였다."
+        "translation": "모든 손님과 백성들이 왕에게 귀의하였다.",
+        "index": "32",
+        "chapter": "sec4"
     },
     {
         "hanja": "鳴鳳在樹",
         "reading": "명봉재수",
-        "translation": "우는 봉황은 나무 위에 머물고,"
+        "translation": "우는 봉황은 나무 위에 머물고,",
+        "index": "33",
+        "chapter": "sec4"
     },
     {
         "hanja": "白駒食場",
         "reading": "백구식장",
-        "translation": "흰 망아지는 마당의 풀을 뜯으니 태평성대로다."
+        "translation": "흰 망아지는 마당의 풀을 뜯으니 태평성대로다.",
+        "index": "34",
+        "chapter": "sec4"
     },
     {
         "hanja": "化被草木",
         "reading": "화피초목",
-        "translation": "덕화가 풀과 나무에까지 미치고,"
+        "translation": "덕화가 풀과 나무에까지 미치고,",
+        "index": "35",
+        "chapter": "sec5"
     },
     {
         "hanja": "賴及萬方",
         "reading": "뇌급만방",
-        "translation": "그 혜택이 온 세상 모든 곳에 닿았다."
+        "translation": "그 혜택이 온 세상 모든 곳에 닿았다.",
+        "index": "36",
+        "chapter": "sec5"
     },
     {
         "hanja": "蓋此身髮",
         "reading": "개차신발",
         "translation": "대저 이 몸과 머리카락은,",
-        "section": "6. 신체와 효도 (169~200자)"
+        "index": "37",
+        "chapter": "sec5"
     },
     {
         "hanja": "四大五常",
         "reading": "사대오상",
-        "translation": "네 가지 큰 원소(지수화풍)와 다섯 가지 떳떳한 도리(인치예신업)로 이루어졌다."
-    },
-    {
-        "hanja": "恭惟鞠養",
-        "reading": "공유국양",
-        "translation": "부모님께서 길러주신 은혜를 공손히 생각하니,"
+        "translation": "네 가지 큰 원소(지수화풍)와 다섯 가지 떳떳한 도리(인치예신업)로 이루어졌다.",
+        "index": "38",
+        "chapter": "sec5"
     },
     {
         "hanja": "恭惟鞠養",
         "reading": "공유국양",
         "translation": "부모님께서 길러주신 은혜를 공손히 생각하니,",
-        "type": "couplet_first"
+        "index": "39",
+        "chapter": "sec5"
+    },
+    {
+        "hanja": "恭惟鞠養",
+        "reading": "공유국양",
+        "translation": "부모님께서 길러주신 은혜를 공손히 생각하니,",
+        "type": "couplet_first",
+        "index": "40",
+        "chapter": "sec5"
     },
     {
         "hanja": "豈敢毀傷",
         "reading": "기감훼상",
         "translation": "어찌 감히 몸을 훼손하거나 상하게 하겠는가.",
-        "type": "couplet_second"
-    },
-    {
-        "hanja": "女慕貞烈",
-        "reading": "여모정렬",
-        "translation": "여자는 정숙하고 곧은 절개를 사모하고,"
+        "type": "couplet_second",
+        "index": "41",
+        "chapter": "sec5"
     },
     {
         "hanja": "女慕貞烈",
         "reading": "여모정렬",
         "translation": "여자는 정숙하고 곧은 절개를 사모하고,",
-        "type": "couplet_first"
+        "index": "42",
+        "chapter": "sec5"
+    },
+    {
+        "hanja": "女慕貞烈",
+        "reading": "여모정렬",
+        "translation": "여자는 정숙하고 곧은 절개를 사모하고,",
+        "type": "couplet_first",
+        "index": "43",
+        "chapter": "sec6"
     },
     {
         "hanja": "男效才良",
         "reading": "남효재량",
         "translation": "남자는 재능 있고 어진 사람을 본받아야 한다.",
-        "type": "couplet_second"
+        "type": "couplet_second",
+        "index": "44",
+        "chapter": "sec6"
     },
     {
         "hanja": "知過必改",
         "reading": "지과필개",
         "translation": "허물을 알게 되면 반드시 고쳐야 하고,",
-        "section": "7. 자기 성찰과 허물 고치기 (201~232자)"
+        "index": "45",
+        "chapter": "sec6"
     },
     {
         "hanja": "得能莫忘",
         "reading": "득능막망",
-        "translation": "능히 얻은 바(배운 것)는 잊지 않도록 노력해야 한다."
+        "translation": "능히 얻은 바(배운 것)는 잊지 않도록 노력해야 한다.",
+        "index": "46",
+        "chapter": "sec6"
     },
     {
         "hanja": "罔談彼短",
         "reading": "망담피단",
-        "translation": "다른 사람의 단점을 함부로 말하지 말고,"
+        "translation": "다른 사람의 단점을 함부로 말하지 말고,",
+        "index": "47",
+        "chapter": "sec6"
     },
     {
         "hanja": "靡恃己長",
         "reading": "미시기장",
-        "translation": "나의 장점을 믿고 뽐내지 말아야 한다."
+        "translation": "나의 장점을 믿고 뽐내지 말아야 한다.",
+        "index": "48",
+        "chapter": "sec6"
     },
     {
         "hanja": "信使可覆",
         "reading": "신사가복",
-        "translation": "믿음은 다시 되풀이하여 검토해도 변함이 없어야 하고,"
+        "translation": "믿음은 다시 되풀이하여 검토해도 변함이 없어야 하고,",
+        "index": "49",
+        "chapter": "sec6"
     },
     {
         "hanja": "器欲難量",
         "reading": "기욕난량",
-        "translation": "사람의 그릇은 헤아리기 어려울 정도로 깊고 넓어야 한다."
+        "translation": "사람의 그릇은 헤아리기 어려울 정도로 깊고 넓어야 한다.",
+        "index": "50",
+        "chapter": "sec6"
     },
     {
         "hanja": "墨悲絲染",
         "reading": "묵비사염",
         "translation": "묵자는 흰 실이 물드는 것을 보고 슬퍼하였고,",
-        "section": "8. 지혜로운 삶의 태도 (233~264자)"
+        "index": "51",
+        "chapter": "sec7"
     },
     {
         "hanja": "詩讚羔羊",
         "reading": "시찬고양",
-        "translation": "시경은 양의 가죽옷을 입은 관리의 절개를 찬양하였다."
+        "translation": "시경은 양의 가죽옷을 입은 관리의 절개를 찬양하였다.",
+        "index": "52",
+        "chapter": "sec7"
     },
     {
         "hanja": "景行維賢",
         "reading": "경행유현",
-        "translation": "큰 길을 가듯 훌륭한 행실을 하면 어진 사람이 되고,"
+        "translation": "큰 길을 가듯 훌륭한 행실을 하면 어진 사람이 되고,",
+        "index": "53",
+        "chapter": "sec7"
     },
     {
         "hanja": "克念作聖",
         "reading": "극념작성",
-        "translation": "사사로운 생각을 이겨내고 올바르게 생각하면 성인이 된다."
+        "translation": "사사로운 생각을 이겨내고 올바르게 생각하면 성인이 된다.",
+        "index": "54",
+        "chapter": "sec7"
     },
     {
         "hanja": "德建名立",
         "reading": "덕건명립",
-        "translation": "덕이 바로 서면 명성은 자연스럽게 세워지며,"
+        "translation": "덕이 바로 서면 명성은 자연스럽게 세워지며,",
+        "index": "55",
+        "chapter": "sec7"
     },
     {
         "hanja": "形端表正",
         "reading": "형단표정",
-        "translation": "몸가짐이 단정하면 겉모습도 바르게 나타난다."
+        "translation": "몸가짐이 단정하면 겉모습도 바르게 나타난다.",
+        "index": "56",
+        "chapter": "sec7"
     },
     {
         "hanja": "空谷傳聲",
         "reading": "공곡전성",
         "translation": "빈 골짜기에서도 소리는 전해져 메아리가 남고,",
-        "section": "9. 언행의 조심과 울림 (265~300자)"
+        "index": "57",
+        "chapter": "sec7"
     },
     {
         "hanja": "虛堂習聽",
         "reading": "허당습청",
-        "translation": "빈 대합실에서도 소리는 들리기 마련이다."
+        "translation": "빈 대합실에서도 소리는 들리기 마련이다.",
+        "index": "58",
+        "chapter": "sec7"
     },
     {
         "hanja": "禍因惡積",
         "reading": "화인악적",
-        "translation": "재앙은 악을 쌓음으로 인하여 생겨나고,"
+        "translation": "재앙은 악을 쌓음으로 인하여 생겨나고,",
+        "index": "59",
+        "chapter": "sec8"
     },
     {
         "hanja": "福緣善慶",
         "reading": "복연선경",
-        "translation": "복은 선한 일을 하는 경사스러운 마음에서 비롯된다."
+        "translation": "복은 선한 일을 하는 경사스러운 마음에서 비롯된다.",
+        "index": "60",
+        "chapter": "sec8"
     },
     {
         "hanja": "尺璧非寶",
         "reading": "척벽비보",
-        "translation": "한 자나 되는 커다란 구슬이 보배가 아니라,"
+        "translation": "한 자나 되는 커다란 구슬이 보배가 아니라,",
+        "index": "61",
+        "chapter": "sec8"
     },
     {
         "hanja": "寸陰是競",
         "reading": "촌음시경",
-        "translation": "아주 짧은 시간(촌음)이라도 아끼며 다투어야 한다."
+        "translation": "아주 짧은 시간(촌음)이라도 아끼며 다투어야 한다.",
+        "index": "62",
+        "chapter": "sec8"
     },
     {
         "hanja": "資父事師",
         "reading": "자부사사",
         "translation": "아버지를 바탕으로 삼아 스승을 섬겨야 하니,",
-        "section": "10. 효도와 스승 섬기기 (301~336자)"
+        "index": "63",
+        "chapter": "sec8"
     },
     {
         "hanja": "曰嚴與敬",
         "reading": "왈엄여경",
-        "translation": "이를 엄격함과 공경함이라 말한다."
+        "translation": "이를 엄격함과 공경함이라 말한다.",
+        "index": "64",
+        "chapter": "sec8"
     },
     {
         "hanja": "孝當竭力",
         "reading": "효당갈력",
-        "translation": "부모님께 효도함에는 마땅히 힘을 다해야 하고,"
+        "translation": "부모님께 효도함에는 마땅히 힘을 다해야 하고,",
+        "index": "65",
+        "chapter": "sec8"
     },
     {
         "hanja": "忠則盡命",
         "reading": "충칙진명",
-        "translation": "임금에게 충성함에는 곧 목숨을 다해야 한다."
+        "translation": "임금에게 충성함에는 곧 목숨을 다해야 한다.",
+        "index": "66",
+        "chapter": "sec8"
     },
     {
         "hanja": "臨深履薄",
         "reading": "임심이박",
-        "translation": "깊은 못에 임하듯, 얇은 얼음을 밟듯 늘 조심하며,"
+        "translation": "깊은 못에 임하듯, 얇은 얼음을 밟듯 늘 조심하며,",
+        "index": "67",
+        "chapter": "sec9"
     },
     {
         "hanja": "夙興溫凊",
         "reading": "숙흥온청",
-        "translation": "아침 일찍 일어나 부모님 잠자리의 온도를 살피고 정성껏 모셔야 한다."
+        "translation": "아침 일찍 일어나 부모님 잠자리의 온도를 살피고 정성껏 모셔야 한다.",
+        "index": "68",
+        "chapter": "sec9"
     },
     {
         "hanja": "似蘭斯馨",
         "reading": "사란사형",
         "translation": "난초의 향기가 멀리 퍼지는 것과 같이 덕행을 쌓고,",
-        "section": "11. 덕행과 명예의 향기 (337~368자)"
+        "index": "69",
+        "chapter": "sec9"
     },
     {
         "hanja": "如松之盛",
         "reading": "여송지성",
-        "translation": "소나무가 늘 푸르고 무성하듯 절개를 지켜야 한다."
+        "translation": "소나무가 늘 푸르고 무성하듯 절개를 지켜야 한다.",
+        "index": "70",
+        "chapter": "sec9"
     },
     {
         "hanja": "川流不息",
         "reading": "천류불식",
-        "translation": "시냇물이 쉬지 않고 흐르는 것처럼 꾸준히 정진하면,"
+        "translation": "시냇물이 쉬지 않고 흐르는 것처럼 꾸준히 정진하면,",
+        "index": "71",
+        "chapter": "sec9"
     },
     {
         "hanja": "淵澄取映",
         "reading": "연징취영",
-        "translation": "연못이 맑으면 사물이 비치듯 마음도 명징해진다."
+        "translation": "연못이 맑으면 사물이 비치듯 마음도 명징해진다.",
+        "index": "72",
+        "chapter": "sec9"
     },
     {
         "hanja": "容止若思",
         "reading": "용지약사",
-        "translation": "몸가짐은 항상 생각하는 듯 신중하게 하고,"
+        "translation": "몸가짐은 항상 생각하는 듯 신중하게 하고,",
+        "index": "73",
+        "chapter": "sec9"
     },
     {
         "hanja": "言辭安定",
         "reading": "언사안정",
-        "translation": "말씨는 차분하고 안정되게 해야 한다."
+        "translation": "말씨는 차분하고 안정되게 해야 한다.",
+        "index": "74",
+        "chapter": "sec9"
     },
     {
         "hanja": "篤初誠美",
         "reading": "독초성미",
         "translation": "처음을 도탑게 함(시작을 잘하는 것)은 진실로 아름다운 일이며,",
-        "section": "12. 배움의 시작과 자세 (369~400자)"
+        "index": "75",
+        "chapter": "sec9"
     },
     {
         "hanja": "愼終宜令",
         "reading": "신종의령",
-        "translation": "마무리를 신중히 하여 끝을 좋게 하는 것은 마땅히 본받을 만하다."
+        "translation": "마무리를 신중히 하여 끝을 좋게 하는 것은 마땅히 본받을 만하다.",
+        "index": "76",
+        "chapter": "sec10"
     },
     {
         "hanja": "榮業所基",
         "reading": "영업소기",
-        "translation": "영화로운 업적은 이러한 기본기에서 비롯되는 것이니,"
+        "translation": "영화로운 업적은 이러한 기본기에서 비롯되는 것이니,",
+        "index": "77",
+        "chapter": "sec10"
     },
     {
         "hanja": "籍甚無竟",
         "reading": "적심무경",
-        "translation": "그 명성이 널리 퍼져 끝이 없게 된다."
+        "translation": "그 명성이 널리 퍼져 끝이 없게 된다.",
+        "index": "78",
+        "chapter": "sec10"
     },
     {
         "hanja": "學優登仕",
         "reading": "학우등사",
-        "translation": "배운 것이 넉넉하면 벼슬길에 올라,"
+        "translation": "배운 것이 넉넉하면 벼슬길에 올라,",
+        "index": "79",
+        "chapter": "sec10"
     },
     {
         "hanja": "攝職從政",
         "reading": "섭직종정",
-        "translation": "직책을 맡아 정사에 참여하게 된다."
+        "translation": "직책을 맡아 정사에 참여하게 된다.",
+        "index": "80",
+        "chapter": "sec10"
     },
     {
         "hanja": "存以甘棠",
         "reading": "존이감당",
         "translation": "소공의 덕화가 팥배나무(감당)에 남아있듯 선정을 베풀고,",
-        "section": "13. 정치적 지혜와 국가 경영 (401~432자)"
+        "index": "81",
+        "chapter": "sec10"
     },
     {
         "hanja": "去而益詠",
         "reading": "거이익영",
-        "translation": "그가 떠난 뒤에도 백성들은 더욱 그를 기리며 노래한다."
+        "translation": "그가 떠난 뒤에도 백성들은 더욱 그를 기리며 노래한다.",
+        "index": "82",
+        "chapter": "sec10"
     },
     {
         "hanja": "樂殊貴賤",
         "reading": "악수귀천",
-        "translation": "음악은 신분의 높고 낮음에 따라 차례가 있고,"
+        "translation": "음악은 신분의 높고 낮음에 따라 차례가 있고,",
+        "index": "83",
+        "chapter": "sec10"
     },
     {
         "hanja": "禮別尊卑",
         "reading": "예별존비",
-        "translation": "예절은 존비의 관계를 나누어 질서를 세운다."
+        "translation": "예절은 존비의 관계를 나누어 질서를 세운다.",
+        "index": "84",
+        "chapter": "sec10"
     },
     {
         "hanja": "上和下睦",
         "reading": "상화하목",
-        "translation": "위에서 화합하고 아래에서 화목하니,"
+        "translation": "위에서 화합하고 아래에서 화목하니,",
+        "index": "85",
+        "chapter": "sec11"
     },
     {
         "hanja": "夫唱婦隨",
         "reading": "부창부수",
-        "translation": "남편이 부르면 아내가 따르듯 가정도 조화롭다."
+        "translation": "남편이 부르면 아내가 따르듯 가정도 조화롭다.",
+        "index": "86",
+        "chapter": "sec11"
     },
     {
         "hanja": "外受傅訓",
         "reading": "외수부훈",
         "translation": "밖으로는 스승의 가르침을 받고,",
-        "section": "14. 가르침과 실천의 조화 (433~464자)"
+        "index": "87",
+        "chapter": "sec11"
     },
     {
         "hanja": "入奉母儀",
         "reading": "입봉모의",
-        "translation": "안으로는 어머니의 가르침과 법도를 받들어야 한다."
+        "translation": "안으로는 어머니의 가르침과 법도를 받들어야 한다.",
+        "index": "88",
+        "chapter": "sec11"
     },
     {
         "hanja": "諸姑伯叔",
         "reading": "제고백숙",
-        "translation": "고모와 백부, 숙부 등 친척들을 정성껏 모시고,"
+        "translation": "고모와 백부, 숙부 등 친척들을 정성껏 모시고,",
+        "index": "89",
+        "chapter": "sec11"
     },
     {
         "hanja": "猶子比兒",
         "reading": "유자비아",
-        "translation": "조카들도 자신의 아이처럼 아끼고 사랑해야 한다."
+        "translation": "조카들도 자신의 아이처럼 아끼고 사랑해야 한다.",
+        "index": "90",
+        "chapter": "sec11"
     },
     {
         "hanja": "弟道進連",
         "reading": "제도진련",
-        "translation": "친구를 사귐에는 우애의 도리로 나아가고,"
+        "translation": "친구를 사귐에는 우애의 도리로 나아가고,",
+        "index": "91",
+        "chapter": "sec11"
     },
     {
         "hanja": "切磨箴規",
         "reading": "절마잠규",
-        "translation": "서로 절차탁마하며 잘못을 경계하고 바로잡아 주어야 한다."
+        "translation": "서로 절차탁마하며 잘못을 경계하고 바로잡아 주어야 한다.",
+        "index": "92",
+        "chapter": "sec11"
     },
     {
         "hanja": "仁慈隱惻",
         "reading": "인자은측",
         "translation": "인자함과 측은하게 여기는 마음을 간직하며,",
-        "section": "15. 인자함과 공적의 기록 (465~500자)"
+        "index": "93",
+        "chapter": "sec12"
     },
     {
         "hanja": "造次弗離",
         "reading": "조차불리",
-        "translation": "잠시라도 그 마음에서 멀어지지 않도록 해야 한다."
+        "translation": "잠시라도 그 마음에서 멀어지지 않도록 해야 한다.",
+        "index": "94",
+        "chapter": "sec12"
     },
     {
         "hanja": "節義廉退",
         "reading": "절의염퇴",
-        "translation": "절개와 의리, 청렴함과 물러날 때를 아는 것은,"
+        "translation": "절개와 의리, 청렴함과 물러날 때를 아는 것은,",
+        "index": "95",
+        "chapter": "sec12"
     },
     {
         "hanja": "顚沛匪虧",
         "reading": "전패비휴",
-        "translation": "어떠한 곤경에 처하더라도 이지러뜨려서는 안 된다."
+        "translation": "어떠한 곤경에 처하더라도 이지러뜨려서는 안 된다.",
+        "index": "96",
+        "chapter": "sec12"
     },
     {
         "hanja": "性靜情逸",
         "reading": "성정정일",
-        "translation": "성품이 고요하면 정서가 편안해지고,"
+        "translation": "성품이 고요하면 정서가 편안해지고,",
+        "index": "97",
+        "chapter": "sec12"
     },
     {
         "hanja": "心動神疲",
         "reading": "심동신피",
-        "translation": "마음이 동요하면 정신이 피로해진다."
+        "translation": "마음이 동요하면 정신이 피로해진다.",
+        "index": "98",
+        "chapter": "sec12"
     },
     {
         "hanja": "守眞志滿",
         "reading": "수진지만",
-        "translation": "참된 성품을 지키면 뜻이 가득 차고,"
+        "translation": "참된 성품을 지키면 뜻이 가득 차고,",
+        "index": "99",
+        "chapter": "sec12"
     },
     {
         "hanja": "逐物意移",
         "reading": "축물의이",
-        "translation": "사물을 쫓아다니면 의지가 옮겨 다니게 된다."
+        "translation": "사물을 쫓아다니면 의지가 옮겨 다니게 된다.",
+        "index": "100",
+        "chapter": "sec12"
     },
     {
         "hanja": "堅持雅操",
         "reading": "견지아조",
         "translation": "맑고 고아한 지조를 굳게 지키면,",
-        "section": "16. 제왕의 도성과 화려한 궁궐 (501~536자)"
+        "index": "101",
+        "chapter": "sec13"
     },
     {
         "hanja": "好爵自縻",
         "reading": "호작자미",
-        "translation": "좋은 벼슬과 명예가 자연스럽게 따르게 된다."
+        "translation": "좋은 벼슬과 명예가 자연스럽게 따르게 된다.",
+        "index": "102",
+        "chapter": "sec13"
     },
     {
         "hanja": "都邑華夏",
         "reading": "도읍화하",
-        "translation": "도읍지는 번성한 중화의 땅에 자리 잡았으니,"
+        "translation": "도읍지는 번성한 중화의 땅에 자리 잡았으니,",
+        "index": "103",
+        "chapter": "sec13"
     },
     {
         "hanja": "東西二京",
         "reading": "동서이경",
-        "translation": "동쪽의 낙양과 서쪽의 장안, 두 곳의 서울이로다."
+        "translation": "동쪽의 낙양과 서쪽의 장안, 두 곳의 서울이로다.",
+        "index": "104",
+        "chapter": "sec13"
     },
     {
         "hanja": "背邙面洛",
         "reading": "배망면낙",
-        "translation": "뒤로는 북망산을 등지고 앞으로는 낙수를 마주하며,"
+        "translation": "뒤로는 북망산을 등지고 앞으로는 낙수를 마주하며,",
+        "index": "105",
+        "chapter": "sec13"
     },
     {
         "hanja": "浮渭據涇",
         "reading": "부위거경",
-        "translation": "위수 위로 배를 띄우고 경수 유역에 터를 잡았다."
+        "translation": "위수 위로 배를 띄우고 경수 유역에 터를 잡았다.",
+        "index": "106",
+        "chapter": "sec13"
     },
     {
         "hanja": "宮殿盤鬱",
         "reading": "궁전반울",
-        "translation": "궁궐과 전각들은 울창한 숲처럼 웅장하게 솟아 있고,"
+        "translation": "궁궐과 전각들은 울창한 숲처럼 웅장하게 솟아 있고,",
+        "index": "107",
+        "chapter": "sec13"
     },
     {
         "hanja": "樓觀飛驚",
         "reading": "누관비경",
-        "translation": "높은 누각과 전망대는 하늘을 나는 듯 보는 이를 놀라게 한다."
+        "translation": "높은 누각과 전망대는 하늘을 나는 듯 보는 이를 놀라게 한다.",
+        "index": "108",
+        "chapter": "sec13"
     },
     {
         "hanja": "圖寫禽獸",
         "reading": "도사금수",
         "translation": "궁궐 벽에는 온갖 새와 짐승들이 생생하게 그려져 있고,",
-        "section": "17. 궁궐의 화려함과 장식 (537~568자)"
+        "index": "109",
+        "chapter": "sec14"
     },
     {
         "hanja": "畵彩仙靈",
         "reading": "화채선령",
-        "translation": "채색된 그림 속에는 신선과 영묘한 기운이 가득하다."
+        "translation": "채색된 그림 속에는 신선과 영묘한 기운이 가득하다.",
+        "index": "110",
+        "chapter": "sec14"
     },
     {
         "hanja": "丙舍傍啓",
         "reading": "병사방계",
-        "translation": "궁궐 안의 부속 건물(병사)들이 곁으로 열려 있고,"
+        "translation": "궁궐 안의 부속 건물(병사)들이 곁으로 열려 있고,",
+        "index": "111",
+        "chapter": "sec14"
     },
     {
         "hanja": "甲帳對楹",
         "reading": "갑장대영",
-        "translation": "화려한 장막(갑장)은 기둥들과 마주하며 위용을 뽐낸다."
+        "translation": "화려한 장막(갑장)은 기둥들과 마주하며 위용을 뽐낸다.",
+        "index": "112",
+        "chapter": "sec14"
     },
     {
         "hanja": "肆筵設席",
         "reading": "사연설석",
-        "translation": "연회를 위해 자리를 펴고 돗자리를 마련하니,"
+        "translation": "연회를 위해 자리를 펴고 돗자리를 마련하니,",
+        "index": "113",
+        "chapter": "sec14"
     },
     {
         "hanja": "鼓瑟吹笙",
         "reading": "고슬취생",
-        "translation": "거문고를 타고 생황을 불며 풍류를 즐긴다."
+        "translation": "거문고를 타고 생황을 불며 풍류를 즐긴다.",
+        "index": "114",
+        "chapter": "sec14"
     },
     {
         "hanja": "升階納陛",
         "reading": "승계납폐",
-        "translation": "층계를 올라 전각의 계단에 들어서니,"
+        "translation": "층계를 올라 전각의 계단에 들어서니,",
+        "index": "115",
+        "chapter": "sec14"
     },
     {
         "hanja": "弁轉疑星",
         "reading": "변전의성",
-        "translation": "고깔을 쓴 관리들의 움직임이 밤하늘의 별처럼 반짝인다."
+        "translation": "고깔을 쓴 관리들의 움직임이 밤하늘의 별처럼 반짝인다.",
+        "index": "116",
+        "chapter": "sec14"
     },
     {
         "hanja": "右通廣內",
         "reading": "우통광내",
         "translation": "오른쪽으로는 방대한 서적을 보관한 광내전으로 통하고,",
-        "section": "18. 지식의 보고와 보물 (569~600자)"
+        "index": "117",
+        "chapter": "sec15"
     },
     {
         "hanja": "左達承明",
         "reading": "좌달승명",
-        "translation": "왼쪽으로는 학문을 논하는 승명전에 다다른다."
+        "translation": "왼쪽으로는 학문을 논하는 승명전에 다다른다.",
+        "index": "118",
+        "chapter": "sec15"
     },
     {
         "hanja": "旣集墳典",
         "reading": "기집분전",
-        "translation": "이미 삼분과 오전 같은 귀한 고전들을 모두 모았으며,"
+        "translation": "이미 삼분과 오전 같은 귀한 고전들을 모두 모았으며,",
+        "index": "119",
+        "chapter": "sec15"
     },
     {
         "hanja": "亦聚群英",
         "reading": "역취군영",
-        "translation": "또한 세상의 수많은 인재들이 이곳으로 모여든다."
+        "translation": "또한 세상의 수많은 인재들이 이곳으로 모여든다.",
+        "index": "120",
+        "chapter": "sec15"
     },
     {
         "hanja": "杜稿鍾隷",
         "reading": "두고종례",
-        "translation": "두도의 초서와 종요의 예서 등 명필의 글씨가 남아 있고,"
+        "translation": "두도의 초서와 종요의 예서 등 명필의 글씨가 남아 있고,",
+        "index": "121",
+        "chapter": "sec15"
     },
     {
         "hanja": "漆書壁經",
         "reading": "칠서벽경",
-        "translation": "옻칠로 쓴 옛 글과 벽 속에서 발견된 경전들도 소중히 간직되어 있다."
+        "translation": "옻칠로 쓴 옛 글과 벽 속에서 발견된 경전들도 소중히 간직되어 있다.",
+        "index": "122",
+        "chapter": "sec15"
     },
     {
         "hanja": "府羅將相",
         "reading": "부라장상",
         "translation": "정부의 관청에는 장수와 재상들이 벌여 서 있고,",
-        "section": "19. 조정의 위엄과 신하의 도리 (601~632자)"
+        "index": "123",
+        "chapter": "sec15"
     },
     {
         "hanja": "路俠槐卿",
         "reading": "노협괴경",
-        "translation": "길가에는 높은 벼슬아치(삼공구경)들이 모여 있다."
+        "translation": "길가에는 높은 벼슬아치(삼공구경)들이 모여 있다.",
+        "index": "124",
+        "chapter": "sec15"
     },
     {
         "hanja": "戶封八縣",
         "reading": "호봉팔현",
-        "translation": "공을 세운 이는 여덟 고을의 가호에 봉해지고,"
+        "translation": "공을 세운 이는 여덟 고을의 가호에 봉해지고,",
+        "index": "125",
+        "chapter": "sec15"
     },
     {
         "hanja": "家給千兵",
         "reading": "가급천병",
-        "translation": "집집마다 천 명의 군사를 거느릴 정도로 세력이 당당하다."
+        "translation": "집집마다 천 명의 군사를 거느릴 정도로 세력이 당당하다.",
+        "index": "126",
+        "chapter": "sec16"
     },
     {
         "hanja": "高冠陪輦",
         "reading": "고관배련",
-        "translation": "높은 관을 쓴 관리들은 임금의 수레를 모시며 따르고,"
+        "translation": "높은 관을 쓴 관리들은 임금의 수레를 모시며 따르고,",
+        "index": "127",
+        "chapter": "sec16"
     },
     {
         "hanja": "驅轂振纓",
         "reading": "구곡진영",
-        "translation": "수레 바퀴를 굴리며 갓끈을 휘날리니 그 기세가 드높다."
+        "translation": "수레 바퀴를 굴리며 갓끈을 휘날리니 그 기세가 드높다.",
+        "index": "128",
+        "chapter": "sec16"
     },
     {
         "hanja": "世祿侈富",
         "reading": "세록치부",
-        "translation": "대를 이어 녹봉을 받으니 살림이 사치스럽고 부유하며,"
+        "translation": "대를 이어 녹봉을 받으니 살림이 사치스럽고 부유하며,",
+        "index": "129",
+        "chapter": "sec16"
     },
     {
         "hanja": "車駕肥輕",
         "reading": "거가비경",
-        "translation": "수레를 끄는 말은 살찌고 수레는 가볍다."
+        "translation": "수레를 끄는 말은 살찌고 수레는 가볍다.",
+        "index": "130",
+        "chapter": "sec16"
     },
     {
         "hanja": "策功茂實",
         "reading": "책공무실",
         "translation": "공적을 기록함에 그 실상을 도탑게 하니,",
-        "section": "20. 공적의 기록과 역사적 명성 (633~664자)"
+        "index": "131",
+        "chapter": "sec16"
     },
     {
         "hanja": "勒碑刻銘",
         "reading": "륵비각명",
-        "translation": "비석을 세우고 공적을 새겨 후세에 전한다."
+        "translation": "비석을 세우고 공적을 새겨 후세에 전한다.",
+        "index": "132",
+        "chapter": "sec16"
     },
     {
         "hanja": "磻溪伊尹",
         "reading": "반계이윤",
-        "translation": "반계에서 낚시하던 강태공과 탕왕을 도운 이윤처럼,"
+        "translation": "반계에서 낚시하던 강태공과 탕왕을 도운 이윤처럼,",
+        "index": "133",
+        "chapter": "sec16"
     },
     {
         "hanja": "佐時阿衡",
         "reading": "좌시아형",
-        "translation": "때를 만나 임금을 보좌하여 나라를 다스리는 큰 기둥이 된다."
+        "translation": "때를 만나 임금을 보좌하여 나라를 다스리는 큰 기둥이 된다.",
+        "index": "134",
+        "chapter": "sec16"
     },
     {
         "hanja": "奄宅曲阜",
         "reading": "엄택곡부",
-        "translation": "주공 단은 곡부에 거처하며 노나라를 다스렸고,"
+        "translation": "주공 단은 곡부에 거처하며 노나라를 다스렸고,",
+        "index": "135",
+        "chapter": "sec17"
     },
     {
         "hanja": "微旦孰營",
         "reading": "미단숙영",
-        "translation": "주공(단)이 아니었다면 누가 이처럼 나라를 잘 경영했겠는가."
+        "translation": "주공(단)이 아니었다면 누가 이처럼 나라를 잘 경영했겠는가.",
+        "index": "136",
+        "chapter": "sec17"
     },
     {
         "hanja": "桓公匡合",
         "reading": "환공광합",
-        "translation": "제나라 환공은 천하를 바로잡고 제후들을 규합하였으니,"
+        "translation": "제나라 환공은 천하를 바로잡고 제후들을 규합하였으니,",
+        "index": "137",
+        "chapter": "sec17"
     },
     {
         "hanja": "濟弱扶傾",
         "reading": "제약부경",
-        "translation": "약한 나라를 구제하고 기우는 나라를 붙들어 주었다."
+        "translation": "약한 나라를 구제하고 기우는 나라를 붙들어 주었다.",
+        "index": "138",
+        "chapter": "sec17"
     },
     {
         "hanja": "綺回漢惠",
         "reading": "기회한혜",
         "translation": "상산사호 중 기리계는 한나라 혜제를 다시 세웠고,",
-        "section": "21. 지혜와 용맹의 장수들 (665~700자)"
+        "index": "139",
+        "chapter": "sec17"
     },
     {
         "hanja": "說感武丁",
         "reading": "설감무정",
-        "translation": "부열은 은나라 무정임금의 꿈에 나타나 그를 감동시켰다."
+        "translation": "부열은 은나라 무정임금의 꿈에 나타나 그를 감동시켰다.",
+        "index": "140",
+        "chapter": "sec17"
     },
     {
         "hanja": "俊乂密勿",
         "reading": "준예밀물",
-        "translation": "뛰어난 인재들이 조정에 모여 부지런히 일하니,"
+        "translation": "뛰어난 인재들이 조정에 모여 부지런히 일하니,",
+        "index": "141",
+        "chapter": "sec17"
     },
     {
         "hanja": "多士寔寧",
         "reading": "다사식녕",
-        "translation": "많은 선비 덕분에 나라가 참으로 평안하도다."
+        "translation": "많은 선비 덕분에 나라가 참으로 평안하도다.",
+        "index": "142",
+        "chapter": "sec17"
     },
     {
         "hanja": "晉楚更覇",
         "reading": "진초경패",
-        "translation": "진나라와 초나라는 번갈아 패권을 잡았고,"
+        "translation": "진나라와 초나라는 번갈아 패권을 잡았고,",
+        "index": "143",
+        "chapter": "sec18"
     },
     {
         "hanja": "趙魏困橫",
         "reading": "조위곤횡",
-        "translation": "조나라와 위나라는 연횡책 때문에 곤란을 겪었다."
+        "translation": "조나라와 위나라는 연횡책 때문에 곤란을 겪었다.",
+        "index": "144",
+        "chapter": "sec18"
     },
     {
         "hanja": "假途滅虢",
         "reading": "가도멸괵",
-        "translation": "길을 빌려 괵나라를 멸망시킨 사례가 있고,"
+        "translation": "길을 빌려 괵나라를 멸망시킨 사례가 있고,",
+        "index": "145",
+        "chapter": "sec18"
     },
     {
         "hanja": "踐土會盟",
         "reading": "천토회맹",
-        "translation": "천토에 모여 제후들이 맹약을 맺기도 했다."
+        "translation": "천토에 모여 제후들이 맹약을 맺기도 했다.",
+        "index": "146",
+        "chapter": "sec18"
     },
     {
         "hanja": "何遵約法",
         "reading": "하준약법",
         "translation": "소하(한나라 정승)는 엄격한 법을 간소화하여 따르게 했고,",
-        "section": "22. 법도와 뛰어난 장수들 (701~736자)"
+        "index": "147",
+        "chapter": "sec18"
     },
     {
         "hanja": "韓弊煩刑",
         "reading": "한폐번형",
-        "translation": "한비자는 번잡한 형벌 때문에 도리어 해를 입었다."
+        "translation": "한비자는 번잡한 형벌 때문에 도리어 해를 입었다.",
+        "index": "148",
+        "chapter": "sec18"
     },
     {
         "hanja": "起翦頗牧",
         "reading": "기전파목",
-        "translation": "백기, 왕전, 염파, 이목 같은 명장들은,"
+        "translation": "백기, 왕전, 염파, 이목 같은 명장들은,",
+        "index": "149",
+        "chapter": "sec18"
     },
     {
         "hanja": "用軍最精",
         "reading": "용군최정",
-        "translation": "군사를 운용함에 있어 가장 정교하고 뛰어났다."
+        "translation": "군사를 운용함에 있어 가장 정교하고 뛰어났다.",
+        "index": "150",
+        "chapter": "sec18"
     },
     {
         "hanja": "宣威沙漠",
         "reading": "선위사막",
-        "translation": "그들의 위엄은 끝없는 사막까지 떨쳐졌고,"
+        "translation": "그들의 위엄은 끝없는 사막까지 떨쳐졌고,",
+        "index": "151",
+        "chapter": "sec19"
     },
     {
         "hanja": "馳譽丹靑",
         "reading": "치예단청",
-        "translation": "그 명성은 역사(단청) 속에 길이 남아 달려 전해진다."
+        "translation": "그 명성은 역사(단청) 속에 길이 남아 달려 전해진다.",
+        "index": "152",
+        "chapter": "sec19"
     },
     {
         "hanja": "九州禹跡",
         "reading": "구주우적",
         "translation": "아홉 개의 주(온 세상)는 우임금의 발자취가 닿은 곳이며,",
-        "section": "23. 광활한 국토의 모습 (737~768자)"
+        "index": "153",
+        "chapter": "sec19"
     },
     {
         "hanja": "百郡秦并",
         "reading": "백군진병",
-        "translation": "수많은 고을은 진나라가 합쳐 세운 곳이다."
+        "translation": "수많은 고을은 진나라가 합쳐 세운 곳이다.",
+        "index": "154",
+        "chapter": "sec19"
     },
     {
         "hanja": "嶽宗恒岱",
         "reading": "악종항대",
-        "translation": "산 중에는 항산과 태산이 으뜸(종주)이 되고,"
+        "translation": "산 중에는 항산과 태산이 으뜸(종주)이 되고,",
+        "index": "155",
+        "chapter": "sec19"
     },
     {
         "hanja": "禪主云亭",
         "reading": "선주운정",
-        "translation": "제사는 운운산과 정정산에서 주관하여 올렸다."
+        "translation": "제사는 운운산과 정정산에서 주관하여 올렸다.",
+        "index": "156",
+        "chapter": "sec19"
     },
     {
         "hanja": "雁門紫塞",
         "reading": "안문자새",
-        "translation": "북쪽에는 안문관과 만리장성(자새)이 뻗어 있고,"
+        "translation": "북쪽에는 안문관과 만리장성(자새)이 뻗어 있고,",
+        "index": "157",
+        "chapter": "sec19"
     },
     {
         "hanja": "鷄田赤城",
         "reading": "계전적성",
-        "translation": "서쪽에는 계전 지역이, 남쪽에는 적성이 자리 잡고 있다."
+        "translation": "서쪽에는 계전 지역이, 남쪽에는 적성이 자리 잡고 있다.",
+        "index": "158",
+        "chapter": "sec19"
     },
     {
         "hanja": "昆池碣石",
         "reading": "곤지갈석",
         "translation": "곤명호에서 갈석산에 이르기까지 국토가 광대하고,",
-        "section": "24. 성군의 통치와 자연의 조화 (769~800자)"
+        "index": "159",
+        "chapter": "sec20"
     },
     {
         "hanja": "鉅野洞庭",
         "reading": "거야동정",
-        "translation": "거야의 넓은 들판과 동정호의 맑은 물이 조화를 이룬다."
+        "translation": "거야의 넓은 들판과 동정호의 맑은 물이 조화를 이룬다.",
+        "index": "160",
+        "chapter": "sec20"
     },
     {
         "hanja": "曠遠綿邈",
         "reading": "광원면막",
-        "translation": "끝없이 넓고 멀어서 아득하기만 한 그 경계는,"
+        "translation": "끝없이 넓고 멀어서 아득하기만 한 그 경계는,",
+        "index": "161",
+        "chapter": "sec20"
     },
     {
         "hanja": "巖岫杳冥",
         "reading": "암수묘명",
-        "translation": "깊은 바위 골짜기와 산봉우리 속에 신비롭게 감추어져 있다."
+        "translation": "깊은 바위 골짜기와 산봉우리 속에 신비롭게 감추어져 있다.",
+        "index": "162",
+        "chapter": "sec20"
     },
     {
         "hanja": "治本於農",
         "reading": "치본어농",
-        "translation": "나라를 다스리는 근본은 농사에 있으니,"
+        "translation": "나라를 다스리는 근본은 농사에 있으니,",
+        "index": "163",
+        "chapter": "sec20"
     },
     {
         "hanja": "務玆稼穡",
         "reading": "무자가색",
-        "translation": "심고 거두는 이 일에 힘써야 한다."
+        "translation": "심고 거두는 이 일에 힘써야 한다.",
+        "index": "164",
+        "chapter": "sec20"
     },
     {
         "hanja": "俶載南畝",
         "reading": "숙재남묘",
         "translation": "비로소 남쪽 이랑에서 농사일을 시작하여,",
-        "section": "25. 부지런한 삶과 수확의 기쁨 (801~832자)"
+        "index": "165",
+        "chapter": "sec20"
     },
     {
         "hanja": "我藝黍稷",
         "reading": "아예서직",
-        "translation": "우리는 기장과 피를 정성껏 심는다."
+        "translation": "우리는 기장과 피를 정성껏 심는다.",
+        "index": "166",
+        "chapter": "sec20"
     },
     {
         "hanja": "稅熟貢新",
         "reading": "세숙공신",
-        "translation": "곡식이 익으면 세금을 내고 햇곡식을 바치며,"
+        "translation": "곡식이 익으면 세금을 내고 햇곡식을 바치며,",
+        "index": "167",
+        "chapter": "sec21"
     },
     {
         "hanja": "勸賞黜陟",
         "reading": "권상출척",
-        "translation": "공이 있는 자는 상을 주고 게으른 자는 내쫓아 권면한다."
+        "translation": "공이 있는 자는 상을 주고 게으른 자는 내쫓아 권면한다.",
+        "index": "168",
+        "chapter": "sec21"
     },
     {
         "hanja": "孟軻敦素",
         "reading": "맹가돈소",
-        "translation": "맹자는 본바탕을 도탑게 하여 성품을 길렀고,"
+        "translation": "맹자는 본바탕을 도탑게 하여 성품을 길렀고,",
+        "index": "169",
+        "chapter": "sec21"
     },
     {
         "hanja": "史魚秉直",
         "reading": "사어병직",
-        "translation": "사어라는 관리는 늘 곧은 마음을 가졌다."
+        "translation": "사어라는 관리는 늘 곧은 마음을 가졌다.",
+        "index": "170",
+        "chapter": "sec21"
     },
     {
         "hanja": "庶幾中庸",
         "reading": "서기중용",
         "translation": "거의 중용의 도에 가깝게 살아가려 노력하고,",
-        "section": "26. 중용의 도리와 겸손 (833~864자)"
+        "index": "171",
+        "chapter": "sec21"
     },
     {
         "hanja": "勞謙謹敕",
         "reading": "노겸근칙",
-        "translation": "수고로우면서도 겸손하며 스스로를 삼가고 경계해야 한다."
+        "translation": "수고로우면서도 겸손하며 스스로를 삼가고 경계해야 한다.",
+        "index": "172",
+        "chapter": "sec21"
     },
     {
         "hanja": "聆音察理",
         "reading": "영음찰리",
-        "translation": "소리를 들으면 그 이치를 살필 줄 알아야 하며,"
+        "translation": "소리를 들으면 그 이치를 살필 줄 알아야 하며,",
+        "index": "173",
+        "chapter": "sec21"
     },
     {
         "hanja": "鑑貌辨色",
         "reading": "감모변색",
-        "translation": "모양을 거울삼아 얼굴빛으로 그 마음을 분별해야 한다."
+        "translation": "모양을 거울삼아 얼굴빛으로 그 마음을 분별해야 한다.",
+        "index": "174",
+        "chapter": "sec21"
     },
     {
         "hanja": "貽厥嘉猷",
         "reading": "이궐가유",
-        "translation": "자손들에게 좋은 꾀와 훌륭한 도리를 물려주어,"
+        "translation": "자손들에게 좋은 꾀와 훌륭한 도리를 물려주어,",
+        "index": "175",
+        "chapter": "sec21"
     },
     {
         "hanja": "勉其祗植",
         "reading": "면기지식",
-        "translation": "스스로를 공손히 세우는 일에 힘쓰게 해야 한다."
+        "translation": "스스로를 공손히 세우는 일에 힘쓰게 해야 한다.",
+        "index": "176",
+        "chapter": "sec22"
     },
     {
         "hanja": "省躬譏誡",
         "reading": "성궁기계",
         "translation": "몸을 살펴 비방과 경계를 스스로 삼가고,",
-        "section": "27. 언행의 경계와 일상의 도리 (865~900자)"
+        "index": "177",
+        "chapter": "sec22"
     },
     {
         "hanja": "寵增抗極",
         "reading": "총증항극",
-        "translation": "총애가 더할수록 교만함이 극에 달하지 않게 저항해야 한다."
+        "translation": "총애가 더할수록 교만함이 극에 달하지 않게 저항해야 한다.",
+        "index": "178",
+        "chapter": "sec22"
     },
     {
         "hanja": "殆辱近恥",
         "reading": "태욕근치",
-        "translation": "욕된 일은 부끄러움에 가까우니 위험함을 알고,"
+        "translation": "욕된 일은 부끄러움에 가까우니 위험함을 알고,",
+        "index": "179",
+        "chapter": "sec22"
     },
     {
         "hanja": "林皋幸卽",
         "reading": "임고행즉",
-        "translation": "숲과 언덕(자연)으로 나아가 머무는 것을 다행으로 여긴다."
+        "translation": "숲과 언덕(자연)으로 나아가 머무는 것을 다행으로 여긴다.",
+        "index": "180",
+        "chapter": "sec22"
     },
     {
         "hanja": "兩疏見機",
         "reading": "양소견기",
-        "translation": "양소와 양광은 기틀을 보고 물러날 때를 알았으니,"
+        "translation": "양소와 양광은 기틀을 보고 물러날 때를 알았으니,",
+        "index": "181",
+        "chapter": "sec22"
     },
     {
         "hanja": "解組誰逼",
         "reading": "해조수핍",
-        "translation": "인끈(관직)을 풀고 떠나는 그들을 누가 핍박하겠는가."
+        "translation": "인끈(관직)을 풀고 떠나는 그들을 누가 핍박하겠는가.",
+        "index": "182",
+        "chapter": "sec22"
     },
     {
         "hanja": "索居閑處",
         "reading": "색거한처",
         "translation": "외딴곳에 살며 한가하게 머무니,",
-        "section": "28. 자연 속의 은거와 소박한 즐거움 (901~936자)"
+        "index": "183",
+        "chapter": "sec22"
     },
     {
         "hanja": "沈默寂寥",
         "reading": "침묵적요",
-        "translation": "침묵 속에 고요하고 평온한 마음이 가득하다."
+        "translation": "침묵 속에 고요하고 평온한 마음이 가득하다.",
+        "index": "184",
+        "chapter": "sec22"
     },
     {
         "hanja": "求古尋論",
         "reading": "구고심론",
-        "translation": "옛것을 구하고 이론을 찾아 탐구하며,"
+        "translation": "옛것을 구하고 이론을 찾아 탐구하며,",
+        "index": "185",
+        "chapter": "sec23"
     },
     {
         "hanja": "散慮逍遙",
         "reading": "산려소요",
-        "translation": "근심을 흩어버리고 자유롭게 거닌다."
+        "translation": "근심을 흩어버리고 자유롭게 거닌다.",
+        "index": "186",
+        "chapter": "sec23"
     },
     {
         "hanja": "欣奏累遣",
         "reading": "흔주루견",
-        "translation": "기쁨은 모여들고 번거로운 일들은 멀어지니,"
+        "translation": "기쁨은 모여들고 번거로운 일들은 멀어지니,",
+        "index": "187",
+        "chapter": "sec23"
     },
     {
         "hanja": "戚謝歡招",
         "reading": "척사환초",
-        "translation": "슬픔은 물러가고 즐거움만이 손짓하여 찾아온다."
+        "translation": "슬픔은 물러가고 즐거움만이 손짓하여 찾아온다.",
+        "index": "188",
+        "chapter": "sec23"
     },
     {
         "hanja": "渠荷的歷",
         "reading": "거하적력",
         "translation": "개울가의 연꽃은 선명하고 아름답게 피어 있고,",
-        "section": "29. 소박한 전원생활의 풍경 (937~968자)"
+        "index": "189",
+        "chapter": "sec23"
     },
     {
         "hanja": "園莽抽條",
         "reading": "원망추조",
-        "translation": "동산의 풀들은 가지를 뻗어 싱그럽게 자라난다."
+        "translation": "동산의 풀들은 가지를 뻗어 싱그럽게 자라난다.",
+        "index": "190",
+        "chapter": "sec23"
     },
     {
         "hanja": "枇杷晩翠",
         "reading": "비파만취",
-        "translation": "비파나무는 늦겨울에도 푸른 빛을 띠고,"
+        "translation": "비파나무는 늦겨울에도 푸른 빛을 띠고,",
+        "index": "191",
+        "chapter": "sec23"
     },
     {
         "hanja": "梧桐早凋",
         "reading": "오동조조",
-        "translation": "오동나무는 가을이 오면 일찍 잎을 떨어뜨린다."
+        "translation": "오동나무는 가을이 오면 일찍 잎을 떨어뜨린다.",
+        "index": "192",
+        "chapter": "sec23"
     },
     {
         "hanja": "陳根委翳",
         "reading": "진근위예",
-        "translation": "묵은 뿌리는 시들어 땅 위에 쓰러지고,"
+        "translation": "묵은 뿌리는 시들어 땅 위에 쓰러지고,",
+        "index": "193",
+        "chapter": "sec24"
     },
     {
         "hanja": "落葉飄搖",
         "reading": "낙엽표요",
-        "translation": "떨어진 잎들은 바람에 이리저리 휘날린다."
+        "translation": "떨어진 잎들은 바람에 이리저리 휘날린다.",
+        "index": "194",
+        "chapter": "sec24"
     },
     {
         "hanja": "游鵾獨運",
         "reading": "유곤독운",
-        "translation": "노니는 곤새(큰 새)는 홀로 하늘을 날아오르고,"
+        "translation": "노니는 곤새(큰 새)는 홀로 하늘을 날아오르고,",
+        "index": "195",
+        "chapter": "sec24"
     },
     {
         "hanja": "凌摩絳霄",
         "reading": "능마강소",
-        "translation": "붉은 하늘(높은 하늘)을 어루만지듯 솟구친다."
+        "translation": "붉은 하늘(높은 하늘)을 어루만지듯 솟구친다.",
+        "index": "196",
+        "chapter": "sec24"
     },
     {
         "hanja": "耽讀翫市",
         "reading": "탐독완시",
         "translation": "시장의 책방에서 책 읽기에 몰두하니(한나라 왕충의 고사),",
-        "section": "30. 학문의 완성(종결) (969~1000자)"
+        "index": "197",
+        "chapter": "sec24"
     },
     {
         "hanja": "寓目囊箱",
         "reading": "우목낭상",
-        "translation": "눈길이 닿는 곳마다 주머니와 상자에 지식이 가득하다."
+        "translation": "눈길이 닿는 곳마다 주머니와 상자에 지식이 가득하다.",
+        "index": "198",
+        "chapter": "sec24"
     },
     {
         "hanja": "易輶攸畏",
         "reading": "이유유외",
-        "translation": "말을 쉽게 내뱉거나 가벼이 행동하는 것을 두려워해야 하며,"
+        "translation": "말을 쉽게 내뱉거나 가벼이 행동하는 것을 두려워해야 하며,",
+        "index": "199",
+        "chapter": "sec24"
     },
     {
         "hanja": "屬耳垣牆",
         "reading": "속이원장",
-        "translation": "담장에도 귀가 있다는 생각으로 늘 말조심을 해야 한다."
+        "translation": "담장에도 귀가 있다는 생각으로 늘 말조심을 해야 한다.",
+        "index": "200",
+        "chapter": "sec24"
     },
     {
         "hanja": "具膳飡飯",
         "reading": "구선찬반",
-        "translation": "반찬을 갖추어 밥을 먹으며 소박한 삶에 자족하고,"
+        "translation": "반찬을 갖추어 밥을 먹으며 소박한 삶에 자족하고,",
+        "index": "201",
+        "chapter": "sec25"
     },
     {
         "hanja": "適口充腸",
         "reading": "적구충장",
-        "translation": "입에 맞는 음식으로 배를 채우니 이것으로 충분하다."
+        "translation": "입에 맞는 음식으로 배를 채우니 이것으로 충분하다.",
+        "index": "202",
+        "chapter": "sec25"
     },
     {
         "hanja": "飽飫烹宰",
         "reading": "포어팽재",
-        "translation": "배불리 먹고 삶은 요리를 즐기니,"
+        "translation": "배불리 먹고 삶은 요리를 즐기니,",
+        "index": "203",
+        "chapter": "sec25"
     },
     {
         "hanja": "飢厭糟糠",
         "reading": "기염조강",
-        "translation": "배가 고플 때는 지게미와 쌀겨(거친 음식)도 달게 먹는다."
+        "translation": "배가 고플 때는 지게미와 쌀겨(거친 음식)도 달게 먹는다.",
+        "index": "204",
+        "chapter": "sec25"
     },
     {
         "hanja": "親戚故舊",
         "reading": "친척고구",
-        "translation": "친척들과 오랜 친구들을 가까이하며,"
+        "translation": "친척들과 오랜 친구들을 가까이하며,",
+        "index": "205",
+        "chapter": "sec25"
     },
     {
         "hanja": "老少異糧",
         "reading": "노소이량",
-        "translation": "노인과 젊은이의 음식을 구별하여 대접한다."
+        "translation": "노인과 젊은이의 음식을 구별하여 대접한다.",
+        "index": "206",
+        "chapter": "sec25"
     },
     {
         "hanja": "妾御績紡",
         "reading": "첩어적방",
-        "translation": "아내와 여종들은 길쌈과 바느질에 힘쓰고,"
+        "translation": "아내와 여종들은 길쌈과 바느질에 힘쓰고,",
+        "index": "207",
+        "chapter": "sec25"
     },
     {
         "hanja": "侍巾帷房",
         "reading": "시건유방",
-        "translation": "집안에서 정성껏 수건을 들고 시중을 들며 화목하게 지낸다."
+        "translation": "집안에서 정성껏 수건을 들고 시중을 들며 화목하게 지낸다.",
+        "index": "208",
+        "chapter": "sec25"
     },
     {
         "hanja": "紈扇圓潔",
         "reading": "완선원결",
-        "translation": "흰 비단 부채는 둥글고 깨끗하며,"
+        "translation": "흰 비단 부채는 둥글고 깨끗하며,",
+        "index": "209",
+        "chapter": "sec26"
     },
     {
         "hanja": "銀燭煒煌",
         "reading": "은촛위황",
-        "translation": "은색 촛대의 불빛은 밝게 빛나는구나."
+        "translation": "은색 촛대의 불빛은 밝게 빛나는구나.",
+        "index": "210",
+        "chapter": "sec26"
     },
     {
         "hanja": "晝眠夕寐",
         "reading": "주면석매",
-        "translation": "낮에는 잠깐 눈을 붙이고 밤에는 깊이 잠드니,"
+        "translation": "낮에는 잠깐 눈을 붙이고 밤에는 깊이 잠드니,",
+        "index": "211",
+        "chapter": "sec26"
     },
     {
         "hanja": "藍筍象床",
         "reading": "남순상상",
-        "translation": "푸른 대자리와 코끼리 뼈로 장식한 침상이 편안하도다."
+        "translation": "푸른 대자리와 코끼리 뼈로 장식한 침상이 편안하도다.",
+        "index": "212",
+        "chapter": "sec26"
     },
     {
         "hanja": "弦歌酒宴",
         "reading": "현가주연",
-        "translation": "거문고 가락에 노래하며 술잔을 나누는 연회를 즐기고,"
+        "translation": "거문고 가락에 노래하며 술잔을 나누는 연회를 즐기고,",
+        "index": "213",
+        "chapter": "sec26"
     },
     {
         "hanja": "接杯擧觴",
         "reading": "접배거상",
-        "translation": "술잔을 맞대고 잔을 들어 서로의 안녕을 빈다."
+        "translation": "술잔을 맞대고 잔을 들어 서로의 안녕을 빈다.",
+        "index": "214",
+        "chapter": "sec26"
     },
     {
         "hanja": "矯手頓足",
         "reading": "교수돈족",
-        "translation": "손을 치켜들고 발을 구르며 춤을 추니,"
+        "translation": "손을 치켜들고 발을 구르며 춤을 추니,",
+        "index": "215",
+        "chapter": "sec26"
     },
     {
         "hanja": "悅豫且康",
         "reading": "열예차강",
-        "translation": "마음은 기쁘고 몸은 더없이 건강하도다."
+        "translation": "마음은 기쁘고 몸은 더없이 건강하도다.",
+        "index": "216",
+        "chapter": "sec26"
     },
     {
         "hanja": "嫡後嗣續",
         "reading": "적후사속",
-        "translation": "적자가 뒤를 이어 대를 이어가니,"
+        "translation": "적자가 뒤를 이어 대를 이어가니,",
+        "index": "217",
+        "chapter": "sec27"
     },
     {
         "hanja": "祭祀蒸嘗",
         "reading": "제사증상",
-        "translation": "철마다 제사를 올리며 조상을 기린다."
+        "translation": "철마다 제사를 올리며 조상을 기린다.",
+        "index": "218",
+        "chapter": "sec27"
     },
     {
         "hanja": "稽顙再拜",
         "reading": "계상재배",
-        "translation": "이마를 땅에 대고 두 번 절하며 공경을 표하고,"
+        "translation": "이마를 땅에 대고 두 번 절하며 공경을 표하고,",
+        "index": "219",
+        "chapter": "sec27"
     },
     {
         "hanja": "悚懼恐惶",
         "reading": "송구공황",
-        "translation": "두려워하고 조심하는 마음으로 정성을 다한다."
+        "translation": "두려워하고 조심하는 마음으로 정성을 다한다.",
+        "index": "220",
+        "chapter": "sec27"
     },
     {
         "hanja": "箋牒簡要",
         "reading": "전첩간요",
-        "translation": "편지와 문서는 간결하고 요령 있게 작성하며,"
+        "translation": "편지와 문서는 간결하고 요령 있게 작성하며,",
+        "index": "221",
+        "chapter": "sec27"
     },
     {
         "hanja": "顧答審詳",
         "reading": "고답심상",
-        "translation": "살피고 대답함에는 자세하고 정밀해야 한다."
+        "translation": "살피고 대답함에는 자세하고 정밀해야 한다.",
+        "index": "222",
+        "chapter": "sec27"
     },
     {
         "hanja": "骸垢想浴",
         "reading": "해구상욕",
-        "translation": "몸에 때가 끼면 목욕할 것을 생각하고,"
+        "translation": "몸에 때가 끼면 목욕할 것을 생각하고,",
+        "index": "223",
+        "chapter": "sec27"
     },
     {
         "hanja": "執熱願凉",
         "reading": "집열원량",
-        "translation": "뜨거운 것을 잡으면 시원한 것을 원하는 것이 자연의 이치다."
+        "translation": "뜨거운 것을 잡으면 시원한 것을 원하는 것이 자연의 이치다.",
+        "index": "224",
+        "chapter": "sec27"
     },
     {
         "hanja": "驢騾犢特",
         "reading": "여라독특",
-        "translation": "나귀와 노새, 송아지와 황소들이 평화롭게 노닐고,"
+        "translation": "나귀와 노새, 송아지와 황소들이 평화롭게 노닐고,",
+        "index": "225",
+        "chapter": "sec27"
     },
     {
         "hanja": "駭躍超驤",
         "reading": "해약초양",
-        "translation": "놀란 듯 뛰어오르며 힘차게 달려 나간다."
+        "translation": "놀란 듯 뛰어오르며 힘차게 달려 나간다.",
+        "index": "226",
+        "chapter": "sec28"
     },
     {
         "hanja": "誅斬賊盜",
         "reading": "주참적도",
-        "translation": "나라를 어지럽히는 도적들을 소탕하여 바로잡고,"
+        "translation": "나라를 어지럽히는 도적들을 소탕하여 바로잡고,",
+        "index": "227",
+        "chapter": "sec28"
     },
     {
         "hanja": "捕獲叛亡",
         "reading": "포획반망",
-        "translation": "반란을 일으키고 도망친 자들을 잡아 질서를 세운다."
+        "translation": "반란을 일으키고 도망친 자들을 잡아 질서를 세운다.",
+        "index": "228",
+        "chapter": "sec28"
     },
     {
         "hanja": "布射僚丸",
         "reading": "포사료환",
-        "translation": "여포의 활쏘기와 의료의 탄환 놀이처럼 뛰어난 재주가 있고,"
+        "translation": "여포의 활쏘기와 의료의 탄환 놀이처럼 뛰어난 재주가 있고,",
+        "index": "229",
+        "chapter": "sec28"
     },
     {
         "hanja": "嵇琴阮嘯",
         "reading": "혜금완소",
-        "translation": "혜강의 거문고와 완적의 휘파람 소리는 풍류를 더한다."
+        "translation": "혜강의 거문고와 완적의 휘파람 소리는 풍류를 더한다.",
+        "index": "230",
+        "chapter": "sec28"
     },
     {
         "hanja": "恬筆倫紙",
         "reading": "염필륜지",
-        "translation": "몽념은 붓을 만들고 채륜은 종이를 만들었으며,"
+        "translation": "몽념은 붓을 만들고 채륜은 종이를 만들었으며,",
+        "index": "231",
+        "chapter": "sec28"
     },
     {
         "hanja": "鈞巧任釣",
         "reading": "균교임조",
-        "translation": "마균의 기교와 임공자의 낚시 기술은 세상에 이로움을 주었다."
+        "translation": "마균의 기교와 임공자의 낚시 기술은 세상에 이로움을 주었다.",
+        "index": "232",
+        "chapter": "sec28"
     },
     {
         "hanja": "釋紛利俗",
         "reading": "석분리속",
-        "translation": "어지러운 일을 풀어내어 풍속을 이롭게 하니,"
+        "translation": "어지러운 일을 풀어내어 풍속을 이롭게 하니,",
+        "index": "233",
+        "chapter": "sec28"
     },
     {
         "hanja": "竝皆佳妙",
         "reading": "병개가묘",
-        "translation": "이 모든 것들이 다 아름답고 오묘하구나."
+        "translation": "이 모든 것들이 다 아름답고 오묘하구나.",
+        "index": "234",
+        "chapter": "sec28"
     },
     {
         "hanja": "毛施淑姿",
         "reading": "모시숙자",
-        "translation": "모초와 서시 같은 여인들은 고운 자태를 뽐냈고,"
+        "translation": "모초와 서시 같은 여인들은 고운 자태를 뽐냈고,",
+        "index": "235",
+        "chapter": "sec29"
     },
     {
         "hanja": "工嚬姸笑",
         "reading": "공빈연소",
-        "translation": "눈살을 찌푸리거나 예쁘게 웃는 모습 또한 아름다웠다."
+        "translation": "눈살을 찌푸리거나 예쁘게 웃는 모습 또한 아름다웠다.",
+        "index": "236",
+        "chapter": "sec29"
     },
     {
         "hanja": "年矢每催",
         "reading": "연시매최",
-        "translation": "세월은 화살 같아 매번 재촉하듯 흐르고,"
+        "translation": "세월은 화살 같아 매번 재촉하듯 흐르고,",
+        "index": "237",
+        "chapter": "sec29"
     },
     {
         "hanja": "曦暉朗曜",
         "reading": "희휘낭요",
-        "translation": "햇빛은 명랑하게 온 세상을 비춘다."
+        "translation": "햇빛은 명랑하게 온 세상을 비춘다.",
+        "index": "238",
+        "chapter": "sec29"
     },
     {
         "hanja": "璇璣懸斡",
         "reading": "선기현알",
-        "translation": "천체 관측 기구인 선기는 하늘에 걸려 돌아가고,"
+        "translation": "천체 관측 기구인 선기는 하늘에 걸려 돌아가고,",
+        "index": "239",
+        "chapter": "sec29"
     },
     {
         "hanja": "晦魄環照",
         "reading": "회백환조",
-        "translation": "달의 변화(그믐과 초승)가 순환하며 세상을 비춘다."
+        "translation": "달의 변화(그믐과 초승)가 순환하며 세상을 비춘다.",
+        "index": "240",
+        "chapter": "sec29"
     },
     {
         "hanja": "指薪修祜",
         "reading": "지신수호",
-        "translation": "땔감을 손가락으로 가리키듯 도를 닦아 복을 기르고(장자의 고사),"
+        "translation": "땔감을 손가락으로 가리키듯 도를 닦아 복을 기르고(장자의 고사),",
+        "index": "241",
+        "chapter": "sec29"
     },
     {
         "hanja": "永綏吉邵",
         "reading": "영수길소",
-        "translation": "영원히 평안하며 길하고 어진 삶을 누린다."
+        "translation": "영원히 평안하며 길하고 어진 삶을 누린다.",
+        "index": "242",
+        "chapter": "sec29"
     },
     {
         "hanja": "矩步引領",
         "reading": "구보인령",
-        "translation": "법도에 맞게 걸으며 목을 곧게 세워 앞을 바라보니,"
+        "translation": "법도에 맞게 걸으며 목을 곧게 세워 앞을 바라보니,",
+        "index": "243",
+        "chapter": "sec30"
     },
     {
         "hanja": "俯仰廊廟",
         "reading": "부앙낭묘",
-        "translation": "굽어보고 우러러봄에 조정의 위엄이 느껴진다."
+        "translation": "굽어보고 우러러봄에 조정의 위엄이 느껴진다.",
+        "index": "244",
+        "chapter": "sec30"
     },
     {
         "hanja": "束帶矜庄",
         "reading": "속대긍장",
-        "translation": "띠를 묶고 의복을 정돈하며 엄숙한 자태를 갖추고,"
+        "translation": "띠를 묶고 의복을 정돈하며 엄숙한 자태를 갖추고,",
+        "index": "245",
+        "chapter": "sec30"
     },
     {
         "hanja": "徘徊瞻眺",
         "reading": "배회첨조",
-        "translation": "주위를 배회하며 먼 곳을 바라본다."
+        "translation": "주위를 배회하며 먼 곳을 바라본다.",
+        "index": "246",
+        "chapter": "sec30"
     },
     {
         "hanja": "孤陋寡聞",
         "reading": "고루과문",
-        "translation": "홀로 고립되어 식견이 좁고 들은 것이 적다면,"
+        "translation": "홀로 고립되어 식견이 좁고 들은 것이 적다면,",
+        "index": "247",
+        "chapter": "sec30"
     },
     {
         "hanja": "愚蒙等誚",
         "reading": "우몽등초",
-        "translation": "어리석고 몽매하여 남들의 비웃음을 사게 될 것이다."
+        "translation": "어리석고 몽매하여 남들의 비웃음을 사게 될 것이다.",
+        "index": "248",
+        "chapter": "sec30"
     },
     {
         "hanja": "謂語助者",
         "reading": "위어조자",
-        "translation": "말의 뜻을 도와주는 조사(助辭)라 일컫는 것들에는,"
+        "translation": "말의 뜻을 도와주는 조사(助辭)라 일컫는 것들에는,",
+        "index": "249",
+        "chapter": "sec30"
     },
     {
         "hanja": "焉哉乎也",
         "reading": "언재호야",
-        "translation": "어찌 언(焉), 어조사 재(哉), 어조사 호(乎), 어조사 야(也)가 있다."
+        "translation": "어찌 언(焉), 어조사 재(哉), 어조사 호(乎), 어조사 야(也)가 있다.",
+        "index": "250",
+        "chapter": "sec30"
     }
 ];
