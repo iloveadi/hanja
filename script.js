@@ -455,6 +455,18 @@ function showAnalects(pushState = true) {
     title.innerText = '論語 (논어) 목차';
 
     menu.innerHTML = '';
+
+    // Insert Intro Text
+    const introDiv = document.createElement('div');
+    introDiv.className = 'intro-text';
+    introDiv.style.gridColumn = '1 / -1'; // Span full width of the grid
+    introDiv.style.marginBottom = '2rem';
+    introDiv.innerHTML = `
+        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">사람을 사랑하는 길부터 세상을 다스리는 법까지, 시대를 초월한 삶의 지침서</p>
+        <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+    `;
+    menu.appendChild(introDiv);
+
     analectsChapters.forEach(ch => {
         const hasData = analectsData.some(item => item.chapter.includes(ch.id));
 
@@ -499,6 +511,19 @@ function showAnalectsChapter(chapter, pushState = true) {
     if (filteredData.length === 0) {
         container.innerHTML = '<p style="text-align:center; padding: 3rem; color:var(--text-secondary);">데이터 준비 중입니다.</p>';
     } else {
+        // Insert Intro Text
+        const introDiv = document.createElement('div');
+        introDiv.className = 'intro-text';
+
+        // Use custom description if available, otherwise fallback to default
+        const displayIntro = chapter.description || "사람을 사랑하는 길부터 세상을 다스리는 법까지, 시대를 초월한 삶의 지침서";
+
+        introDiv.innerHTML = `
+            <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">${displayIntro}</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+        `;
+        container.appendChild(introDiv);
+
         filteredData.forEach(item => {
             const card = document.createElement('div');
             card.className = 'analects-card';
@@ -692,7 +717,7 @@ function showSajaSohak(pushState = true) {
     const introDiv = document.createElement('div');
     introDiv.className = 'intro-text';
     introDiv.innerHTML = `
-        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">나를 소중히 여기고 타인을 공경하는 예절의 첫걸음</p>
+        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">사람을 사랑하는 길부터 세상을 다스리는 법까지, 시대를 초월한 삶의 지침서</p>
         <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
     `;
     container.appendChild(introDiv);
@@ -794,7 +819,7 @@ function showCheonjamun(pushState = true) {
     const introDiv = document.createElement('div');
     introDiv.className = 'intro-text';
     introDiv.innerHTML = `
-        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">하늘과 땅의 이치부터 인간의 도리까지, 1,000자로 읽는 고전의 지혜</p>
+        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">사람을 사랑하는 길부터 세상을 다스리는 법까지, 시대를 초월한 삶의 지침서</p>
         <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
     `;
     container.appendChild(introDiv);
