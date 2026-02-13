@@ -103,6 +103,11 @@ function updateAuthUI(user) {
         if (loginBtn) loginBtn.style.display = 'inline-block';
         if (logoutBtn) logoutBtn.style.display = 'none';
         if (userDisplay) userDisplay.style.display = 'none';
+
+        // Clear learning data on logout
+        learnedHanja = [];
+        localStorage.removeItem('learnedHanja');
+        updateDashboard();
     }
 }
 
@@ -760,10 +765,30 @@ function openModal(hanja, cardElement) {
     const markBtn = document.getElementById('mark-learned-btn');
     const isLearned = learnedHanja.includes(hanja.kanji);
     markBtn.textContent = isLearned ? '학습 취소' : '학습 완료';
+
+    // Disable button if not logged in
+    if (!currentUser) {
+        markBtn.disabled = true;
+        markBtn.style.opacity = '0.5';
+        markBtn.style.cursor = 'not-allowed';
+        markBtn.title = '로그인이 필요합니다';
+    } else {
+        markBtn.disabled = false;
+        markBtn.style.opacity = '1';
+        markBtn.style.cursor = 'pointer';
+        markBtn.title = '';
+    }
+
     markBtn.onclick = () => toggleLearned(hanja, cardElement, markBtn);
 }
 
 function toggleLearned(hanja, cardElement, btn) {
+    // Check if user is logged in
+    if (!currentUser) {
+        alert('학습 진행 상황을 저장하려면 로그인이 필요합니다.');
+        return;
+    }
+
     const index = learnedHanja.indexOf(hanja.kanji);
     if (index > -1) {
         learnedHanja.splice(index, 1);
