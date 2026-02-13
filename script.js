@@ -413,9 +413,7 @@ function createDongmongRuby(hanjaText, readingText) {
     while (remaining.length > 0 && safetyCounter < maxIterations) {
         safetyCounter++;
 
-        // 정규식을 매번 새로 생성 (lastIndex 문제 방지)
-        const regex = /(는|이라|하고|하며|하나니|하여|하면|리오|이나|에|라|나|니라|로|로다|이로되|하사|이어늘|하시니|라하시니라)/;
-        const match = remaining.match(regex);
+        const match = remaining.match(particlePattern);
 
         if (match && match.index !== undefined) {
             // 조사 앞의 한자 부분
@@ -435,31 +433,30 @@ function createDongmongRuby(hanjaText, readingText) {
         }
     }
 
-    // 독음을 공백으로 분리
-    const readings = readingText.trim().split(/\s+/);
+    // 독음을 음절 단위로 분리 (공백 제거 후 한글 음절로 분리)
+    const readingSyllables = [];
+    const cleanReading = readingText.replace(/\s+/g, ''); // 공백 제거
+    for (let i = 0; i < cleanReading.length; i++) {
+        readingSyllables.push(cleanReading[i]);
+    }
 
     // Ruby 태그 생성
     let result = '';
-    let readingIdx = 0;
+    let syllableIdx = 0;
 
     for (const part of parts) {
         if (part.type === 'particle') {
             result += `<span class="particle">${part.text}</span>`;
         } else {
-            // 한자 부분을 공백으로 분리 (단어 단위)
-            const words = part.text.trim().split(/\s+/).filter(w => w.length > 0);
-            for (let i = 0; i < words.length; i++) {
-                const word = words[i];
-                if (readingIdx < readings.length) {
-                    // 단어 전체를 하나의 ruby로 묶음
-                    result += `<ruby>${word}<rt>${readings[readingIdx]}</rt></ruby>`;
-                    readingIdx++;
+            // 한자 부분을 글자 단위로 분리 (공백과 조사 제거)
+            const cleanText = part.text.replace(/\s+/g, '');
+            for (let i = 0; i < cleanText.length; i++) {
+                const char = cleanText[i];
+                if (syllableIdx < readingSyllables.length) {
+                    result += `<ruby>${char}<rt>${readingSyllables[syllableIdx]}</rt></ruby>`;
+                    syllableIdx++;
                 } else {
-                    result += word;
-                }
-                // 마지막 단어가 아니면 공백 추가
-                if (i < words.length - 1) {
-                    result += ' ';
+                    result += char;
                 }
             }
         }
