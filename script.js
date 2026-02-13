@@ -402,7 +402,7 @@ function styleHanjaWithParticles(text) {
 // 동몽선습용 특별 Ruby 함수 (조사 포함)
 function createDongmongRuby(hanjaText, readingText) {
     // 한글 조사 패턴
-    const particlePattern = /(는|이라|하고|하며|하나니|하여|하면|리오|이나|에|라|나|니라|로|로다|이로되|하사|이어늘|하시니|라하시니라)/g;
+    const particlePattern = /(는|이라|하고|하며|하나니|하여|하면|리오|이나|에|라|나|니라|로|로다|이로되|하사|이어늘|하시니|라하시니라)/;
 
     // 한자와 조사를 분리
     const parts = [];
@@ -446,20 +446,20 @@ function createDongmongRuby(hanjaText, readingText) {
         if (part.type === 'particle') {
             result += `<span class="particle">${part.text}</span>`;
         } else {
-            // 한자 부분을 공백으로 분리
-            const chars = part.text.split(/\s+/).filter(c => c.length > 0);
+            // 한자 부분을 글자 단위로 분리 (공백 제거)
+            const chars = part.text.replace(/\s+/g, '').split('');
             for (const char of chars) {
                 if (readingIdx < readings.length) {
-                    result += `<ruby>${char}<rt>${readings[readingIdx]}</rt></ruby> `;
+                    result += `<ruby>${char}<rt>${readings[readingIdx]}</rt></ruby>`;
                     readingIdx++;
                 } else {
-                    result += char + ' ';
+                    result += char;
                 }
             }
         }
     }
 
-    return result.trim();
+    return result;
 }
 
 function showView(viewId) {
