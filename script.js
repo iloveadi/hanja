@@ -4,6 +4,7 @@ let currentHanja = null;
 let showReadings = true;
 let showSajaReadings = true;
 let showCheonjamunReadings = true;
+let showChuguReadings = true;
 let hideLearned = false;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -333,6 +334,22 @@ function setupEventListeners() {
             toggleHideLearnedBtn.textContent = hideLearned ? '전체 한자 보기' : '학습 완료 숨기기';
         });
     }
+
+    // Toggle Reading in Chugu
+    const toggleChuguBtn = document.getElementById('toggle-chugu-reading-btn');
+    if (toggleChuguBtn) {
+        toggleChuguBtn.addEventListener('click', () => {
+            showChuguReadings = !showChuguReadings;
+            const container = document.getElementById('chugu-container');
+            if (showChuguReadings) {
+                container.classList.remove('hide-reading');
+                toggleChuguBtn.textContent = '독음 끄기';
+            } else {
+                container.classList.add('hide-reading');
+                toggleChuguBtn.textContent = '독음 켜기';
+            }
+        });
+    }
 }
 
 function showView(viewId) {
@@ -642,9 +659,15 @@ function showChuguChapter(chapter, pushState = true) {
     menu.style.display = 'none';
     content.style.display = 'block';
     toggleBtn.style.display = 'block';
+    toggleBtn.textContent = showChuguReadings ? '독음 끄기' : '독음 켜기';
     title.innerText = chapter.title;
 
     container.innerHTML = '';
+    if (!showChuguReadings) {
+        container.classList.add('hide-reading');
+    } else {
+        container.classList.remove('hide-reading');
+    }
     const filteredData = chuguData.filter(item => item.chapter.includes(chapter.id));
 
     if (filteredData.length === 0) {
