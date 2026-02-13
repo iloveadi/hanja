@@ -401,31 +401,33 @@ function styleHanjaWithParticles(text) {
 
 // 동몽선습용 특별 Ruby 함수 (조사 포함)
 function createDongmongRuby(hanjaText, readingText) {
-    // 1. 한자 텍스트에서 조사 추출
+    // 한글 조사 패턴
     const particlePattern = /(는|이라|하고|하며|하나니|하여|하면|리오|이나|에|라|나|니라|로|로다|이로되|하사|이어늘|하시니|라하시니라)/g;
 
-    // 2. 한자 텍스트를 토큰으로 분리 (한자 + 조사)
-    const tokens = [];
-    let lastIndex = 0;
-    let match;
-
-    const tempText = hanjaText;
-    const regex = new RegExp(particlePattern);
-
     // 한자와 조사를 분리
-    let remaining = hanjaText;
     const parts = [];
+    let remaining = hanjaText;
+    let safetyCounter = 0;
+    const maxIterations = 1000;
 
-    while (remaining.length > 0) {
-        const particleMatch = remaining.match(particlePattern);
-        if (particleMatch) {
-            const idx = particleMatch.index;
-            if (idx > 0) {
-                parts.push({ type: 'hanja', text: remaining.substring(0, idx) });
+    while (remaining.length > 0 && safetyCounter < maxIterations) {
+        safetyCounter++;
+
+        // 정규식을 매번 새로 생성 (lastIndex 문제 방지)
+        const regex = /(는|이라|하고|하며|하나니|하여|하면|리오|이나|에|라|나|니라|로|로다|이로되|하사|이어늘|하시니|라하시니라)/;
+        const match = remaining.match(regex);
+
+        if (match && match.index !== undefined) {
+            // 조사 앞의 한자 부분
+            if (match.index > 0) {
+                parts.push({ type: 'hanja', text: remaining.substring(0, match.index) });
             }
-            parts.push({ type: 'particle', text: particleMatch[0] });
-            remaining = remaining.substring(idx + particleMatch[0].length);
+            // 조사 부분
+            parts.push({ type: 'particle', text: match[0] });
+            // 나머지
+            remaining = remaining.substring(match.index + match[0].length);
         } else {
+            // 조사가 없으면 나머지 전부 한자
             if (remaining.length > 0) {
                 parts.push({ type: 'hanja', text: remaining });
             }
@@ -433,14 +435,10 @@ function createDongmongRuby(hanjaText, readingText) {
         }
     }
 
-    // 3. 독음을 공백으로 분리
+    // 독음을 공백으로 분리
     const readings = readingText.trim().split(/\s+/);
 
-    // 4. 한자 부분만 추출해서 공백으로 분리
-    const hanjaOnly = parts.filter(p => p.type === 'hanja').map(p => p.text).join(' ');
-    const hanjaChars = hanjaOnly.split(/\s+/);
-
-    // 5. Ruby 태그 생성
+    // Ruby 태그 생성
     let result = '';
     let readingIdx = 0;
 
@@ -448,7 +446,7 @@ function createDongmongRuby(hanjaText, readingText) {
         if (part.type === 'particle') {
             result += `<span class="particle">${part.text}</span>`;
         } else {
-            // 한자 부분
+            // 한자 부분을 공백으로 분리
             const chars = part.text.split(/\s+/).filter(c => c.length > 0);
             for (const char of chars) {
                 if (readingIdx < readings.length) {
