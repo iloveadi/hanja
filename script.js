@@ -446,14 +446,20 @@ function createDongmongRuby(hanjaText, readingText) {
         if (part.type === 'particle') {
             result += `<span class="particle">${part.text}</span>`;
         } else {
-            // 한자 부분을 글자 단위로 분리 (공백 제거)
-            const chars = part.text.replace(/\s+/g, '').split('');
-            for (const char of chars) {
+            // 한자 부분을 공백으로 분리 (단어 단위)
+            const words = part.text.trim().split(/\s+/).filter(w => w.length > 0);
+            for (let i = 0; i < words.length; i++) {
+                const word = words[i];
                 if (readingIdx < readings.length) {
-                    result += `<ruby>${char}<rt>${readings[readingIdx]}</rt></ruby>`;
+                    // 단어 전체를 하나의 ruby로 묶음
+                    result += `<ruby>${word}<rt>${readings[readingIdx]}</rt></ruby>`;
                     readingIdx++;
                 } else {
-                    result += char;
+                    result += word;
+                }
+                // 마지막 단어가 아니면 공백 추가
+                if (i < words.length - 1) {
+                    result += ' ';
                 }
             }
         }
