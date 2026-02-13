@@ -4,6 +4,7 @@ let currentHanja = null;
 let showReadings = true;
 let showSajaReadings = true;
 let showCheonjamunReadings = true;
+let hideLearned = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     updateDashboard();
@@ -321,6 +322,17 @@ function setupEventListeners() {
             }
         });
     }
+
+    // Toggle Hide Learned in Hanja List
+    const toggleHideLearnedBtn = document.getElementById('toggle-hide-learned-btn');
+    if (toggleHideLearnedBtn) {
+        toggleHideLearnedBtn.addEventListener('click', () => {
+            hideLearned = !hideLearned;
+            const type = history.state.type || 'middle';
+            showHanjaList(type, false);
+            toggleHideLearnedBtn.textContent = hideLearned ? '전체 한자 보기' : '학습 완료 숨기기';
+        });
+    }
 }
 
 function showView(viewId) {
@@ -339,8 +351,9 @@ function showHanjaList(type, pushState = true) {
     navContainer.innerHTML = ''; // Clear previous nav
 
     const filteredData = hanjaData.filter(h => {
-        if (type === 'middle') return h.grade_level === 'middle';
-        if (type === 'high') return h.grade_level === 'high';
+        const matchesLevel = type === 'middle' ? h.grade_level === 'middle' : h.grade_level === 'high';
+        if (!matchesLevel) return false;
+        if (hideLearned && learnedHanja.includes(h.kanji)) return false;
         return true;
     });
 
@@ -739,6 +752,13 @@ function toggleLearned(hanja, cardElement, btn) {
         btn.textContent = '학습 취소';
     }
     localStorage.setItem('learnedHanja', JSON.stringify(learnedHanja));
+    updateDashboard();
+
+    // If hideLearned is active, refresh the list to remove the card
+    if (hideLearned) {
+        const type = history.state.type || 'middle';
+        showHanjaList(type, false);
+    }
 
     // Sync to Firebase
     if (currentUser) {
