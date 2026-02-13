@@ -649,3 +649,10 @@ footer p {
     border-radius: 12px;
     border: 1px solid var(--glass-border);
 }
+
+/* Particle (조사) Styling */
+.particle {
+    font-size: 0.75em;
+    opacity: 0.5;
+    font-weight: 300;
+}

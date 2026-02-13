@@ -399,6 +399,71 @@ function styleHanjaWithParticles(text) {
     return text.replace(particlePattern, '<span class="particle">$1</span>');
 }
 
+// 동몽선습용 특별 Ruby 함수 (조사 포함)
+function createDongmongRuby(hanjaText, readingText) {
+    // 1. 한자 텍스트에서 조사 추출
+    const particlePattern = /(는|이라|하고|하며|하나니|하여|하면|리오|이나|에|라|나|니라|로|로다|이로되|하사|이어늘|하시니|라하시니라)/g;
+
+    // 2. 한자 텍스트를 토큰으로 분리 (한자 + 조사)
+    const tokens = [];
+    let lastIndex = 0;
+    let match;
+
+    const tempText = hanjaText;
+    const regex = new RegExp(particlePattern);
+
+    // 한자와 조사를 분리
+    let remaining = hanjaText;
+    const parts = [];
+
+    while (remaining.length > 0) {
+        const particleMatch = remaining.match(particlePattern);
+        if (particleMatch) {
+            const idx = particleMatch.index;
+            if (idx > 0) {
+                parts.push({ type: 'hanja', text: remaining.substring(0, idx) });
+            }
+            parts.push({ type: 'particle', text: particleMatch[0] });
+            remaining = remaining.substring(idx + particleMatch[0].length);
+        } else {
+            if (remaining.length > 0) {
+                parts.push({ type: 'hanja', text: remaining });
+            }
+            break;
+        }
+    }
+
+    // 3. 독음을 공백으로 분리
+    const readings = readingText.trim().split(/\s+/);
+
+    // 4. 한자 부분만 추출해서 공백으로 분리
+    const hanjaOnly = parts.filter(p => p.type === 'hanja').map(p => p.text).join(' ');
+    const hanjaChars = hanjaOnly.split(/\s+/);
+
+    // 5. Ruby 태그 생성
+    let result = '';
+    let readingIdx = 0;
+
+    for (const part of parts) {
+        if (part.type === 'particle') {
+            result += `<span class="particle">${part.text}</span>`;
+        } else {
+            // 한자 부분
+            const chars = part.text.split(/\s+/).filter(c => c.length > 0);
+            for (const char of chars) {
+                if (readingIdx < readings.length) {
+                    result += `<ruby>${char}<rt>${readings[readingIdx]}</rt></ruby> `;
+                    readingIdx++;
+                } else {
+                    result += char + ' ';
+                }
+            }
+        }
+    }
+
+    return result.trim();
+}
+
 function showView(viewId) {
     const sections = document.querySelectorAll('.view-section');
     sections.forEach(s => s.style.display = 'none');
@@ -1105,11 +1170,10 @@ function showDongmongChapter(chapter, pushState = true) {
         filteredData.forEach(item => {
             const card = document.createElement('div');
             card.className = 'analects-card';
-            const rubyHtml = createDetailedRuby(item.hanja, item.reading);
-            const styledHanja = styleHanjaWithParticles(rubyHtml);
+            const rubyHtml = createDongmongRuby(item.hanja, item.reading);
             card.innerHTML = `
                 <div class="analects-title">동몽선습 ${item.index}</div>
-                <div class="analects-content">${styledHanja}</div>
+                <div class="analects-content">${rubyHtml}</div>
                 <div class="analects-translation">${item.translation}</div>
                 ${item.description ? `<div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem; font-style: italic;">${item.description}</div>` : ''}
             `;
