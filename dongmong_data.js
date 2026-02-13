@@ -18,5 +18,38 @@ const dongmongChapters = [
 ];
 
 const dongmongData = [
-    // 데이터 준비 중
+    // 1.1 부자유친 (父子有親) - 샘플 데이터
+    {
+        "index": "1",
+        "chapter": "sec1",
+        "hanja": "父母生我",
+        "reading": "부모생아",
+        "translation": "부모님께서 나를 낳아 주시고",
+        "description": "부모님의 은혜는 하늘과 땅처럼 크고 깊습니다."
+    },
+    {
+        "index": "2",
+        "chapter": "sec1",
+        "hanja": "鞠育恩深",
+        "reading": "국육은심",
+        "translation": "길러 주신 은혜가 깊으니",
+        "description": "부모님께서 정성으로 키워 주신 사랑을 기억해야 합니다."
+    },
+    {
+        "index": "3",
+        "chapter": "sec1",
+        "hanja": "晨昏定省",
+        "reading": "신혼정성",
+        "translation": "아침저녁으로 문안을 여쭙고",
+        "description": "매일 부모님의 안부를 살피는 것이 자식의 도리입니다."
+    },
+    {
+        "index": "4",
+        "chapter": "sec1",
+        "hanja": "冬溫夏凊",
+        "reading": "동온하청",
+        "translation": "겨울엔 따뜻하게, 여름엔 시원하게 해 드려야 합니다.",
+        "description": "계절에 따라 부모님을 편안하게 모시는 것이 효도의 기본입니다."
+    }
+    // 나머지 섹션 데이터는 추후 추가 예정
 ];

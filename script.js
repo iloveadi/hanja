@@ -1054,10 +1054,37 @@ function showDongmongChapter(chapter, pushState = true) {
 
     menu.style.display = 'none';
     content.style.display = 'block';
-    toggleBtn.style.display = 'block';
+    toggleBtn.style.display = 'none'; // 독음 토글은 나중에 추가 가능
     title.innerText = chapter.title;
 
-    container.innerHTML = '<p style="text-align:center; padding: 3rem; color:var(--text-secondary);">데이터 준비 중입니다.</p>';
+    container.innerHTML = '';
+
+    const filteredData = dongmongData.filter(item => item.chapter === chapter.id);
+
+    if (filteredData.length === 0) {
+        container.innerHTML = '<p style="text-align:center; padding: 3rem; color:var(--text-secondary);">데이터 준비 중입니다.</p>';
+    } else {
+        const introDiv = document.createElement('div');
+        introDiv.className = 'intro-text';
+        introDiv.innerHTML = `
+            <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">${chapter.description}</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+        `;
+        container.appendChild(introDiv);
+
+        filteredData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'analects-card';
+            const rubyHtml = createDetailedRuby(item.hanja, item.reading);
+            card.innerHTML = `
+                <div class="analects-title">동몽선습 ${item.index}</div>
+                <div class="analects-content">${rubyHtml}</div>
+                <div class="analects-translation">${item.translation}</div>
+                ${item.description ? `<div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem; font-style: italic;">${item.description}</div>` : ''}
+            `;
+            container.appendChild(card);
+        });
+    }
 
     showView('dongmong-section');
     window.scrollTo(0, 0);
