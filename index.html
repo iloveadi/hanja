@@ -73,8 +73,7 @@
                         <span class="btn-title">사자소학 (四字小學)</span>
                         <span class="btn-desc">Four Character Elementary Learning</span>
                     </button>
-                    <button class="menu-btn disabled" id="btn-chugu">
-                        <span class="coming-soon-badge">준비 중</span>
+                    <button class="menu-btn" id="btn-chugu">
                         <span class="btn-title">추구 (推句)</span>
                         <span class="btn-desc">Five Character Verses</span>
                     </button>
@@ -195,6 +194,25 @@
                 <!-- Content injected via script -->
             </div>
         </section>
+
+        <!-- Chugu Section -->
+        <section id="chugu-section" class="view-section" style="display: none;">
+            <div class="sticky-nav">
+                <button class="nav-btn" onclick="goBackFromChugu()">← 돌아가기</button>
+                <h2 id="chugu-section-title">推句 (추구)</h2>
+                <button id="toggle-chugu-reading-btn" class="nav-btn" style="display: none;">독음 끄기</button>
+            </div>
+
+            <!-- Chugu Chapter Menu -->
+            <div id="chugu-menu" class="menu-container">
+                <!-- Chapters will be injected here -->
+            </div>
+
+            <!-- Chugu Content List -->
+            <div id="chugu-content" class="analects-list" style="display: none;">
+                <div id="chugu-container"></div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -233,6 +251,7 @@
     <script src="analects_data.js"></script>
     <script src="saja_sohak_data.js"></script>
     <script src="cheonjamun_data.js"></script>
+    <script src="chugu_data.js"></script>
     <script src="script.js"></script>
 </body>
 

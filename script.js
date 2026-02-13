@@ -45,6 +45,14 @@ function handleState(state) {
         case 'cheonjamun-section':
             showCheonjamun(false);
             break;
+        case 'chugu-section':
+            if (state.chapterId) {
+                const chapter = chuguChapters.find(c => c.id === state.chapterId);
+                if (chapter) showChuguChapter(chapter, false);
+            } else {
+                showChugu(false);
+            }
+            break;
         case 'landing-page':
         default:
             showView('landing-page');
@@ -212,6 +220,9 @@ function setupEventListeners() {
     });
     document.getElementById('btn-analects').addEventListener('click', () => {
         showAnalects();
+    });
+    document.getElementById('btn-chugu').addEventListener('click', () => {
+        showChugu();
     });
 
     // Saja Sohaka Button
@@ -552,6 +563,122 @@ function goBackFromAnalects() {
     const menu = document.getElementById('analects-menu');
     if (menu.style.display === 'none') {
         showAnalects();
+    } else {
+        goHome();
+    }
+}
+
+// --- Chugu Section ---
+function showChugu(pushState = true) {
+    const menu = document.getElementById('chugu-menu');
+    const content = document.getElementById('chugu-content');
+    const toggleBtn = document.getElementById('toggle-chugu-reading-btn');
+    const title = document.getElementById('chugu-section-title');
+
+    menu.style.display = 'grid';
+    content.style.display = 'none';
+    toggleBtn.style.display = 'none';
+    title.innerText = '推句 (추구) 목차';
+
+    menu.innerHTML = '';
+
+    // Insert Intro Text
+    const introDiv = document.createElement('div');
+    introDiv.className = 'intro-text';
+    introDiv.style.gridColumn = '1 / -1';
+    introDiv.style.marginBottom = '2rem';
+    introDiv.innerHTML = `
+        <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">자연의 풍경과 인간의 도리를 노래하는 5언 절구의 정수</p>
+        <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+    `;
+    menu.appendChild(introDiv);
+
+    chuguChapters.forEach(ch => {
+        const hasData = chuguData.some(item => item.chapter.includes(ch.id));
+
+        const btn = document.createElement('button');
+        if (hasData) {
+            btn.className = 'menu-btn';
+            btn.innerHTML = `
+                <span class="btn-title">${ch.title}</span>
+                <span class="btn-desc">${ch.subtitle}</span>
+            `;
+            btn.onclick = () => showChuguChapter(ch);
+        } else {
+            btn.className = 'menu-btn disabled';
+            btn.innerHTML = `
+                <span class="coming-soon-badge">준비 중</span>
+                <span class="btn-title">${ch.title}</span>
+                <span class="btn-desc">${ch.subtitle}</span>
+            `;
+        }
+        menu.appendChild(btn);
+    });
+
+    showView('chugu-section');
+    if (pushState) history.pushState({ view: 'chugu-section' }, '', '');
+}
+
+function showChuguChapter(chapter, pushState = true) {
+    const menu = document.getElementById('chugu-menu');
+    const content = document.getElementById('chugu-content');
+    const toggleBtn = document.getElementById('toggle-chugu-reading-btn');
+    const title = document.getElementById('chugu-section-title');
+    const container = document.getElementById('chugu-container');
+
+    menu.style.display = 'none';
+    content.style.display = 'block';
+    toggleBtn.style.display = 'block';
+    title.innerText = chapter.title;
+
+    container.innerHTML = '';
+    const filteredData = chuguData.filter(item => item.chapter.includes(chapter.id));
+
+    if (filteredData.length === 0) {
+        // Insert Intro Text even for empty state
+        const introDiv = document.createElement('div');
+        introDiv.className = 'intro-text';
+        introDiv.innerHTML = `
+            <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">${chapter.description}</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+        `;
+        container.appendChild(introDiv);
+        container.innerHTML += '<p style="text-align:center; padding: 3rem; color:var(--text-secondary);">데이터 준비 중입니다.</p>';
+    } else {
+        // Insert Intro Text
+        const introDiv = document.createElement('div');
+        introDiv.className = 'intro-text';
+        introDiv.innerHTML = `
+            <p style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">${chapter.description}</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">본 해석은 특정 출판물의 저작권을 침해하지 않도록 표준 주해를 바탕으로 새롭게 작성되었습니다.</p>
+        `;
+        container.appendChild(introDiv);
+
+        filteredData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'analects-card';
+
+            const rubyContent = item.content.replace(/([^()\s,.;:“”"?!/])\(([^)]+)\)/g, '<ruby>$1<rt>$2</rt></ruby>');
+
+            card.innerHTML = `
+                <div class="analects-title">${item.chapter} ${item.index}</div>
+                <div class="analects-content">${rubyContent}</div>
+                <div class="analects-translation">${item.translation}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    showView('chugu-section');
+    window.scrollTo(0, 0);
+
+    if (pushState) history.pushState({ view: 'chugu-section', chapterId: chapter.id }, '', '');
+}
+
+function goBackFromChugu() {
+    const menu = document.getElementById('chugu-menu');
+    if (menu.style.display === 'none') {
+        showChugu();
     } else {
         goHome();
     }
